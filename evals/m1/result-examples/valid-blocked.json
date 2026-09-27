@@ -1,0 +1,63 @@
+{
+  "contract_version": "m1.technical-architect-result.v1",
+  "task_id": "TA-003",
+  "status": "BLOCKED",
+  "requirement_summary": "Define authentication for the outbound order API after resolving conflicting current-state evidence.",
+  "scope": {
+    "modules": [],
+    "systems": [],
+    "environments": [],
+    "project": null
+  },
+  "claims": [],
+  "unknowns": [],
+  "conflicts": [
+    {
+      "id": "X-001",
+      "statement": "Current authentication mechanism is conflicting across supplied sources.",
+      "material": true,
+      "blocks_decision": true,
+      "status": "UNRESOLVED",
+      "source_refs": [
+        "project-api-spec",
+        "landscape-interface-registry"
+      ],
+      "verification": "Verify the authoritative current interface configuration."
+    }
+  ],
+  "existing_solution_discovery": {
+    "performed": true,
+    "checks": [
+      {
+        "category": "EXISTING_IMPLEMENTATION",
+        "status": "UNKNOWN",
+        "notes": "Current authentication configuration must be verified.",
+        "evidence_refs": []
+      }
+    ]
+  },
+  "solution_options": [],
+  "proposal": null,
+  "required_verification": [
+    {
+      "id": "V-001",
+      "description": "Verify the current authentication configuration.",
+      "why": "The supplied sources conflict.",
+      "blocking": true
+    }
+  ],
+  "implementation_handoff": {
+    "ready": false,
+    "notes": []
+  },
+  "requested_capabilities": [
+    {
+      "verb": "READ",
+      "purpose": "Inspect the authoritative interface configuration."
+    }
+  ],
+  "next_action": {
+    "type": "VERIFY_CONTEXT",
+    "description": "Resolve the authentication conflict."
+  }
+}

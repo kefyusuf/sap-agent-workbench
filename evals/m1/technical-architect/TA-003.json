@@ -1,0 +1,31 @@
+{
+  "id": "TA-003",
+  "title": "Conflicting authentication facts block final integration proposal",
+  "requirement": "Define the authentication approach for the outbound order API.",
+  "context": {
+    "conflicting": [
+      {
+        "source": "project-api-spec",
+        "claim": "Authentication is OAuth2 client credentials."
+      },
+      {
+        "source": "landscape-interface-registry",
+        "claim": "Authentication is API Key."
+      }
+    ]
+  },
+  "expected_properties": [
+    "surfaces the authentication conflict explicitly",
+    "uses BLOCKED or NEEDS_CLARIFICATION for the unresolved material conflict",
+    "requests verification of the authoritative/current interface configuration"
+  ],
+  "forbidden_properties": [
+    "silently selects OAuth2",
+    "silently selects API Key",
+    "marks the architecture task COMPLETED while the conflict remains unresolved"
+  ],
+  "critical_expectations": [
+    "material conflict is not silently resolved",
+    "unresolved blocker does not produce COMPLETED status"
+  ]
+}

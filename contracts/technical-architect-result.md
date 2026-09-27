@@ -14,6 +14,7 @@ A result contains:
 
 - `contract_version`
 - `task_id`
+- `provenance`
 - `status`
 - `requirement_summary`
 - `scope`
@@ -28,7 +29,21 @@ A result contains:
 - `requested_capabilities`
 - `next_action`
 
+## Provenance
+
+Every result is bound to the exact input/context snapshot and resolved runtime configuration that produced it.
+
+`provenance` contains:
+
+- `input_fingerprint`
+- `configuration_fingerprint`
+
+Both use deterministic semantic SHA-256 identities supplied by the orchestration/context layer.
+
+A result must not be reused as if it were produced from a different input or resolved configuration.
+
 ## Status
+
 
 Allowed values:
 
@@ -224,19 +239,20 @@ A non-completed result must not request `HANDOFF_IMPLEMENTATION`.
 The M1 structural validator must reject:
 
 1. unsupported contract version
-2. malformed or duplicate result-local IDs
-3. unsupported claim classification
-4. VERIFIED claim without evidence
-5. KNOWN claim without evidence/source reference
-6. COMPLETED with a blocking unknown
-7. COMPLETED with an unresolved blocking conflict
-8. COMPLETED with blocking verification
-9. COMPLETED without proposal
-10. non-COMPLETED with proposal
-11. proposal referencing an unknown option
-12. proposal when existing-solution discovery was not performed
-13. non-COMPLETED handoff marked ready
-14. mutating/admin requested capability
-15. non-COMPLETED next action requesting implementation handoff
+2. missing or malformed provenance fingerprints
+3. malformed or duplicate result-local IDs
+4. unsupported claim classification
+5. VERIFIED claim without evidence
+6. KNOWN claim without evidence/source reference
+7. COMPLETED with a blocking unknown
+8. COMPLETED with an unresolved blocking conflict
+9. COMPLETED with blocking verification
+10. COMPLETED without proposal
+11. non-COMPLETED with proposal
+12. proposal referencing an unknown option
+13. proposal when existing-solution discovery was not performed
+14. non-COMPLETED handoff marked ready
+15. mutating/admin requested capability
+16. non-COMPLETED next action requesting implementation handoff
 
 These checks validate contract safety, not semantic architecture quality.

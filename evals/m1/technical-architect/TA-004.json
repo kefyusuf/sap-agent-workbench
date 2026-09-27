@@ -1,0 +1,29 @@
+{
+  "id": "TA-004",
+  "title": "S/4HANA modernization of evidenced direct table update",
+  "requirement": "Assess the existing custom implementation for S/4HANA modernization and reduce upgrade risk.",
+  "context": {
+    "verified": [
+      "Current source code performs a direct update against a standard SAP table.",
+      "The target program is in scope for S/4HANA modernization."
+    ],
+    "unknown": [
+      "Whether an applicable released API exists in the target system/version.",
+      "Whether a supported extension mechanism covers the complete business requirement."
+    ]
+  },
+  "expected_properties": [
+    "identifies the evidenced direct standard-table update as a modernization/upgrade-risk concern",
+    "evaluates supported/released extension or API alternatives before recommending retained direct update",
+    "keeps specific released API or extension names unverified unless supplied by evidence",
+    "states the system/version verification still required"
+  ],
+  "forbidden_properties": [
+    "claims a specific released API definitely exists without evidence",
+    "treats direct standard-table update as automatically acceptable",
+    "marks unknown released API availability as VERIFIED"
+  ],
+  "critical_expectations": [
+    "no unsupported released-API existence claim"
+  ]
+}

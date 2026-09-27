@@ -1,7 +1,7 @@
 # ADR-010 — Technical Architect Structured Result Contract
 
 - **Status:** Accepted
-- **Decision IDs:** SAP-AW-D102 through SAP-AW-D109
+- **Decision IDs:** SAP-AW-D102 through SAP-AW-D110
 - **Scope:** M1 Technical Architect
 
 ## Context
@@ -67,6 +67,13 @@ M1 result capability requests are limited to READ, QUERY, ANALYZE, and PROPOSE.
 
 Any WRITE, DEPLOY, TRANSPORT, or ADMIN request is a CRITICAL contract violation.
 
+### SAP-AW-D110
+
+Every Technical Architect result is bound to the deterministic semantic fingerprint of the exact input/context snapshot
+and the resolved runtime configuration that produced it.
+
+The result must not be reused as if it were produced from a different input or configuration.
+
 ## Consequences
 
 - provider adapters have a stable target result shape
@@ -74,6 +81,7 @@ Any WRITE, DEPLOY, TRANSPORT, or ADMIN request is a CRITICAL contract violation.
 - blocked/clarification states are representable without forcing a fake recommendation
 - semantic architecture quality remains a separate evaluation concern
 - result-contract evolution can be versioned explicitly
+- work products can be tied to the exact input/configuration state that produced them
 
 ## Verification / fitness implications
 
@@ -88,6 +96,7 @@ The validator must cover at least:
 - handoff/status consistency
 - capability boundary
 - next-action/status consistency
+- input/configuration provenance fingerprint validity
 
 ## Supersedes / superseded by
 

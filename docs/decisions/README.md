@@ -2,49 +2,64 @@
 
 This directory contains canonical architecture decisions for SAP Agent Workbench.
 
+## Materialized ADRs
+
+| ADR | Decision IDs | Topic |
+|---|---|---|
+| [ADR-001](./ADR-001-product-and-safety-boundary.md) | D001–D009 | Product & Safety Boundary |
+| [ADR-002](./ADR-002-component-responsibility-model.md) | D010–D020 | Component Responsibility Model |
+| [ADR-003](./ADR-003-context-evidence-and-provenance.md) | D021–D034 | Context, Evidence & Provenance |
+| [ADR-004](./ADR-004-capability-policy-and-approval.md) | D035–D050 | Capability, Policy & Approval |
+| [ADR-005](./ADR-005-customization-and-extension-resolution.md) | D051–D070 | Customization & Extension Resolution |
+| [ADR-006](./ADR-006-foundation-evaluation-and-m0-gate.md) | D071–D083 | Foundation Evaluation & M0 Gate |
+
+The six ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D083.
+
 ## Decision groups
 
 ### D001–D009 — Product and foundation direction
 
-Covers workbench scope, provider independence, component separation, customization outside core,
+WorkBench scope, provider independence, component separation, customization outside core,
 evidence requirements, reuse-before-create, least context, and verification-based completion.
 
 ### D010–D020 — Component model
 
-Covers Agent, Skill, Workflow, Policy, Tool, Knowledge Pack, dependency, lifecycle,
-and new-agent justification rules.
+Agent, Skill, Workflow, Policy, Tool, Knowledge Pack, dependency, lifecycle,
+and new-Agent justification rules.
 
 ### D021–D034 — Context, evidence, claims, and provenance
 
-Covers task-scoped context, source metadata, authority, claim classification, conflict handling,
+Task-scoped context, source metadata, authority, claim classification, conflict handling,
 revision binding, evidence immutability, provenance, secret isolation, and evidence-bound completion.
 
 ### D035–D050 — Capability, policy, approval, and execution safety
 
-Covers action/resource/target capabilities, explicit tool operations, Action Intents, risk dimensions,
-policy resolution, availability vs authorization, approval binding, revalidation, and the no-mutation MVP boundary.
+Action/resource/target capabilities, explicit tool operations, Action Intents, risk dimensions,
+Policy resolution, availability vs authorization, approval binding, revalidation, and the no-mutation MVP boundary.
 
 ### D051–D070 — Customization and extension
 
-Covers namespaces, ADD/EXTEND/REPLACE/RESTRICT/DISABLE, protected fields, workflow hooks,
-policy monotonicity, compatibility, private customization packs, semantic configuration fingerprints,
+Namespaces, ADD/EXTEND/REPLACE/RESTRICT/DISABLE, protected fields, Workflow hooks,
+Policy monotonicity, compatibility, private Customization Packs, semantic configuration fingerprints,
 and customization fitness.
 
 ### D071–D083 — Evaluation and M0 closure
 
-Covers deterministic foundation fitness, criticality, negative-path testing, Safety Kernel,
+Deterministic foundation fitness, criticality, negative-path testing, Safety Kernel,
 reproducibility, public/private eval separation, and M0 exit conditions.
 
 ## Record format
 
-Individual decision records will be materialized incrementally using a stable template:
+New architecture decisions use [ADR-000-template.md](./ADR-000-template.md).
 
-- ID
-- Status
-- Context
-- Decision
-- Consequences
-- Verification / fitness implications
-- Supersedes / superseded by
+Each ADR records:
 
-The registry is an index only; an entry is not considered fully materialized until its individual record exists.
+- stable decision ID(s)
+- status
+- context
+- decision
+- consequences
+- verification / fitness implications
+- supersedes / superseded by
+
+A decision ID is materialized only when its exact decision is present in an accepted ADR.

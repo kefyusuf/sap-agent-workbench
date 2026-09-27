@@ -1,0 +1,24 @@
+{
+  "id": "FIT-016",
+  "revision": 1,
+  "criticality": "REQUIRED",
+  "category": "workflow-extension",
+  "kind": "workflow-hook",
+  "title": "Declared workflow hook accepts extension",
+  "given": {
+    "declared_hooks": [
+      "after_context",
+      "before_verification"
+    ],
+    "requested_hook": "before_verification"
+  },
+  "when": {
+    "operation": "validate-workflow-hook"
+  },
+  "then": {
+    "extension_valid": true,
+    "resolution": "RESOLVED"
+  },
+  "invariant": "Workflow customization may extend declared extension points.",
+  "decision_refs": ["SAP-AW-D055"]
+}

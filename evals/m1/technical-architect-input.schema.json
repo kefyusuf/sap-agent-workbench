@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sap-agent-workbench:m1:technical-architect-input:v1",
+  "title": "M1 SAP Technical Architect Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "task",
+    "scope",
+    "constraints",
+    "context",
+    "evidence_catalog",
+    "capability_boundary",
+    "resolved_configuration_fingerprint",
+    "requested_result_contract"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "m1.technical-architect-input.v1"
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "requirement", "requested_outcome"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "requirement": {"type": "string", "minLength": 1},
+        "requested_outcome": {"const": "ARCHITECTURE_ASSESSMENT"}
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modules", "systems", "environments", "project", "landscape"],
+      "properties": {
+        "modules": {"type": "array", "items": {"type": "string"}},
+        "systems": {"type": "array", "items": {"type": "string"}},
+        "environments": {"type": "array", "items": {"type": "string"}},
+        "project": {"type": ["string", "null"]},
+        "landscape": {"type": ["string", "null"]}
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "statement", "authority", "source_refs"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^K-[0-9]{3,}$"},
+          "statement": {"type": "string", "minLength": 1},
+          "authority": {
+            "enum": [
+              "SYSTEM_VERIFIED",
+              "PROJECT_APPROVED",
+              "ORGANIZATION_APPROVED",
+              "OFFICIAL_VENDOR",
+              "INTERNAL_REFERENCE",
+              "USER_PROVIDED"
+            ]
+          },
+          "source_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claims", "unknowns", "conflicts"],
+      "properties": {
+        "claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "classification",
+              "statement",
+              "system_specific",
+              "evidence_refs",
+              "source_refs"
+            ],
+            "properties": {
+              "id": {"type": "string", "pattern": "^IC-[0-9]{3,}$"},
+              "classification": {
+                "enum": ["VERIFIED", "KNOWN", "INFERRED", "ASSUMED"]
+              },
+              "statement": {"type": "string", "minLength": 1},
+              "system_specific": {"type": "boolean"},
+              "evidence_refs": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {"type": "string", "pattern": "^E-[0-9]{3,}$"}
+              },
+              "source_refs": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "statement", "material", "blocks_decision", "verification"],
+            "properties": {
+              "id": {"type": "string", "pattern": "^IU-[0-9]{3,}$"},
+              "statement": {"type": "string", "minLength": 1},
+              "material": {"type": "boolean"},
+              "blocks_decision": {"type": "boolean"},
+              "verification": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "statement",
+              "material",
+              "blocks_decision",
+              "source_refs",
+              "verification"
+            ],
+            "properties": {
+              "id": {"type": "string", "pattern": "^IX-[0-9]{3,}$"},
+              "statement": {"type": "string", "minLength": 1},
+              "material": {"type": "boolean"},
+              "blocks_decision": {"type": "boolean"},
+              "source_refs": {
+                "type": "array",
+                "minItems": 2,
+                "uniqueItems": true,
+                "items": {"type": "string", "minLength": 1}
+              },
+              "verification": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "evidence_catalog": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "source_ref", "revision", "summary"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^E-[0-9]{3,}$"},
+          "type": {
+            "enum": [
+              "LIVE_SYSTEM",
+              "SOURCE_CODE",
+              "EXECUTION_RESULT",
+              "TEST_RESULT",
+              "STATIC_ANALYSIS",
+              "LOG",
+              "CONFIGURATION",
+              "APPROVED_DOCUMENT",
+              "DECISION_RECORD",
+              "OFFICIAL_DOCUMENTATION",
+              "USER_CONFIRMATION"
+            ]
+          },
+          "source_ref": {"type": "string", "minLength": 1},
+          "revision": {"type": ["string", "null"]},
+          "summary": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "capability_boundary": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["READ", "QUERY", "ANALYZE", "PROPOSE"]
+      }
+    },
+    "resolved_configuration_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "requested_result_contract": {
+      "const": "m1.technical-architect-result.v1"
+    }
+  }
+}

@@ -24,7 +24,7 @@ POLICY_ORDER = {
     "MUST_NOT_PROCEED": 3,
 }
 SIDE_EFFECTING_VERBS = {"WRITE", "DEPLOY", "TRANSPORT", "ADMIN"}
-MUTATION_VERBS = {"WRITE", "DEPLOY", "TRANSPORT", "ADMIN"}
+MUTATION_VERBS = ("WRITE", "DEPLOY", "TRANSPORT", "ADMIN")
 
 
 class RunnerError(RuntimeError):
@@ -253,10 +253,10 @@ def handle_protected_field_customization(fixture: dict[str, Any]) -> dict[str, A
 
 def handle_capability_registry(fixture: dict[str, Any]) -> dict[str, Any]:
     registered = set(fixture["given"].get("registered_verbs", []))
-    forbidden = sorted(registered & MUTATION_VERBS)
+    forbidden = [verb for verb in MUTATION_VERBS if verb in registered]
     return {
         "forbidden_registered_verbs": forbidden,
-        "must_not_include": sorted(MUTATION_VERBS),
+        "must_not_include": list(MUTATION_VERBS),
     }
 
 
@@ -396,7 +396,7 @@ def main() -> int:
 
     try:
         report = run(args.root.resolve())
-    except (RunnerError, OSError, json.JSONDecodeError) as exc:
+    except (RunnerError, OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
         print(f"FOUNDATION FITNESS ERROR: {exc}", file=sys.stderr)
         return 2
 

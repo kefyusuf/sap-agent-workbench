@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 from typing import Any, Callable
 
-RUNNER_CONTRACT_VERSION = "m0-foundation-runner-v1"
+RUNNER_CONTRACT_VERSION = "m0-foundation-runner-v2"
 POLICY_ORDER = {
     "AUTO_EXECUTE": 0,
     "EXECUTE_AND_RECORD": 1,
@@ -25,6 +25,11 @@ POLICY_ORDER = {
 }
 SIDE_EFFECTING_VERBS = {"WRITE", "DEPLOY", "TRANSPORT", "ADMIN"}
 MUTATION_VERBS = ("WRITE", "DEPLOY", "TRANSPORT", "ADMIN")
+SUITE_DIRS = {
+    "safety-kernel": ("safety-kernel",),
+    "resolution": ("resolution",),
+    "all": ("safety-kernel", "resolution"),
+}
 
 
 class RunnerError(RuntimeError):
@@ -260,6 +265,140 @@ def handle_capability_registry(fixture: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def handle_context_shadowing(fixture: dict[str, Any]) -> dict[str, Any]:
+    general = fixture["given"]["general"]
+    specific = fixture["given"]["specific"]
+
+    if specific.get("scope_rank", -1) > general.get("scope_rank", -1):
+        return {
+            "resolution": "RESOLVED_WITH_SHADOWING",
+            "effective_value": specific.get("value"),
+            "effective_source": specific.get("id"),
+            "shadowed_sources": [general.get("id")],
+        }
+
+    return {
+        "resolution": "RESOLVED",
+        "effective_value": general.get("value"),
+        "effective_source": general.get("id"),
+        "shadowed_sources": [],
+    }
+
+
+def handle_same_scope_conflict(fixture: dict[str, Any]) -> dict[str, Any]:
+    facts = fixture["given"].get("facts", [])
+    if len(facts) < 2:
+        raise RunnerError("same-scope-conflict requires at least two facts")
+
+    ranks = {fact.get("scope_rank") for fact in facts}
+    values = {canonical_json(fact.get("value")) for fact in facts}
+
+    if len(ranks) == 1 and len(values) > 1:
+        return {
+            "resolution": "CONFLICT",
+            "effective_value": None,
+            "conflicting_sources": [fact.get("id") for fact in facts],
+        }
+
+    return {
+        "resolution": "RESOLVED",
+        "effective_value": facts[-1].get("value"),
+        "conflicting_sources": [],
+    }
+
+
+def handle_pack_compatibility(fixture: dict[str, Any]) -> dict[str, Any]:
+    runtime_version = fixture["given"]["runtime_contract_version"]
+    minimum_version = fixture["given"]["pack"]["minimum_core_contract_version"]
+    compatible = runtime_version >= minimum_version
+    return {
+        "status": "ACTIVE" if compatible else "INCOMPATIBLE",
+        "activation_allowed": compatible,
+    }
+
+
+def handle_workflow_hook(fixture: dict[str, Any]) -> dict[str, Any]:
+    declared = set(fixture["given"].get("declared_hooks", []))
+    requested = fixture["given"].get("requested_hook")
+    valid = requested in declared
+    return {
+        "extension_valid": valid,
+        "resolution": "RESOLVED" if valid else "INVALID",
+    }
+
+
+def handle_knowledge_supersession(fixture: dict[str, Any]) -> dict[str, Any]:
+    revisions = fixture["given"].get("revisions", [])
+    if not revisions:
+        raise RunnerError("knowledge-supersession requires revisions")
+
+    by_id = {revision["id"]: dict(revision) for revision in revisions}
+    superseded: dict[str, str] = {}
+
+    for revision in revisions:
+        previous = revision.get("supersedes")
+        if previous is not None:
+            if previous not in by_id:
+                raise RunnerError(f"unknown superseded revision: {previous}")
+            superseded[previous] = "SUPERSEDED"
+
+    active_candidates = [
+        revision["id"]
+        for revision in revisions
+        if revision["id"] not in superseded and revision.get("status") == "ACTIVE"
+    ]
+
+    if len(active_candidates) != 1:
+        raise RunnerError("knowledge-supersession requires exactly one effective active revision")
+
+    return {
+        "active_revision": active_candidates[0],
+        "preserved_revisions": [revision["id"] for revision in revisions],
+        "superseded": superseded,
+    }
+
+
+def contains_raw_secret(value: Any) -> bool:
+    forbidden_keys = {
+        "password",
+        "client_secret",
+        "api_key",
+        "private_key",
+        "access_token",
+        "refresh_token",
+    }
+
+    if isinstance(value, dict):
+        for key, nested in value.items():
+            if key in forbidden_keys and nested not in (None, ""):
+                return True
+            if contains_raw_secret(nested):
+                return True
+
+    if isinstance(value, list):
+        return any(contains_raw_secret(item) for item in value)
+
+    return False
+
+
+def handle_secret_isolation(fixture: dict[str, Any]) -> dict[str, Any]:
+    invalid = contains_raw_secret(fixture["given"].get("customization", {}))
+    return {
+        "valid": not invalid,
+        "reason": "RAW_SECRET_FORBIDDEN" if invalid else None,
+    }
+
+
+def handle_capability_availability(fixture: dict[str, Any]) -> dict[str, Any]:
+    requested = fixture["given"]["requested_verb"]
+    registered = set(fixture["given"].get("registered_verbs", []))
+    available = requested in registered
+    return {
+        "availability": "AVAILABLE" if available else "UNAVAILABLE",
+        "policy_evaluation_required": available,
+    }
+
+
 HANDLERS: dict[str, Callable[[dict[str, Any]], dict[str, Any]]] = {
     "agent-tool-boundary": handle_agent_tool_boundary,
     "policy-resolution": handle_policy_resolution,
@@ -273,15 +412,25 @@ HANDLERS: dict[str, Callable[[dict[str, Any]], dict[str, Any]]] = {
     "workflow-customization": handle_workflow_customization,
     "protected-field-customization": handle_protected_field_customization,
     "capability-registry": handle_capability_registry,
+    "context-shadowing": handle_context_shadowing,
+    "same-scope-conflict": handle_same_scope_conflict,
+    "pack-compatibility": handle_pack_compatibility,
+    "workflow-hook": handle_workflow_hook,
+    "knowledge-supersession": handle_knowledge_supersession,
+    "secret-isolation": handle_secret_isolation,
+    "capability-availability": handle_capability_availability,
 }
 
 
 def configuration_fingerprint(
+    suite: str,
     schema: dict[str, Any],
     fixtures: list[tuple[Path, dict[str, Any]]],
 ) -> str:
     digest = hashlib.sha256()
     digest.update(RUNNER_CONTRACT_VERSION.encode("utf-8"))
+    digest.update(b"\0")
+    digest.update(suite.encode("utf-8"))
     digest.update(b"\0")
     digest.update(canonical_json(schema).encode("utf-8"))
 
@@ -294,30 +443,37 @@ def configuration_fingerprint(
     return f"sha256:{digest.hexdigest()}"
 
 
-def load_inputs(root: Path) -> tuple[dict[str, Any], list[tuple[Path, dict[str, Any]]]]:
+def load_inputs(
+    root: Path,
+    suite: str,
+) -> tuple[dict[str, Any], list[tuple[Path, dict[str, Any]]]]:
     schema_path = root / "evals" / "foundation" / "scenario.schema.json"
-    fixture_dir = root / "evals" / "foundation" / "safety-kernel"
 
     if not schema_path.is_file():
         raise RunnerError(f"schema not found: {schema_path}")
-    if not fixture_dir.is_dir():
-        raise RunnerError(f"fixture directory not found: {fixture_dir}")
+    if suite not in SUITE_DIRS:
+        raise RunnerError(f"unknown suite: {suite}")
 
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
     fixtures: list[tuple[Path, dict[str, Any]]] = []
 
-    for path in sorted(fixture_dir.glob("FIT-*.json")):
-        fixture = json.loads(path.read_text(encoding="utf-8"))
-        fixtures.append((path.relative_to(root), fixture))
+    for directory in SUITE_DIRS[suite]:
+        fixture_dir = root / "evals" / "foundation" / directory
+        if not fixture_dir.is_dir():
+            raise RunnerError(f"fixture directory not found: {fixture_dir}")
+
+        for path in sorted(fixture_dir.glob("FIT-*.json")):
+            fixture = json.loads(path.read_text(encoding="utf-8"))
+            fixtures.append((path.relative_to(root), fixture))
 
     if not fixtures:
-        raise RunnerError("no foundation fitness fixtures found")
+        raise RunnerError(f"no foundation fitness fixtures found for suite {suite}")
 
     return schema, fixtures
 
 
-def run(root: Path) -> dict[str, Any]:
-    schema, fixtures = load_inputs(root)
+def run(root: Path, suite: str) -> dict[str, Any]:
+    schema, fixtures = load_inputs(root, suite)
 
     validation_errors: list[str] = []
     seen_ids: set[str] = set()
@@ -364,10 +520,10 @@ def run(root: Path) -> dict[str, Any]:
         )
 
     return {
-        "suite": "foundation-safety-kernel",
+        "suite": f"foundation-{suite}",
         "runner_contract_version": RUNNER_CONTRACT_VERSION,
         "python_version": platform.python_version(),
-        "configuration_fingerprint": configuration_fingerprint(schema, fixtures),
+        "configuration_fingerprint": configuration_fingerprint(suite, schema, fixtures),
         "summary": {
             "total": len(results),
             "passed": sum(item["status"] == "PASS" for item in results),
@@ -386,6 +542,12 @@ def parse_args() -> argparse.Namespace:
         default=Path(__file__).resolve().parents[1],
         help="repository root (default: inferred from script location)",
     )
+    parser.add_argument(
+        "--suite",
+        choices=tuple(SUITE_DIRS),
+        default="safety-kernel",
+        help="fixture suite to execute (default: safety-kernel)",
+    )
     parser.add_argument("--json", action="store_true", help="emit full JSON report to stdout")
     parser.add_argument("--report", type=Path, help="write full JSON report to this path")
     return parser.parse_args()
@@ -395,7 +557,7 @@ def main() -> int:
     args = parse_args()
 
     try:
-        report = run(args.root.resolve())
+        report = run(args.root.resolve(), args.suite)
     except (RunnerError, OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
         print(f"FOUNDATION FITNESS ERROR: {exc}", file=sys.stderr)
         return 2
@@ -407,7 +569,7 @@ def main() -> int:
     if args.json:
         print(json.dumps(report, indent=2, ensure_ascii=False))
     else:
-        print(f"Foundation Safety Kernel — {report['configuration_fingerprint']}")
+        print(f"Foundation Fitness [{args.suite}] — {report['configuration_fingerprint']}")
         for item in report["results"]:
             print(f"{item['status']:4}  {item['id']}  {item['title']}")
             for mismatch in item["mismatches"]:

@@ -1,0 +1,27 @@
+{
+  "id": "FIT-010",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "workflow-customization",
+  "kind": "workflow-customization",
+  "title": "Mandatory verification cannot be customized away",
+  "given": {
+    "base_step": {
+      "id": "verification",
+      "mandatory": true
+    },
+    "customization": {
+      "operation": "DISABLE",
+      "target": "verification"
+    }
+  },
+  "when": {
+    "operation": "resolve-workflow-customization"
+  },
+  "then": {
+    "customization_valid": false,
+    "resolution": "INVALID"
+  },
+  "invariant": "Lower-level customization cannot remove mandatory workflow verification.",
+  "decision_refs": ["SAP-AW-D056", "SAP-AW-D067"]
+}

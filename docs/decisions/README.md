@@ -15,9 +15,9 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-007](./ADR-007-foundation-fitness-runner.md) | D084–D086 | Deterministic M0 Foundation Fitness Runner |
 | [ADR-008](./ADR-008-technical-architect-agent-boundary.md) | D087–D094 | SAP Technical Architect Agent Boundary |
 | [ADR-009](./ADR-009-technical-architect-evaluation.md) | D095–D101 | Technical Architect Evaluation Model |
-| [ADR-010](./ADR-010-technical-architect-result-contract.md) | D102–D109 | Technical Architect Structured Result Contract |
+| [ADR-010](./ADR-010-technical-architect-result-contract.md) | D102–D110 | Technical Architect Structured Result Contract |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D109.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D110.
 
 ## Decision groups
 
@@ -83,8 +83,8 @@ explicit unsupported-object and conflict-handling checks, reuse-before-create ev
 and the rule that model-based grading cannot be the sole oracle for CRITICAL boundaries.
 
 
-### D102–D109 — M1 Technical Architect structured result
+### D102–D110 — M1 Technical Architect structured result
 
 Defines the provider-independent result contract, status semantics, traceable claim support,
 blocker/status consistency, nullable proposal semantics, explicit existing-solution discovery,
-deterministic structural validation, and preservation of the READ/QUERY/ANALYZE/PROPOSE capability boundary.
+deterministic structural validation, preservation of the READ/QUERY/ANALYZE/PROPOSE capability boundary, and binding of results to input/configuration fingerprints.

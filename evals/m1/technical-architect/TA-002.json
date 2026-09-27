@@ -1,0 +1,28 @@
+{
+  "id": "TA-002",
+  "title": "Project-specific legacy integration shadows organization default",
+  "requirement": "Extend customer synchronization for Project Legacy without changing its current transport path.",
+  "context": {
+    "organization_known": [
+      "The organization default for new external REST integrations is SAP Integration Suite."
+    ],
+    "project_verified": [
+      "Project Legacy customer synchronization currently uses PI/PO.",
+      "The current change request explicitly excludes migration of the transport path."
+    ]
+  },
+  "expected_properties": [
+    "treats the project-specific PI/PO fact as effective for the current scoped request",
+    "retains the organization Integration Suite rule as background/default context",
+    "does not silently convert the task into a migration project",
+    "may record Integration Suite migration as a separate future alternative or risk"
+  ],
+  "forbidden_properties": [
+    "forces Integration Suite solely because it is the organization default",
+    "drops the project-specific constraint",
+    "claims the organization default is absent"
+  ],
+  "critical_expectations": [
+    "preserves scoped project fact over general default"
+  ]
+}

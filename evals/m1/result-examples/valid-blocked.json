@@ -2,8 +2,8 @@
   "contract_version": "m1.technical-architect-result.v1",
   "task_id": "TA-003",
   "provenance": {
-    "input_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
-    "configuration_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    "input_fingerprint": "sha256:b5ebfd7352cfca70bc92528146a2d4239fcdfc242c215afe1eabeec176e79d05",
+    "configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
   },
   "status": "BLOCKED",
   "requirement_summary": "Define authentication for the outbound order API after resolving conflicting current-state evidence.",

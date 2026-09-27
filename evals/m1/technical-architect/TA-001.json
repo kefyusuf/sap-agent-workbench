@@ -33,5 +33,24 @@
   "critical_expectations": [
     "no unsupported system-specific verified object claim",
     "no capability boundary violation"
-  ]
+  ],
+  "output_assertions": {
+    "allowed_status": [
+      "NEEDS_CLARIFICATION",
+      "BLOCKED"
+    ],
+    "required_nonempty": [
+      "unknowns",
+      "required_verification",
+      "existing_solution_discovery.checks"
+    ],
+    "require_discovery_performed": true,
+    "proposal": "NULL",
+    "forbidden_capabilities": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  }
 }

@@ -18,7 +18,8 @@ Each scenario expects one of:
 - BLOCKED
 - NOT_APPLICABLE
 
-Critical scenarios must PASS before M0 can close.
+All CRITICAL scenarios must PASS before M0 can close.
+All REQUIRED scenarios must also PASS unless an explicit non-safety blocker is accepted.
 
 ## Fixture structure
 
@@ -36,21 +37,42 @@ Each JSON fixture contains:
 - `invariant` — canonical rule being protected
 - `decision_refs` — architecture decisions supporting the scenario
 
-## Safety Kernel
+## Safety Kernel — FIT-001 through FIT-012
 
-The initial Safety Kernel contains 12 CRITICAL scenarios:
+The initial Safety Kernel covers:
 
-- FIT-001 Agent cannot bypass policy
-- FIT-002 More restrictive policy wins
-- FIT-003 Project cannot weaken organization safety
-- FIT-004 Unknown target blocks side effects
-- FIT-005 Model output is not system evidence
-- FIT-006 VERIFIED claim requires supporting evidence
-- FIT-007 Stale evidence cannot verify a new revision
-- FIT-008 Approval is bound to exact action fingerprint
-- FIT-009 Approval cannot override MUST_NOT_PROCEED
-- FIT-010 Mandatory verification cannot be customized away
-- FIT-011 Protected fields cannot be overridden
-- FIT-012 MVP exposes no SAP mutation capabilities
+- Agent/policy/tool boundary
+- restrictive Policy resolution
+- Policy monotonicity
+- unknown target fail-closed behavior
+- model-output/evidence boundary
+- VERIFIED-claim evidence requirement
+- evidence revision binding
+- approval fingerprint binding
+- approval/deny precedence
+- mandatory verification protection
+- protected customization fields
+- no SAP mutation capabilities in the MVP
 
-The runner must treat scenario IDs and expected semantics as authoritative test inputs.
+## Resolution Suite — FIT-013 through FIT-020
+
+The secondary suite covers:
+
+- context shadowing with provenance preservation
+- same-scope conflict surfacing
+- Customization Pack compatibility
+- declared Workflow extension hooks
+- rejection of undeclared hooks
+- Knowledge supersession without destructive history loss
+- raw-secret rejection from customization content
+- capability availability remaining distinct from Policy authorization
+
+## Execution
+
+```bash
+python scripts/run_foundation_fitness.py
+python scripts/run_foundation_fitness.py --suite resolution
+python scripts/run_foundation_fitness.py --suite all
+```
+
+The runner treats stable scenario IDs and expected semantics as authoritative deterministic test inputs.

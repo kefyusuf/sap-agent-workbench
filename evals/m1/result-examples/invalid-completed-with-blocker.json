@@ -1,0 +1,63 @@
+{
+  "contract_version": "m1.technical-architect-result.v1",
+  "task_id": "TA-003",
+  "status": "COMPLETED",
+  "requirement_summary": "Define authentication for the outbound order API.",
+  "scope": {
+    "modules": [],
+    "systems": [],
+    "environments": [],
+    "project": null
+  },
+  "claims": [],
+  "unknowns": [],
+  "conflicts": [
+    {
+      "id": "X-001",
+      "statement": "Current authentication mechanism is conflicting across supplied sources.",
+      "material": true,
+      "blocks_decision": true,
+      "status": "UNRESOLVED",
+      "source_refs": [
+        "project-api-spec",
+        "landscape-interface-registry"
+      ],
+      "verification": "Verify the authoritative current interface configuration."
+    }
+  ],
+  "existing_solution_discovery": {
+    "performed": true,
+    "checks": []
+  },
+  "solution_options": [
+    {
+      "id": "OPT-001",
+      "title": "OAuth2",
+      "family": "INTEGRATION",
+      "description": "Select OAuth2 despite unresolved current-state conflict.",
+      "tradeoffs": [],
+      "risks": [],
+      "evidence_refs": [],
+      "assumption_refs": [],
+      "required_verification": []
+    }
+  ],
+  "proposal": {
+    "selected_option_id": "OPT-001",
+    "summary": "Use OAuth2.",
+    "rationale": [],
+    "confidence": "LOW",
+    "evidence_refs": [],
+    "assumption_refs": []
+  },
+  "required_verification": [],
+  "implementation_handoff": {
+    "ready": true,
+    "notes": []
+  },
+  "requested_capabilities": [],
+  "next_action": {
+    "type": "HANDOFF_IMPLEMENTATION",
+    "description": "Implement the selected authentication."
+  }
+}

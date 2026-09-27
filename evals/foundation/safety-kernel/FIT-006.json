@@ -1,0 +1,23 @@
+{
+  "id": "FIT-006",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "claims",
+  "kind": "verified-claim-validation",
+  "title": "VERIFIED claim requires supporting evidence",
+  "given": {
+    "claim": {
+      "classification": "VERIFIED",
+      "evidence_refs": []
+    }
+  },
+  "when": {
+    "operation": "validate-claim"
+  },
+  "then": {
+    "valid": false,
+    "reason": "MISSING_SUPPORTING_EVIDENCE"
+  },
+  "invariant": "A VERIFIED claim cannot exist without valid supporting evidence.",
+  "decision_refs": ["SAP-AW-D025", "SAP-AW-D028"]
+}

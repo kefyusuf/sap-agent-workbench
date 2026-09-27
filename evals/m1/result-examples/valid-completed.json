@@ -1,6 +1,10 @@
 {
   "contract_version": "m1.technical-architect-result.v1",
   "task_id": "TA-002",
+  "provenance": {
+    "input_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "configuration_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
   "status": "COMPLETED",
   "requirement_summary": "Extend Project Legacy customer synchronization without migrating its current PI/PO transport path.",
   "scope": {

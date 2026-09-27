@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   safety-kernel:
-    name: M0 Safety Kernel
+    name: M0 Foundation Suite
     runs-on: ubuntu-latest
     timeout-minutes: 5
 

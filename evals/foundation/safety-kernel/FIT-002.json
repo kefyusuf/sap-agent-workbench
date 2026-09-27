@@ -1,0 +1,23 @@
+{
+  "id": "FIT-002",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "policy",
+  "kind": "policy-resolution",
+  "title": "More restrictive policy wins",
+  "given": {
+    "applicable_decisions": [
+      "EXECUTE_AND_RECORD",
+      "REQUEST_APPROVAL",
+      "AUTO_EXECUTE"
+    ]
+  },
+  "when": {
+    "operation": "resolve-policy"
+  },
+  "then": {
+    "effective_decision": "REQUEST_APPROVAL"
+  },
+  "invariant": "Policy resolution returns the most restrictive applicable decision.",
+  "decision_refs": ["SAP-AW-D041", "SAP-AW-D042"]
+}

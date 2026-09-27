@@ -4,12 +4,12 @@
 
 **M0 architecture status: CLOSED**
 
-**Branch delivery status: PR_HOLD_CI**
+**Branch delivery status: PR_ALLOWED_MERGE_HOLD_CI**
 
 This review closes the M0 architecture milestone because the remaining known issue is operational CI execution,
 not an unresolved foundation architecture or deterministic fitness failure.
 
-It does **not** declare the branch merge-ready while repository-native CI remains red.
+It allows the branch to enter Draft/Review PR flow, but does **not** declare it merge-ready while repository-native CI is unavailable.
 
 ## Reviewed scope
 
@@ -131,14 +131,18 @@ none
 
 ### Classification
 
-The CI issue is classified as:
+The repository owner has confirmed that GitHub Actions capacity/quota is currently unavailable.
+This is a user-provided operational constraint; the connector cannot independently verify account billing/quota state.
+
+The delivery state is therefore classified as:
 
 ```text
-OPERATIONAL_CI_BLOCKER
+REMOTE_CI_UNAVAILABLE
+SOURCE = USER_PROVIDED_OPERATIONAL_CONSTRAINT
 SAFETY_BLOCKER = false
 ARCHITECTURE_BLOCKER = false
+PR_BLOCKER = false
 MERGE_BLOCKER = true
-ROOT_CAUSE = UNVERIFIED
 ```
 
 Rationale:
@@ -161,13 +165,11 @@ Under SAP-AW-D083, M0 closes when no unresolved **architecture blocker** remains
 The current CI issue is not supported by evidence as an architecture or Safety Kernel failure.
 Therefore it does not reopen the M0 architecture milestone.
 
-However, a red repository-native verification signal must not be ignored.
-The branch remains on **PR_HOLD_CI** and should not be merged until either:
+Remote CI unavailability must not be ignored, but it does not prevent review work from accumulating.
+The branch may be opened as a Draft/Review PR while merge remains held.
 
-1. the GitHub Actions workflow executes successfully, or
-2. the CI infrastructure issue is explicitly resolved/accepted through a separate repository-delivery decision.
-
-No such exception is granted by this closure review.
+Merge requires a later repository-native verification pass once GitHub Actions capacity is available.
+No merge exception is granted by this closure review.
 
 ## M1 gate
 
@@ -177,24 +179,24 @@ Required sequencing:
 
 ```text
 M0 CLOSED
-→ resolve CI / obtain green repository-native run
-→ PR for feat/m0-foundation
-→ review
-→ merge
-→ post-merge verification
-→ open M1 branch
-→ M1 SAP Technical Architect Agent
+→ Draft/Review PR for feat/m0-foundation (merge held)
+→ create feat/m1-technical-architect from feat/m0-foundation
+→ continue M1 only on the child branch with revision-bound local evidence
+→ when Actions capacity returns, obtain green repository-native M0 run
+→ finalize/review/merge M0
+→ retarget/rebase M1 onto main
+→ re-verify M1
 ```
 
-Until the delivery gate is clear, no M1 implementation is started.
+Stacked development is allowed; M1 must not modify the M0 branch.
 
 ## Open items
 
 Only delivery/operations work remains for M0 branch integration:
 
-- determine the evidence-backed cause of the GitHub Actions pre-step failure
-- obtain a green `--suite all` repository-native execution
-- open/review/merge the M0 foundation PR
+- keep the M0 PR open for review while remote CI is unavailable
+- obtain a green `--suite all` repository-native execution when Actions capacity returns
+- finalize/review/merge the M0 foundation PR
 - perform post-merge foundation verification
 
 There are no open M0 architecture decisions identified by this review.

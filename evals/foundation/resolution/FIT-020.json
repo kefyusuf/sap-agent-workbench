@@ -1,0 +1,26 @@
+{
+  "id": "FIT-020",
+  "revision": 1,
+  "criticality": "REQUIRED",
+  "category": "capability",
+  "kind": "capability-availability",
+  "title": "Unavailable capability remains distinct from policy denial",
+  "given": {
+    "requested_verb": "WRITE",
+    "registered_verbs": [
+      "READ",
+      "QUERY",
+      "ANALYZE",
+      "PROPOSE"
+    ]
+  },
+  "when": {
+    "operation": "resolve-capability-availability"
+  },
+  "then": {
+    "availability": "UNAVAILABLE",
+    "policy_evaluation_required": false
+  },
+  "invariant": "Capability availability and policy authorization are separate states.",
+  "decision_refs": ["SAP-AW-D043", "SAP-AW-D050"]
+}

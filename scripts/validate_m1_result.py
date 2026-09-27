@@ -46,6 +46,7 @@ NEXT_ACTIONS = {
     "HANDOFF_IMPLEMENTATION",
     "NONE",
 }
+FINGERPRINT_PATTERN = re.compile(r"^sha256:[a-f0-9]{64}$")
 ID_PATTERNS = {
     "claim": re.compile(r"^C-[0-9]{3,}$"),
     "unknown": re.compile(r"^U-[0-9]{3,}$"),
@@ -56,6 +57,7 @@ ID_PATTERNS = {
 TOP_LEVEL_KEYS = {
     "contract_version",
     "task_id",
+    "provenance",
     "status",
     "requirement_summary",
     "scope",
@@ -477,6 +479,27 @@ def validate_result(result: dict[str, Any]) -> list[str]:
 
     require(result["contract_version"] == CONTRACT_VERSION, errors, "$.contract_version: unsupported contract version")
     require(nonempty_string(result["task_id"]), errors, "$.task_id: must be non-empty string")
+
+    provenance = result["provenance"]
+    if require_keys(
+        provenance,
+        ["input_fingerprint", "configuration_fingerprint"],
+        errors,
+        "$.provenance",
+    ):
+        require(
+            isinstance(provenance["input_fingerprint"], str)
+            and FINGERPRINT_PATTERN.fullmatch(provenance["input_fingerprint"]) is not None,
+            errors,
+            "$.provenance.input_fingerprint: invalid sha256 fingerprint",
+        )
+        require(
+            isinstance(provenance["configuration_fingerprint"], str)
+            and FINGERPRINT_PATTERN.fullmatch(provenance["configuration_fingerprint"]) is not None,
+            errors,
+            "$.provenance.configuration_fingerprint: invalid sha256 fingerprint",
+        )
+
     require(result["status"] in STATUSES, errors, "$.status: invalid status")
     require(nonempty_string(result["requirement_summary"]), errors, "$.requirement_summary: must be non-empty string")
 

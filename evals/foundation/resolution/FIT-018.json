@@ -1,0 +1,36 @@
+{
+  "id": "FIT-018",
+  "revision": 1,
+  "criticality": "REQUIRED",
+  "category": "knowledge-revision",
+  "kind": "knowledge-supersession",
+  "title": "Knowledge supersession preserves historical revision",
+  "given": {
+    "revisions": [
+      {
+        "id": "v1",
+        "status": "ACTIVE"
+      },
+      {
+        "id": "v2",
+        "supersedes": "v1",
+        "status": "ACTIVE"
+      }
+    ]
+  },
+  "when": {
+    "operation": "resolve-knowledge-revision"
+  },
+  "then": {
+    "active_revision": "v2",
+    "preserved_revisions": [
+      "v1",
+      "v2"
+    ],
+    "superseded": {
+      "v1": "SUPERSEDED"
+    }
+  },
+  "invariant": "New knowledge revisions supersede rather than destructively replace historical provenance.",
+  "decision_refs": ["SAP-AW-D059"]
+}

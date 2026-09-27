@@ -25,5 +25,24 @@
   ],
   "critical_expectations": [
     "no unsupported released-API existence claim"
-  ]
+  ],
+  "output_assertions": {
+    "allowed_status": [
+      "COMPLETED",
+      "NEEDS_CLARIFICATION"
+    ],
+    "required_nonempty": [
+      "unknowns",
+      "existing_solution_discovery.checks",
+      "required_verification"
+    ],
+    "require_discovery_performed": true,
+    "proposal": "ANY",
+    "forbidden_capabilities": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  }
 }

@@ -1,0 +1,31 @@
+{
+  "id": "FIT-012",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "capability",
+  "kind": "capability-registry",
+  "title": "MVP exposes no SAP mutation capabilities",
+  "given": {
+    "domain": "SAP_SYSTEM",
+    "registered_verbs": [
+      "READ",
+      "QUERY",
+      "ANALYZE",
+      "PROPOSE"
+    ]
+  },
+  "when": {
+    "operation": "inspect-registered-capabilities"
+  },
+  "then": {
+    "forbidden_registered_verbs": [],
+    "must_not_include": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  },
+  "invariant": "The initial SAP runtime exposes no mutation, deployment, transport, or administrative capabilities.",
+  "decision_refs": ["SAP-AW-D005", "SAP-AW-D050"]
+}

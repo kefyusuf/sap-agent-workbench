@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sap-agent-workbench:m1:technical-architect-result:v1",
+  "title": "M1 SAP Technical Architect Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "task_id",
+    "status",
+    "requirement_summary",
+    "scope",
+    "claims",
+    "unknowns",
+    "conflicts",
+    "existing_solution_discovery",
+    "solution_options",
+    "proposal",
+    "required_verification",
+    "implementation_handoff",
+    "requested_capabilities",
+    "next_action"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "m1.technical-architect-result.v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": ["COMPLETED", "NEEDS_CLARIFICATION", "BLOCKED"]
+    },
+    "requirement_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modules", "systems", "environments", "project"],
+      "properties": {
+        "modules": {"type": "array", "items": {"type": "string"}},
+        "systems": {"type": "array", "items": {"type": "string"}},
+        "environments": {"type": "array", "items": {"type": "string"}},
+        "project": {"type": ["string", "null"]}
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "classification",
+          "statement",
+          "system_specific",
+          "evidence_refs",
+          "source_refs"
+        ],
+        "properties": {
+          "id": {"type": "string", "pattern": "^C-[0-9]{3,}$"},
+          "classification": {
+            "enum": ["VERIFIED", "KNOWN", "INFERRED", "ASSUMED"]
+          },
+          "statement": {"type": "string", "minLength": 1},
+          "system_specific": {"type": "boolean"},
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "source_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "statement", "material", "blocks_decision", "verification"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^U-[0-9]{3,}$"},
+          "statement": {"type": "string", "minLength": 1},
+          "material": {"type": "boolean"},
+          "blocks_decision": {"type": "boolean"},
+          "verification": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "statement",
+          "material",
+          "blocks_decision",
+          "status",
+          "source_refs",
+          "verification"
+        ],
+        "properties": {
+          "id": {"type": "string", "pattern": "^X-[0-9]{3,}$"},
+          "statement": {"type": "string", "minLength": 1},
+          "material": {"type": "boolean"},
+          "blocks_decision": {"type": "boolean"},
+          "status": {"enum": ["UNRESOLVED", "RESOLVED"]},
+          "source_refs": {
+            "type": "array",
+            "minItems": 2,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "verification": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "existing_solution_discovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["performed", "checks"],
+      "properties": {
+        "performed": {"type": "boolean"},
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["category", "status", "notes", "evidence_refs"],
+            "properties": {
+              "category": {
+                "enum": [
+                  "SAP_STANDARD",
+                  "CONFIGURATION",
+                  "EXISTING_IMPLEMENTATION",
+                  "SUPPORTED_EXTENSION",
+                  "RELEASED_API_EVENT",
+                  "SIDE_BY_SIDE_EXTENSION",
+                  "CUSTOM_IMPLEMENTATION"
+                ]
+              },
+              "status": {"enum": ["APPLICABLE", "NOT_APPLICABLE", "UNKNOWN"]},
+              "notes": {"type": "string"},
+              "evidence_refs": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        }
+      }
+    },
+    "solution_options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "family",
+          "description",
+          "tradeoffs",
+          "risks",
+          "evidence_refs",
+          "assumption_refs",
+          "required_verification"
+        ],
+        "properties": {
+          "id": {"type": "string", "pattern": "^OPT-[0-9]{3,}$"},
+          "title": {"type": "string", "minLength": 1},
+          "family": {
+            "enum": [
+              "STANDARD_CONFIGURATION",
+              "SUPPORTED_EXTENSION",
+              "RELEASED_API_EVENT",
+              "INTEGRATION",
+              "SIDE_BY_SIDE_BTP",
+              "CUSTOM_IMPLEMENTATION",
+              "OTHER"
+            ]
+          },
+          "description": {"type": "string", "minLength": 1},
+          "tradeoffs": {"type": "array", "items": {"type": "string"}},
+          "risks": {"type": "array", "items": {"type": "string"}},
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "assumption_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^C-[0-9]{3,}$"}
+          },
+          "required_verification": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "proposal": {
+      "type": ["object", "null"]
+    },
+    "required_verification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description", "why", "blocking"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^V-[0-9]{3,}$"},
+          "description": {"type": "string", "minLength": 1},
+          "why": {"type": "string", "minLength": 1},
+          "blocking": {"type": "boolean"}
+        }
+      }
+    },
+    "implementation_handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ready", "notes"],
+      "properties": {
+        "ready": {"type": "boolean"},
+        "notes": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "requested_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["verb", "purpose"],
+        "properties": {
+          "verb": {
+            "enum": ["READ", "QUERY", "ANALYZE", "PROPOSE"]
+          },
+          "purpose": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "next_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "description"],
+      "properties": {
+        "type": {
+          "enum": [
+            "REQUEST_CLARIFICATION",
+            "VERIFY_CONTEXT",
+            "REVIEW_ARCHITECTURE",
+            "HANDOFF_IMPLEMENTATION",
+            "NONE"
+          ]
+        },
+        "description": {"type": "string"}
+      }
+    }
+  }
+}

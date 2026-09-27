@@ -1,0 +1,27 @@
+{
+  "id": "FIT-011",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "customization",
+  "kind": "protected-field-customization",
+  "title": "Protected fields cannot be overridden",
+  "given": {
+    "field": {
+      "name": "policy_boundary",
+      "customization": "protected"
+    },
+    "customization": {
+      "operation": "REPLACE",
+      "value": "disabled"
+    }
+  },
+  "when": {
+    "operation": "resolve-customization"
+  },
+  "then": {
+    "customization_valid": false,
+    "resolution": "INVALID"
+  },
+  "invariant": "Core safety and enforcement fields are not replaceable through customization.",
+  "decision_refs": ["SAP-AW-D053", "SAP-AW-D054"]
+}

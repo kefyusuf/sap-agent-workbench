@@ -27,5 +27,24 @@
   "critical_expectations": [
     "material conflict is not silently resolved",
     "unresolved blocker does not produce COMPLETED status"
-  ]
+  ],
+  "output_assertions": {
+    "allowed_status": [
+      "NEEDS_CLARIFICATION",
+      "BLOCKED"
+    ],
+    "required_nonempty": [
+      "conflicts",
+      "required_verification"
+    ],
+    "require_discovery_performed": false,
+    "proposal": "NULL",
+    "require_unresolved_blocking_conflict": true,
+    "forbidden_capabilities": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  }
 }

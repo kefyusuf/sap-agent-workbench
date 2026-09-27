@@ -9,6 +9,7 @@ It does not judge semantic SAP architecture quality.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -76,6 +77,15 @@ TOP_LEVEL_KEYS = {
 
 class ValidationError(RuntimeError):
     pass
+
+
+def canonical_json(value: Any) -> str:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def input_fingerprint(value: dict[str, Any]) -> str:
+    digest = hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
+    return f"sha256:{digest}"
 
 
 def require(condition: bool, errors: list[str], message: str) -> None:
@@ -593,6 +603,23 @@ def validate_case_assertions(case: dict[str, Any], result: dict[str, Any]) -> li
 
     case_id = case.get("id")
     require(result.get("task_id") == case_id, errors, f"$.task_id: expected case id {case_id}")
+
+    case_input = case.get("input")
+    if isinstance(case_input, dict):
+        expected_input_fingerprint = input_fingerprint(case_input)
+        expected_config_fingerprint = case_input.get("resolved_configuration_fingerprint")
+        provenance = result.get("provenance", {})
+
+        require(
+            provenance.get("input_fingerprint") == expected_input_fingerprint,
+            errors,
+            "case: result provenance input_fingerprint does not match exact case input",
+        )
+        require(
+            provenance.get("configuration_fingerprint") == expected_config_fingerprint,
+            errors,
+            "case: result provenance configuration_fingerprint does not match case input",
+        )
 
     assertions = case.get("output_assertions")
     if not isinstance(assertions, dict):

@@ -1,15 +1,90 @@
 {
   "id": "TA-002",
   "title": "Project-specific legacy integration shadows organization default",
-  "requirement": "Extend customer synchronization for Project Legacy without changing its current transport path.",
-  "context": {
-    "organization_known": [
-      "The organization default for new external REST integrations is SAP Integration Suite."
+  "input": {
+    "contract_version": "m1.technical-architect-input.v1",
+    "task": {
+      "id": "TA-002",
+      "requirement": "Extend customer synchronization for Project Legacy without changing its current transport path.",
+      "requested_outcome": "ARCHITECTURE_ASSESSMENT"
+    },
+    "scope": {
+      "modules": [],
+      "systems": [],
+      "environments": [],
+      "project": "Project Legacy",
+      "landscape": null
+    },
+    "constraints": [
+      {
+        "id": "K-001",
+        "statement": "The current change request excludes migration of the transport path.",
+        "authority": "PROJECT_APPROVED",
+        "source_refs": [
+          "project-scope-constraint"
+        ]
+      }
     ],
-    "project_verified": [
-      "Project Legacy customer synchronization currently uses PI/PO.",
-      "The current change request explicitly excludes migration of the transport path."
-    ]
+    "context": {
+      "claims": [
+        {
+          "id": "IC-001",
+          "classification": "KNOWN",
+          "statement": "The organization default for new external REST integrations is SAP Integration Suite.",
+          "system_specific": false,
+          "evidence_refs": [],
+          "source_refs": [
+            "organization-integration-standard"
+          ]
+        },
+        {
+          "id": "IC-002",
+          "classification": "VERIFIED",
+          "statement": "Project Legacy customer synchronization currently uses PI/PO.",
+          "system_specific": true,
+          "evidence_refs": [
+            "E-001"
+          ],
+          "source_refs": []
+        },
+        {
+          "id": "IC-003",
+          "classification": "VERIFIED",
+          "statement": "The current change request explicitly excludes migration of the transport path.",
+          "system_specific": false,
+          "evidence_refs": [
+            "E-002"
+          ],
+          "source_refs": []
+        }
+      ],
+      "unknowns": [],
+      "conflicts": []
+    },
+    "evidence_catalog": [
+      {
+        "id": "E-001",
+        "type": "APPROVED_DOCUMENT",
+        "source_ref": "project-context-current-path",
+        "revision": "fixture-v1",
+        "summary": "Project Legacy customer synchronization currently uses PI/PO."
+      },
+      {
+        "id": "E-002",
+        "type": "APPROVED_DOCUMENT",
+        "source_ref": "project-scope-constraint",
+        "revision": "fixture-v1",
+        "summary": "The current request excludes migration of the transport path."
+      }
+    ],
+    "capability_boundary": [
+      "READ",
+      "QUERY",
+      "ANALYZE",
+      "PROPOSE"
+    ],
+    "resolved_configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "requested_result_contract": "m1.technical-architect-result.v1"
   },
   "expected_properties": [
     "treats the project-specific PI/PO fact as effective for the current scoped request",

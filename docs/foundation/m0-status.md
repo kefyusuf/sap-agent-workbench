@@ -1,11 +1,19 @@
 # M0 Foundation Status
 
-## Current state
+## Milestone state
 
-M0 foundation semantics, contracts, decisions, fixtures, and deterministic runner are materialized on
-`feat/m0-foundation`.
+```text
+M0 architecture: CLOSED
+Branch delivery: PR_HOLD_CI
+M1 implementation: NOT_STARTED
+```
 
-### Materialized
+The foundation architecture is closed because all M0 architecture exit criteria have been satisfied and no unresolved
+architecture blocker remains.
+
+The branch is not merge-ready while repository-native GitHub Actions remains red.
+
+## Materialized foundation
 
 - Project charter
 - Component model
@@ -24,16 +32,17 @@ M0 foundation semantics, contracts, decisions, fixtures, and deterministic runne
 - deterministic Python 3 stdlib fitness runner v2
 - suite selection: safety-kernel / resolution / all
 - GitHub Actions workflow for `--suite all`
-- verification reports under `docs/verification/`
+- verification and closure reports under `docs/verification/`
 
 ## Deterministic verification
 
-Latest local content-equivalent verification:
+Latest recorded runner-v2 verification:
 
 ```text
-Safety Kernel:     12/12 PASS
-Resolution Suite:    8/8 PASS
-Combined:           20/20 PASS
+Safety Kernel:      12/12 PASS
+Resolution Suite:     8/8 PASS
+Combined:            20/20 PASS
+
 CRITICAL failures:       0
 REQUIRED failures:       0
 ```
@@ -44,43 +53,60 @@ Combined configuration fingerprint:
 sha256:daebc644923708fbed58f25a36bf6db7f03ccf41cfb279c40e1642ccf1fb03cc
 ```
 
-See `docs/verification/m0-foundation-suite-v2.md`.
+## Closure review
 
-## CI status
+See:
 
-GitHub Actions is configured to run the complete foundation suite.
+```text
+docs/verification/m0-closure-review.md
+```
 
-Observed branch workflow runs currently fail before observable execution steps are returned by the GitHub connector.
-No deterministic fixture or runner failure has been established from those CI runs.
+The final M0 exit-criteria review is PASS.
 
-The CI root cause remains unverified and must be treated as an operational issue until evidence shows otherwise.
+No open M0 architecture blocker was identified.
 
-## M0 closure state
+## GitHub Actions delivery hold
 
-M0 is **not yet DONE**.
+Repository-native CI is configured with:
 
-Completed:
+```text
+python3 scripts/run_foundation_fitness.py --suite all --report build/foundation-fitness.json
+```
 
-- [x] canonical contracts
-- [x] accepted architecture decisions
-- [x] deterministic Safety Kernel
-- [x] secondary resolution/customization suite
-- [x] executable runner
-- [x] local foundation verification
-- [x] CRITICAL scenarios pass
-- [x] REQUIRED scenarios pass
+The workflow is detected and triggered by GitHub, but observed jobs fail before any execution steps are returned through
+the GitHub connector.
 
-Remaining:
+Current classification:
 
-1. final M0 closure review
-2. classify the unresolved GitHub Actions issue:
-   - accepted non-safety operational blocker, or
-   - required pre-merge repair
-3. produce M0 closure report
-4. only then decide whether `feat/m0-foundation` is ready for PR/merge
+```text
+OPERATIONAL_CI_BLOCKER
+SAFETY_BLOCKER = false
+ARCHITECTURE_BLOCKER = false
+MERGE_BLOCKER = true
+ROOT_CAUSE = UNVERIFIED
+```
+
+The failure must not be attributed to a specific cause without evidence.
+
+## Delivery sequence
+
+The required next sequence is:
+
+```text
+M0 CLOSED
+→ resolve repository-native CI execution
+→ obtain green --suite all run
+→ open M0 PR
+→ review
+→ merge
+→ post-merge foundation verification
+→ create separate M1 branch
+```
+
+No M1 SAP Technical Architect Agent implementation begins on `feat/m0-foundation`.
 
 ## Guardrail
 
-No M1 SAP Technical Architect Agent implementation begins before the M0 closure review is complete.
+Closing the M0 architecture milestone does not waive the red-CI merge hold.
 
-The Python fitness runner remains a test harness only and does not select the future product runtime language.
+No Policy exception, bypass, or delivery exception has been introduced.

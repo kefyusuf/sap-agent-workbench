@@ -2,7 +2,8 @@
 
 ## Current state
 
-M0 architecture semantics are materialized on `feat/m0-foundation`.
+M0 foundation semantics, contracts, decisions, fixtures, and deterministic runner are materialized on
+`feat/m0-foundation`.
 
 ### Materialized
 
@@ -18,40 +19,68 @@ M0 architecture semantics are materialized on `feat/m0-foundation`.
 - ADR-001 through ADR-007
 - SAP-AW-D001 through SAP-AW-D086
 - Foundation fixture schema
-- FIT-001 through FIT-012 Safety Kernel fixtures
-- deterministic Python 3 stdlib fitness runner
-- runner usage/exit-code/fingerprint contract
+- FIT-001 through FIT-012 Safety Kernel
+- FIT-013 through FIT-020 Resolution Suite
+- deterministic Python 3 stdlib fitness runner v2
+- suite selection: safety-kernel / resolution / all
+- GitHub Actions workflow for `--suite all`
+- verification reports under `docs/verification/`
 
-### Verified repository integrity
+## Deterministic verification
 
-The current branch has been checked for:
+Latest local content-equivalent verification:
 
-- all SAP-AW-D001 through SAP-AW-D083 present before runner decision materialization
-- runner decisions D084 through D086 explicitly materialized in ADR-007
-- no missing or cross-ADR duplicate IDs in the original D001–D083 decision set
-- all 12 Safety Kernel fixture files parse as JSON
-- all 12 Safety Kernel fixtures contain the required top-level fields
-- all 12 Safety Kernel fixtures are CRITICAL
+```text
+Safety Kernel:     12/12 PASS
+Resolution Suite:    8/8 PASS
+Combined:           20/20 PASS
+CRITICAL failures:       0
+REQUIRED failures:       0
+```
 
-A separate semantic preflight of the 12 deterministic handlers matched all 12 expected fixture outcomes.
-During preflight, canonical mutation-verb ordering in FIT-012 was corrected before the first repository runner execution.
+Combined configuration fingerprint:
 
-### Not yet complete
+```text
+sha256:daebc644923708fbed58f25a36bf6db7f03ccf41cfb279c40e1642ccf1fb03cc
+```
 
-M0 is **not DONE**.
+See `docs/verification/m0-foundation-suite-v2.md`.
 
-Still required:
+## CI status
 
-1. execute the committed runner against the committed schema and FIT-001 through FIT-012
-2. record the actual runner output and configuration fingerprint
-3. add resolution/customization secondary fitness scenarios
-4. execute the secondary foundation suite
-5. produce foundation verification report
-6. perform M0 closure review
+GitHub Actions is configured to run the complete foundation suite.
+
+Observed branch workflow runs currently fail before observable execution steps are returned by the GitHub connector.
+No deterministic fixture or runner failure has been established from those CI runs.
+
+The CI root cause remains unverified and must be treated as an operational issue until evidence shows otherwise.
+
+## M0 closure state
+
+M0 is **not yet DONE**.
+
+Completed:
+
+- [x] canonical contracts
+- [x] accepted architecture decisions
+- [x] deterministic Safety Kernel
+- [x] secondary resolution/customization suite
+- [x] executable runner
+- [x] local foundation verification
+- [x] CRITICAL scenarios pass
+- [x] REQUIRED scenarios pass
+
+Remaining:
+
+1. final M0 closure review
+2. classify the unresolved GitHub Actions issue:
+   - accepted non-safety operational blocker, or
+   - required pre-merge repair
+3. produce M0 closure report
+4. only then decide whether `feat/m0-foundation` is ready for PR/merge
 
 ## Guardrail
 
-No M1 SAP Technical Architect Agent implementation begins until the committed M0 Safety Kernel runner is executed
-against the committed fixtures and all CRITICAL scenarios PASS.
+No M1 SAP Technical Architect Agent implementation begins before the M0 closure review is complete.
 
-The Python fitness runner is a test harness only and does not choose the product runtime language.
+The Python fitness runner remains a test harness only and does not select the future product runtime language.

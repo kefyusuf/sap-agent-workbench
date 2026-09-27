@@ -24,5 +24,22 @@
   ],
   "critical_expectations": [
     "preserves scoped project fact over general default"
-  ]
+  ],
+  "output_assertions": {
+    "allowed_status": [
+      "COMPLETED"
+    ],
+    "required_nonempty": [
+      "solution_options",
+      "existing_solution_discovery.checks"
+    ],
+    "require_discovery_performed": true,
+    "proposal": "NON_NULL",
+    "forbidden_capabilities": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  }
 }

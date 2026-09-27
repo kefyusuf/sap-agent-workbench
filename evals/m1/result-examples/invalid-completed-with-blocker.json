@@ -1,6 +1,10 @@
 {
   "contract_version": "m1.technical-architect-result.v1",
   "task_id": "TA-003",
+  "provenance": {
+    "input_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "configuration_fingerprint": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
   "status": "COMPLETED",
   "requirement_summary": "Define authentication for the outbound order API.",
   "scope": {

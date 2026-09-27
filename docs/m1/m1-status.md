@@ -25,8 +25,9 @@ Structured result contract: COMPLETE
 Deterministic result validator: MATERIALIZED
 Result validator self-test: MATERIALIZED / EXECUTION PENDING
 Input/invocation data contract: COMPLETE
-Runtime invocation semantics gate: NOT_STARTED
+Runtime invocation semantics: COMPLETE
 Deterministic input validator: MATERIALIZED
+Runtime technology/reference harness gate: NOT_STARTED
 Provider integration: NOT_STARTED
 SAP live adapters: NOT_STARTED
 ```
@@ -108,19 +109,40 @@ See:
 
 `docs/verification/m1-input-contract-preflight.md`
 
+## Runtime invocation semantics
+
+Materialized:
+
+- runtime-owned result identity/provenance fields
+- untrusted provider semantic-draft boundary
+- immutable fingerprinted input snapshot
+- externally selected provider adapter
+- no side-effecting SAP Tool execution
+- one provider attempt per invocation
+- no hidden repair/retry/fallback
+- typed execution failures
+- valid BLOCKED/NEEDS_CLARIFICATION separated from runtime failure
+- execution metadata separated from SAP evidence
+- evaluation-only case assertions
+- ADR-012 / SAP-AW-D120 through SAP-AW-D130
+
+See:
+
+- `contracts/technical-architect-execution.md`
+- `docs/m1/runtime-invocation.md`
+
 ## Next gate
 
-Before provider/model integration, define the **provider-neutral runtime invocation semantics**.
+Before implementing the reference harness, choose the **M1 runtime technology boundary**.
 
 The next gate is limited to:
 
-1. authoritative runtime-owned result fields
-2. provider raw-output vs normalized-result boundary
-3. input validation/fingerprinting sequence
-4. output parse/normalize/validate sequence
-5. deterministic failure states
-6. retry/repair policy boundary
-7. no concrete provider SDK yet
+1. product runtime language
+2. package/runtime baseline
+3. dependency policy
+4. provider-adapter interface placement
+5. reference/fake adapter test strategy
+6. no live provider credentials or SAP connectivity yet
 
 ## Guardrail
 

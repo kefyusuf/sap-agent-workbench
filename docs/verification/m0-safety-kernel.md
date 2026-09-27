@@ -4,6 +4,10 @@
 
 PASS
 
+> Historical verification record for runner v1 / FIT-001 through FIT-012.
+> M0 later advanced to runner v2 and FIT-001 through FIT-020; see
+> `docs/verification/m0-foundation-suite-v2.md` and `docs/verification/m0-closure-review.md`.
+
 ## Tested baseline
 
 - Branch: `feat/m0-foundation`
@@ -53,9 +57,9 @@ schema, and fixture contents were retrieved from the GitHub connector and materi
 
 This is a committed-content verification, not a GitHub Actions verification.
 
-A GitHub Actions workflow is present for repository-native execution, but no Actions run was observed immediately
-after its branch commit. M0 does not treat CI availability as a correctness requirement; the deterministic runner result
-is bound to the tested content identities above.
+At the time of this historical v1 verification, no Actions run had yet been observed immediately after the workflow commit.
+Later repository-native runs and a dedicated no-checkout runner probe were observed and are documented separately.
+This record remains bound only to the tested v1 content identities above.
 
 ## Scenario results
 

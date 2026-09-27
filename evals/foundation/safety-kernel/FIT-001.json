@@ -1,0 +1,33 @@
+{
+  "id": "FIT-001",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "component-boundary",
+  "kind": "agent-tool-boundary",
+  "title": "Agent cannot bypass policy",
+  "given": {
+    "agent": "sap.technical-architect",
+    "requested_capability": {
+      "verb": "READ",
+      "resource": "SAP_SOURCE",
+      "target": "DEVELOPMENT"
+    },
+    "tool_operation": "sap.source.read"
+  },
+  "when": {
+    "path": "agent-direct-to-tool"
+  },
+  "then": {
+    "result": "FAIL",
+    "direct_execution_allowed": false,
+    "required_path": [
+      "ActionIntent",
+      "Orchestrator",
+      "CapabilityResolver",
+      "PolicyEngine",
+      "ToolRuntime"
+    ]
+  },
+  "invariant": "An Agent has no unrestricted direct privilege path to a Tool.",
+  "decision_refs": ["SAP-AW-D016", "SAP-AW-D017"]
+}

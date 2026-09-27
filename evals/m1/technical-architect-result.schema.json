@@ -7,6 +7,7 @@
   "required": [
     "contract_version",
     "task_id",
+    "provenance",
     "status",
     "requirement_summary",
     "scope",
@@ -498,6 +499,24 @@
         },
         "description": {
           "type": "string"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_fingerprint",
+        "configuration_fingerprint"
+      ],
+      "properties": {
+        "input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "configuration_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
         }
       }
     }

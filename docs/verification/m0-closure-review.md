@@ -101,7 +101,13 @@ The workflow is successfully discovered and push-triggered by GitHub.
 Observed runs fail within a few seconds, and the GitHub connector returns a completed failed job with no observable
 execution steps and no retrievable job log.
 
-Latest directly inspected run after the corrected complete-suite invocation:
+A separate temporary runner probe was executed to isolate the failure from project code.
+The probe contained only an `echo`, `uname -a`, and `python3 --version` step; it performed no checkout and did not invoke
+the foundation runner. It reproduced the same failure shape: completed/failure with no observable steps.
+
+Evidence: `docs/verification/ci-runner-probe.md`.
+
+Latest directly inspected foundation run after the corrected complete-suite invocation:
 
 ```text
 commit:
@@ -139,12 +145,14 @@ Rationale:
 
 1. deterministic foundation suites have passing recorded verification
 2. no failed fixture or runner step is observable in GitHub Actions
-3. the job terminates before observable execution steps are exposed
-4. therefore there is no evidence that a foundation invariant failed
-5. there is also insufficient evidence to attribute the CI failure to billing, runner provisioning, account settings,
-   workflow permissions, or another specific cause
+3. the normal foundation workflow terminates before observable execution steps are exposed
+4. an independent trivial runner probe reproduces the same pre-step failure without checkout or project code
+5. therefore the observed CI failure is not demonstrated to originate in the M0 runner, fixtures, or workflow command
+6. the evidence supports a repository/account/GitHub-hosted-runner operational layer classification
+7. there is still insufficient evidence to attribute the exact root cause to billing/quota, repository Actions policy,
+   hosted-runner provisioning, account restrictions, or another specific cause
 
-The root cause must remain UNKNOWN until direct evidence is available.
+The root cause must remain UNKNOWN until direct administrative/runtime evidence is available.
 
 ## M0 closure decision
 

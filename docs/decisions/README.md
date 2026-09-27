@@ -17,8 +17,9 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-009](./ADR-009-technical-architect-evaluation.md) | D095–D101 | Technical Architect Evaluation Model |
 | [ADR-010](./ADR-010-technical-architect-result-contract.md) | D102–D110 | Technical Architect Structured Result Contract |
 | [ADR-011](./ADR-011-technical-architect-input-invocation.md) | D111–D119 | Technical Architect Input & Invocation Contract |
+| [ADR-012](./ADR-012-technical-architect-runtime-invocation.md) | D120–D130 | Technical Architect Runtime Invocation Semantics |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D119.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D130.
 
 ## Decision groups
 
@@ -96,3 +97,11 @@ deterministic structural validation, preservation of the READ/QUERY/ANALYZE/PROP
 Defines the provider-independent input envelope, resolved context/evidence snapshot boundary,
 deterministic input fingerprint, evidence-catalog integrity, explicit read-only capability boundary,
 secret isolation, provider semantic-preservation rule, and result provenance binding.
+
+
+### D120–D130 — M1 Technical Architect runtime invocation
+
+Defines runtime-owned result provenance, untrusted provider draft semantics, immutable fingerprinted input,
+external provider selection, no side-effecting tool execution, one-attempt/no-hidden-repair behavior,
+typed execution failures, BLOCKED-vs-runtime-failure separation, execution-record separation,
+deterministic acceptance, and evaluation-only case assertions.

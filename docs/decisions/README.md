@@ -12,8 +12,9 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-004](./ADR-004-capability-policy-and-approval.md) | D035–D050 | Capability, Policy & Approval |
 | [ADR-005](./ADR-005-customization-and-extension-resolution.md) | D051–D070 | Customization & Extension Resolution |
 | [ADR-006](./ADR-006-foundation-evaluation-and-m0-gate.md) | D071–D083 | Foundation Evaluation & M0 Gate |\n| [ADR-007](./ADR-007-foundation-fitness-runner.md) | D084–D086 | Deterministic M0 Foundation Fitness Runner |
+| [ADR-008](./ADR-008-technical-architect-agent-boundary.md) | D087–D094 | SAP Technical Architect Agent Boundary |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D086.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D094.
 
 ## Decision groups
 
@@ -63,3 +64,10 @@ Each ADR records:
 - supersedes / superseded by
 
 A decision ID is materialized only when its exact decision is present in an accepted ADR.
+
+
+### D087–D094 — M1 Technical Architect Agent boundary
+
+Defines the first concrete Agent responsibility boundary, task-scoped context expectations,
+existing-solution discovery discipline, output classification, SAP object-name safety,
+explicit non-goals, unknown/conflict handling, and preservation of the M0 no-mutation capability boundary.

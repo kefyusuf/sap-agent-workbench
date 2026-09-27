@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 jobs:
-  safety-kernel:
+  foundation:
     name: M0 Foundation Suite
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -29,10 +29,10 @@ jobs:
       - name: Show Python version
         run: python3 --version
 
-      - name: Run foundation fitness
+      - name: Run complete foundation fitness
         run: |
           mkdir -p build
-          python3 scripts/run_foundation_fitness.py             --report build/foundation-fitness.json
+          python3 scripts/run_foundation_fitness.py --suite all --report build/foundation-fitness.json
 
       - name: Print foundation fitness report
         if: always()

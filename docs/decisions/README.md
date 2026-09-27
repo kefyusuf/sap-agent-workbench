@@ -11,9 +11,9 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-003](./ADR-003-context-evidence-and-provenance.md) | D021–D034 | Context, Evidence & Provenance |
 | [ADR-004](./ADR-004-capability-policy-and-approval.md) | D035–D050 | Capability, Policy & Approval |
 | [ADR-005](./ADR-005-customization-and-extension-resolution.md) | D051–D070 | Customization & Extension Resolution |
-| [ADR-006](./ADR-006-foundation-evaluation-and-m0-gate.md) | D071–D083 | Foundation Evaluation & M0 Gate |
+| [ADR-006](./ADR-006-foundation-evaluation-and-m0-gate.md) | D071–D083 | Foundation Evaluation & M0 Gate |\n| [ADR-007](./ADR-007-foundation-fitness-runner.md) | D084–D086 | Deterministic M0 Foundation Fitness Runner |
 
-The six ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D083.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D086.
 
 ## Decision groups
 

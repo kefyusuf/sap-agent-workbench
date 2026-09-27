@@ -16,8 +16,9 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-008](./ADR-008-technical-architect-agent-boundary.md) | D087–D094 | SAP Technical Architect Agent Boundary |
 | [ADR-009](./ADR-009-technical-architect-evaluation.md) | D095–D101 | Technical Architect Evaluation Model |
 | [ADR-010](./ADR-010-technical-architect-result-contract.md) | D102–D110 | Technical Architect Structured Result Contract |
+| [ADR-011](./ADR-011-technical-architect-input-invocation.md) | D111–D119 | Technical Architect Input & Invocation Contract |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D110.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D119.
 
 ## Decision groups
 
@@ -88,3 +89,10 @@ and the rule that model-based grading cannot be the sole oracle for CRITICAL bou
 Defines the provider-independent result contract, status semantics, traceable claim support,
 blocker/status consistency, nullable proposal semantics, explicit existing-solution discovery,
 deterministic structural validation, preservation of the READ/QUERY/ANALYZE/PROPOSE capability boundary, and binding of results to input/configuration fingerprints.
+
+
+### D111–D119 — M1 Technical Architect input & invocation data
+
+Defines the provider-independent input envelope, resolved context/evidence snapshot boundary,
+deterministic input fingerprint, evidence-catalog integrity, explicit read-only capability boundary,
+secret isolation, provider semantic-preservation rule, and result provenance binding.

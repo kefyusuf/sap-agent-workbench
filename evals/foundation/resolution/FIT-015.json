@@ -1,0 +1,24 @@
+{
+  "id": "FIT-015",
+  "revision": 1,
+  "criticality": "REQUIRED",
+  "category": "customization-compatibility",
+  "kind": "pack-compatibility",
+  "title": "Incompatible customization pack cannot activate",
+  "given": {
+    "runtime_contract_version": 1,
+    "pack": {
+      "id": "org.example.sap",
+      "minimum_core_contract_version": 2
+    }
+  },
+  "when": {
+    "operation": "validate-pack-activation"
+  },
+  "then": {
+    "status": "INCOMPATIBLE",
+    "activation_allowed": false
+  },
+  "invariant": "A customization pack must satisfy declared core compatibility before activation.",
+  "decision_refs": ["SAP-AW-D062", "SAP-AW-D070"]
+}

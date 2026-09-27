@@ -76,6 +76,9 @@ python3 scripts/run_foundation_fitness.py --suite all --report build/foundation-
 The workflow is detected and triggered by GitHub, but observed jobs fail before any execution steps are returned through
 the GitHub connector.
 
+A temporary no-checkout runner probe containing only trivial shell/version commands reproduced the same pre-step failure.
+The probe evidence is recorded in `docs/verification/ci-runner-probe.md` and the temporary workflow has been removed.
+
 Current classification:
 
 ```text
@@ -83,7 +86,8 @@ OPERATIONAL_CI_BLOCKER
 SAFETY_BLOCKER = false
 ARCHITECTURE_BLOCKER = false
 MERGE_BLOCKER = true
-ROOT_CAUSE = UNVERIFIED
+ROOT_CAUSE = UNKNOWN
+EVIDENCE_LAYER = PRE_STEP_GITHUB_ACTIONS_OPERATIONAL
 ```
 
 The failure must not be attributed to a specific cause without evidence.

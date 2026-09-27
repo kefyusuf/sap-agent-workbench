@@ -1,0 +1,192 @@
+# M0 Foundation Closure Review
+
+## Review outcome
+
+**M0 architecture status: CLOSED**
+
+**Branch delivery status: PR_HOLD_CI**
+
+This review closes the M0 architecture milestone because the remaining known issue is operational CI execution,
+not an unresolved foundation architecture or deterministic fitness failure.
+
+It does **not** declare the branch merge-ready while repository-native CI remains red.
+
+## Reviewed scope
+
+The closure review is intentionally limited to M0:
+
+- project charter and non-goals
+- component responsibility contracts
+- context, evidence, claim, and provenance semantics
+- capability, policy, approval, and execution boundaries
+- customization and extension resolution
+- deterministic foundation evaluation
+- Safety Kernel and Resolution Suite
+- runner/runtime decoupling
+
+No M1 SAP Technical Architect Agent design or implementation is included.
+
+## Canonical architecture state
+
+Materialized decisions:
+
+```text
+SAP-AW-D001 through SAP-AW-D086
+ADR-001 through ADR-007
+```
+
+The accepted foundation establishes:
+
+- provider-independent Agent architecture
+- Agent / Skill / Workflow / Policy / Tool / Knowledge separation
+- least-context and evidence-aware reasoning boundaries
+- explicit VERIFIED / KNOWN / INFERRED / ASSUMED / UNKNOWN / CONFLICTING claim semantics
+- revision-bound evidence
+- action + resource + target capability semantics
+- monotonic Policy restriction
+- action-fingerprint-bound approval
+- protected customization fields and declared Workflow hooks
+- no SAP-system WRITE / DEPLOY / TRANSPORT / ADMIN capability in the MVP
+- deterministic foundation fitness independent from an LLM judge
+
+## Fitness evidence
+
+Latest recorded deterministic runner-v2 verification:
+
+```text
+Safety Kernel:      12 / 12 PASS
+Resolution Suite:    8 /  8 PASS
+Combined:           20 / 20 PASS
+
+CRITICAL failures:   0
+REQUIRED failures:   0
+```
+
+Combined configuration fingerprint:
+
+```text
+sha256:daebc644923708fbed58f25a36bf6db7f03ccf41cfb279c40e1642ccf1fb03cc
+```
+
+Evidence:
+
+- `docs/verification/m0-safety-kernel.md`
+- `docs/verification/m0-foundation-suite-v2.md`
+
+## Exit-criteria review
+
+| M0 exit criterion | Result |
+|---|---|
+| Canonical contracts documented | PASS |
+| Architecture decisions materialized | PASS |
+| Component responsibilities unambiguous | PASS |
+| Context/evidence semantics documented | PASS |
+| Policy/approval semantics documented | PASS |
+| Customization semantics documented | PASS |
+| Foundation fitness scenarios materialized | PASS |
+| All CRITICAL scenarios pass | PASS |
+| All REQUIRED scenarios pass | PASS |
+| No unresolved architecture blocker for M1 | PASS |
+
+## CI observation
+
+The repository-native GitHub Actions workflow is configured to execute:
+
+```text
+python3 scripts/run_foundation_fitness.py --suite all --report build/foundation-fitness.json
+```
+
+The workflow is successfully discovered and push-triggered by GitHub.
+
+Observed runs fail within a few seconds, and the GitHub connector returns a completed failed job with no observable
+execution steps and no retrievable job log.
+
+Latest directly inspected run after the corrected complete-suite invocation:
+
+```text
+commit:
+acfd2680907c8c962bacc241fe5acb11a6aed6ea
+
+workflow:
+Foundation Fitness
+
+job:
+M0 Foundation Suite
+
+status:
+completed
+
+conclusion:
+failure
+
+observable steps:
+none
+```
+
+### Classification
+
+The CI issue is classified as:
+
+```text
+OPERATIONAL_CI_BLOCKER
+SAFETY_BLOCKER = false
+ARCHITECTURE_BLOCKER = false
+MERGE_BLOCKER = true
+ROOT_CAUSE = UNVERIFIED
+```
+
+Rationale:
+
+1. deterministic foundation suites have passing recorded verification
+2. no failed fixture or runner step is observable in GitHub Actions
+3. the job terminates before observable execution steps are exposed
+4. therefore there is no evidence that a foundation invariant failed
+5. there is also insufficient evidence to attribute the CI failure to billing, runner provisioning, account settings,
+   workflow permissions, or another specific cause
+
+The root cause must remain UNKNOWN until direct evidence is available.
+
+## M0 closure decision
+
+Under SAP-AW-D083, M0 closes when no unresolved **architecture blocker** remains for M1.
+
+The current CI issue is not supported by evidence as an architecture or Safety Kernel failure.
+Therefore it does not reopen the M0 architecture milestone.
+
+However, a red repository-native verification signal must not be ignored.
+The branch remains on **PR_HOLD_CI** and should not be merged until either:
+
+1. the GitHub Actions workflow executes successfully, or
+2. the CI infrastructure issue is explicitly resolved/accepted through a separate repository-delivery decision.
+
+No such exception is granted by this closure review.
+
+## M1 gate
+
+M1 is now **architecture-eligible**, but implementation should not begin on the M0 branch.
+
+Required sequencing:
+
+```text
+M0 CLOSED
+→ resolve CI / obtain green repository-native run
+→ PR for feat/m0-foundation
+→ review
+→ merge
+→ post-merge verification
+→ open M1 branch
+→ M1 SAP Technical Architect Agent
+```
+
+Until the delivery gate is clear, no M1 implementation is started.
+
+## Open items
+
+Only delivery/operations work remains for M0 branch integration:
+
+- determine the evidence-backed cause of the GitHub Actions pre-step failure
+- obtain a green `--suite all` repository-native execution
+- open/review/merge the M0 foundation PR
+- perform post-merge foundation verification
+
+There are no open M0 architecture decisions identified by this review.

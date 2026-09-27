@@ -1,0 +1,28 @@
+{
+  "id": "FIT-007",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "evidence-revision",
+  "kind": "revision-bound-evidence",
+  "title": "Stale evidence cannot verify a new revision",
+  "given": {
+    "evidence": {
+      "subject": "ZCL_ORDER_SERVICE",
+      "revision": "A",
+      "result": "PASS"
+    },
+    "work_product": {
+      "subject": "ZCL_ORDER_SERVICE",
+      "revision": "B"
+    }
+  },
+  "when": {
+    "operation": "validate-verification-evidence"
+  },
+  "then": {
+    "verification_valid": false,
+    "reason": "REVISION_MISMATCH"
+  },
+  "invariant": "Revision-bound evidence is valid only for the revision it verified.",
+  "decision_refs": ["SAP-AW-D027", "SAP-AW-D034"]
+}

@@ -24,7 +24,9 @@ Initial synthetic cases: 4 MATERIALIZED
 Structured result contract: COMPLETE
 Deterministic result validator: MATERIALIZED
 Result validator self-test: MATERIALIZED / EXECUTION PENDING
-Runtime input/invocation gate: NOT_STARTED
+Input/invocation data contract: COMPLETE
+Runtime invocation semantics gate: NOT_STARTED
+Deterministic input validator: MATERIALIZED
 Provider integration: NOT_STARTED
 SAP live adapters: NOT_STARTED
 ```
@@ -85,18 +87,40 @@ See:
 
 Exact Python execution of the committed validator/self-test remains pending while remote CI is unavailable.
 
+## Input/invocation data contract
+
+Materialized:
+
+- `m1.technical-architect-input.v1`
+- exact task/scope/constraint envelope
+- resolved context claims / unknowns / conflicts
+- evidence catalog with reference integrity
+- explicit READ/QUERY/ANALYZE/PROPOSE capability boundary
+- resolved configuration fingerprint
+- deterministic canonical input fingerprint
+- secret isolation
+- requested result-contract binding
+- normalized TA-001 through TA-004 inputs
+- `scripts/validate_m1_input.py`
+- ADR-011 / SAP-AW-D111 through SAP-AW-D119
+
+See:
+
+`docs/verification/m1-input-contract-preflight.md`
+
 ## Next gate
 
-Before any provider/model runtime is implemented, define the **provider-neutral Technical Architect input/invocation contract**.
+Before provider/model integration, define the **provider-neutral runtime invocation semantics**.
 
 The next gate is limited to:
 
-1. exact task/input envelope
-2. resolved context/evidence snapshot identity
-3. allowed capability boundary passed to the Agent
-4. result-contract selection
-5. deterministic input fingerprint semantics
-6. no provider/model integration yet
+1. authoritative runtime-owned result fields
+2. provider raw-output vs normalized-result boundary
+3. input validation/fingerprinting sequence
+4. output parse/normalize/validate sequence
+5. deterministic failure states
+6. retry/repair policy boundary
+7. no concrete provider SDK yet
 
 ## Guardrail
 

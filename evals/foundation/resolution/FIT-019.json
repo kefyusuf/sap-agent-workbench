@@ -1,0 +1,24 @@
+{
+  "id": "FIT-019",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "secret-isolation",
+  "kind": "secret-isolation",
+  "title": "Raw secret is rejected from customization content",
+  "given": {
+    "customization": {
+      "authentication": {
+        "client_secret": "example-secret-value"
+      }
+    }
+  },
+  "when": {
+    "operation": "validate-customization-secrets"
+  },
+  "then": {
+    "valid": false,
+    "reason": "RAW_SECRET_FORBIDDEN"
+  },
+  "invariant": "Customization may contain credential references but never raw secrets.",
+  "decision_refs": ["SAP-AW-D032", "SAP-AW-D066"]
+}

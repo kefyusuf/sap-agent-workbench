@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Execute the deterministic Foundation Safety Kernel without depending on an LLM, SAP system, external service,
+Execute deterministic M0 foundation invariants without depending on an LLM, SAP system, external service,
 or product runtime.
 
 ## Runtime
@@ -11,30 +11,38 @@ Python 3 standard library only.
 
 This is a test-harness choice, not a product-runtime choice.
 
-## Command
+## Suites
+
+The runner exposes three deterministic suite selections:
+
+- `safety-kernel` — FIT-001 through FIT-012
+- `resolution` — FIT-013 through FIT-020
+- `all` — both suites in stable directory/path order
+
+The default remains `safety-kernel` so the original critical gate can be executed independently.
+
+## Commands
 
 From the repository root:
 
 ```bash
 python scripts/run_foundation_fitness.py
+python scripts/run_foundation_fitness.py --suite resolution
+python scripts/run_foundation_fitness.py --suite all
 ```
 
-Windows environments may also use:
+Windows environments may use `py -3` instead of `python`.
 
-```powershell
-py -3 scripts/run_foundation_fitness.py
-```
-
-Optional machine-readable report:
+Optional machine-readable output:
 
 ```bash
-python scripts/run_foundation_fitness.py --json
+python scripts/run_foundation_fitness.py --suite all --json
 ```
 
 Optional file report:
 
 ```bash
-python scripts/run_foundation_fitness.py --report build/foundation-fitness.json
+python scripts/run_foundation_fitness.py --suite all --report build/foundation-fitness.json
 ```
 
 ## Runner responsibilities
@@ -42,7 +50,7 @@ python scripts/run_foundation_fitness.py --report build/foundation-fitness.json
 The runner:
 
 1. loads `evals/foundation/scenario.schema.json`
-2. discovers `FIT-*.json` under `evals/foundation/safety-kernel/`
+2. discovers the selected fixture suite(s)
 3. validates fixture structure against the committed M0 schema subset
 4. rejects duplicate scenario IDs
 5. rejects unknown deterministic scenario kinds
@@ -54,19 +62,23 @@ The runner:
 
 ## Exit codes
 
-- `0` — all CRITICAL scenarios PASS
-- `1` — one or more CRITICAL scenarios FAIL
+- `0` — no CRITICAL scenario failed
+- `1` — one or more CRITICAL scenarios failed
 - `2` — runner/fixture/schema error prevented a valid run
+
+REQUIRED failures remain visible in the report and must still be resolved before M0 closure even though only CRITICAL
+failures determine process exit code.
 
 ## Configuration fingerprint
 
-For the static M0 Safety Kernel, the runner computes a deterministic SHA-256 fingerprint from:
+Runner contract v2 computes a deterministic SHA-256 fingerprint from:
 
 - runner contract version
+- selected suite identity
 - committed scenario schema
-- normalized active fixture content in stable path order
+- normalized selected fixture content in stable path order
 
-This fingerprint identifies the exact foundation configuration evaluated by that run.
+The fingerprint identifies the exact foundation configuration evaluated by that run.
 It is not a Git commit identifier and does not replace revision provenance.
 
 ## Scope boundary
@@ -81,3 +93,10 @@ The runner does not:
 - evaluate SAP domain-answer quality
 
 It exists only to prove M0 foundation invariants.
+
+## CI
+
+`.github/workflows/foundation-fitness.yml` is configured to execute `--suite all`.
+
+CI availability is operational infrastructure, not a substitute for the deterministic runner contract.
+A CI infrastructure failure must be distinguished from a fixture/runner fitness failure.

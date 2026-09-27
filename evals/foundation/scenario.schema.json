@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sap-agent-workbench:foundation-fitness-scenario:v1",
+  "title": "Foundation Fitness Scenario",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "revision",
+    "criticality",
+    "category",
+    "kind",
+    "title",
+    "given",
+    "when",
+    "then",
+    "invariant",
+    "decision_refs"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^FIT-[0-9]{3}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "criticality": {
+      "enum": ["CRITICAL", "REQUIRED", "ADVISORY"]
+    },
+    "category": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "given": {
+      "type": "object"
+    },
+    "when": {
+      "type": "object"
+    },
+    "then": {
+      "type": "object"
+    },
+    "invariant": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^SAP-AW-D[0-9]{3}$"
+      }
+    }
+  }
+}

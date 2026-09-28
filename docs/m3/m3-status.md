@@ -28,8 +28,9 @@ M3 contract static preflight: PASS
 M3 deterministic validator: MATERIALIZED / EXECUTION PENDING
 M3 runtime implementation: NOT_STARTED
 M3 deterministic self-test: MATERIALIZED / EXACT PYTHON EXECUTION PENDING
-M3 independent semantic replay: PASS — 11/11
+M3 independent semantic replay: REPLAY REQUIRED AFTER EVIDENCE-COMPATIBILITY HARDENING
 M3 validator static preflight: PASS
+M3 verification-evidence compatibility: COMPLETE
 Live verification tools: NOT_STARTED
 ```
 
@@ -119,14 +120,15 @@ Materialized:
 - invalid missing-critical-requirement-coverage result
 - invalid PASS-without-input-evidence result
 - ADR-023 / SAP-AW-D227 through SAP-AW-D236
+- ADR-024 / SAP-AW-D237 through SAP-AW-D244
 
-The self-test is designed for 11 scenarios:
+The self-test is now designed for 13 scenarios:
 
 ```text
 4 normalized inputs
-7 positive/negative result cases
+9 positive/negative result cases
 -------------------------------
-11 scenarios
+13 scenarios
 ```
 
 ## Next gate
@@ -137,7 +139,7 @@ The next safe M3 action is **verification-only**:
 python scripts/selftest_m3_contracts.py
 ```
 
-Independent replay already reproduces all 11 expected outcomes. Exact committed Python self-test execution is still required before marking the M3 validator VERIFIED.
+The previous 11-scenario semantic replay predates ADR-024 hardening and is no longer the current acceptance evidence. Re-run the hardened 13-scenario semantics, then execute the exact committed Python self-test before marking the M3 validator VERIFIED.
 
 Even after the deterministic self-test passes:
 

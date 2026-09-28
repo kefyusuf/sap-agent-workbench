@@ -94,6 +94,23 @@ Any result evidence reference must resolve to this catalog.
 
 The Reviewer cannot create evidence IDs.
 
+Verification claims already present in the implementation snapshot must also use evidence compatible with the claimed verification type.
+An unrelated approved document does not establish compile, ATC, test, runtime, or performance PASS/FAIL.
+
+Initial compatibility follows ADR-024:
+
+- COMPILE → EXECUTION_RESULT or STATIC_ANALYSIS
+- ATC → STATIC_ANALYSIS
+- UNIT_TEST → TEST_RESULT
+- INTEGRATION_TEST → TEST_RESULT
+- AUTHORIZATION → TEST_RESULT or CONFIGURATION
+- PERFORMANCE → TEST_RESULT or EXECUTION_RESULT
+- PAYLOAD_CONTRACT → TEST_RESULT or EXECUTION_RESULT
+- RUNTIME → EXECUTION_RESULT or LOG
+- REGRESSION → TEST_RESULT
+
+`OTHER` remains a required/planned verification category only in M3 v1 unless a later compatibility decision defines acceptable executed evidence.
+
 ## Review rules
 
 Organization/project review constraints may be supplied as explicit rules:

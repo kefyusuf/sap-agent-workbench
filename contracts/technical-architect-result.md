@@ -87,6 +87,9 @@ Each claim has:
 
 - `VERIFIED` requires at least one `evidence_ref`.
 - `KNOWN` requires at least one `evidence_ref` or `source_ref`.
+- every accepted `evidence_ref` must resolve to the invocation input's `evidence_catalog`
+- factual/conflict `source_ref` values must come from the validated invocation input snapshot
+- the provider/model cannot create new system evidence
 - a system-specific claim marked `VERIFIED` or `KNOWN` follows the same rule and must not be supported only by model background
 - `INFERRED` and `ASSUMED` must remain visibly non-verified classifications
 
@@ -154,6 +157,8 @@ Each option records:
 - evidence references
 - assumption references
 - required verification
+
+Every `assumption_ref` must reference a result claim whose classification is `ASSUMED`.
 
 Initial option families:
 
@@ -254,5 +259,8 @@ The M1 structural validator must reject:
 14. non-COMPLETED handoff marked ready
 15. mutating/admin requested capability
 16. non-COMPLETED next action requesting implementation handoff
+17. evidence reference not present in the invocation input evidence catalog
+18. factual/conflict source reference not present in the invocation input snapshot
+19. assumption reference that does not point to an ASSUMED result claim
 
 These checks validate contract safety, not semantic architecture quality.

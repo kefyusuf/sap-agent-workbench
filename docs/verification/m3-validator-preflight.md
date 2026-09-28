@@ -2,123 +2,106 @@
 
 ## Status
 
-PASS for repository-content/static tooling integrity.
+PASS for repository-content/static tooling integrity after ADR-024 hardening.
 
-Executable Python self-test evidence is still pending.
+Exact Python self-test execution remains pending.
 
 ## Decision continuity
 
-M3 currently covers:
-
 ```text
-SAP-AW-D192 through SAP-AW-D236
-```
-
-Repository inspection:
-
-```text
-unique decision IDs: 45
+SAP-AW-D192 through SAP-AW-D244
+unique decision IDs: 53
 missing IDs:         0
 cross-ADR duplicates: 0
 ```
 
-## Tooling
-
-Materialized:
+## Tooling identities
 
 ```text
 scripts/validate_m3_contracts.py
+Git blob: d1d9bd460f3e663f13441eb36548fa4bbad7e0f1
+
 scripts/selftest_m3_contracts.py
+Git blob: bb9df648f41938e2059870dcdae25d207115da52
 ```
 
-Git blob identities:
+The committed self-test expects:
 
 ```text
-validate_m3_contracts.py
-5ca827cf71fef1a8e1c470542552f8d2e8242954
-
-selftest_m3_contracts.py
-242b21f214d15a675ee951538a5fcfb5d43e7ada
+Summary: 13/13 PASS
 ```
 
-Static scan found no references to:
+## Evidence compatibility hardening
+
+The validator now carries deterministic verification/evidence compatibility for:
+
+- COMPILE
+- ATC
+- UNIT_TEST
+- INTEGRATION_TEST
+- AUTHORIZATION
+- PERFORMANCE
+- PAYLOAD_CONTRACT
+- RUNTIME
+- REGRESSION
+
+`OTHER` remains a planned/required category only; M3 v1 does not accept executed PASS/FAIL or EVIDENCE_PRESENT claims for it.
+
+The validator checks compatibility in:
+
+1. Reviewer input implementation verification claims
+2. Reviewer result verification-debt EVIDENCE_PRESENT state
+3. Test Engineer result verification claims
+
+PENDING Reviewer verification debt must not carry evidence-backed state.
+
+## Static dependency/safety scan
+
+No references found for:
 
 - OpenAI
 - Anthropic
 - Google provider SDK
 - SAP SDK packages
-- HTTP/fetch clients
-- subprocess/system execution
+- requests/httpx
+- fetch/network clients
+- subprocess
+- os.system
 
-The tooling is intended to remain Python-standard-library-only and offline.
-
-## Self-test inventory
-
-The committed self-test expects:
-
-```text
-4 normalized input cases
-7 positive/negative result cases
--------------------------------
-11 scenarios
-```
-
-Result cases:
-
-1. valid REVIEW_ACCEPTABLE for REVIEW-001
-2. valid CHANGES_REQUIRED for REVIEW-002
-3. invalid REVIEW_ACCEPTABLE despite architecture violation
-4. valid TEST_PLAN_READY for TEST-001
-5. valid TEST_PLAN_READY for TEST-002
-6. invalid TEST_PLAN_READY with missing critical requirement coverage
-7. invalid verification PASS with evidence absent from the invocation catalog
-
-## Deterministic boundaries represented
-
-Reviewer validation covers:
-
-- exact input/configuration/architecture/implementation provenance
-- material architecture-constraint representation
-- REVIEW_ACCEPTABLE / architecture-alignment consistency
-- blocking finding/unknown behavior
-- finding reference closure
-- verification-debt preservation
-- proceed-to-verification consistency
-- no mutation capability
-
-Test-plan validation covers:
-
-- exact input/configuration/implementation provenance
-- critical requirement coverage or explicit justified exclusion
-- coverage/check reference closure
-- planned-check traceability
-- blocking unknown behavior
-- PASS/FAIL evidence reference integrity
-- execution-handoff/status consistency
-- no mutation capability
-
-## Result-example integrity
-
-All seven committed result examples parse as JSON and use the intended M3 result contract family.
-
-The examples are bound to the canonical fingerprints already recorded for REVIEW-001/002 and TEST-001/002.
+The tooling remains intended as Python-standard-library-only offline evaluation tooling.
 
 ## Stack scope
 
 Compared with `feat/m2-abap-development-agent`:
 
 ```text
-status: ahead
+branch status: ahead
 behind: 0
 runtime source/package changes: 0
-evaluation scripts added: 2
 ```
 
 No M3 product runtime, provider adapter, SAP adapter, compiler/ATC integration, or test executor is present.
 
+## Semantic replay
+
+The current exact-fixture independent replay reproduces:
+
+```text
+13 / 13 expected outcomes
+```
+
+including rejection of:
+
+- Reviewer COMPILE EVIDENCE_PRESENT backed by APPROVED_DOCUMENT
+- Test Engineer ATC PASS backed by APPROVED_DOCUMENT
+
+See:
+
+`docs/verification/m3-independent-semantic-replay.md`
+
 ## Not yet verified
 
-This preflight does **not** claim execution of:
+This preflight does not claim exact execution of:
 
 ```text
 python scripts/selftest_m3_contracts.py
@@ -127,11 +110,11 @@ python scripts/selftest_m3_contracts.py
 Therefore:
 
 ```text
-M3 DETERMINISTIC VALIDATOR: MATERIALIZED
+M3 DETERMINISTIC VALIDATOR: MATERIALIZED / HARDENED
 M3 STATIC PREFLIGHT:        PASS
-M3 VALIDATOR EXECUTION:     PENDING
+M3 SEMANTIC REPLAY:         13/13 PASS
+M3 PYTHON SELFTEST:         PENDING
+
 M3 PRODUCT RUNTIME:         BLOCKED
 LIVE VERIFICATION TOOLS:    BLOCKED
 ```
-
-The next safe action is exact self-test execution and revision-bound evidence capture.

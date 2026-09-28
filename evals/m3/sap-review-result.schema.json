@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sap-agent-workbench:m3:sap-review-result:v1",
+  "title": "M3 SAP Reviewer Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "task_id",
+    "provenance",
+    "outcome",
+    "architecture_alignment",
+    "findings",
+    "unknowns",
+    "verification_debt",
+    "review_handoff",
+    "requested_capabilities",
+    "next_action"
+  ],
+  "properties": {
+    "contract_version": {"const": "m3.sap-review-result.v1"},
+    "task_id": {"type": "string", "minLength": 1},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_fingerprint",
+        "configuration_fingerprint",
+        "architecture_handoff_fingerprint",
+        "implementation_fingerprint"
+      ],
+      "properties": {
+        "input_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "configuration_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "architecture_handoff_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "implementation_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      }
+    },
+    "outcome": {
+      "enum": ["REVIEW_ACCEPTABLE", "CHANGES_REQUIRED", "BLOCKED"]
+    },
+    "architecture_alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "constraint_results"],
+      "properties": {
+        "status": {"enum": ["PRESERVED", "VIOLATED", "UNKNOWN"]},
+        "constraint_results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["constraint_ref", "status", "notes"],
+            "properties": {
+              "constraint_ref": {"type": "string", "pattern": "^AC-[0-9]{3,}$"},
+              "status": {"enum": ["PRESERVED", "VIOLATED", "UNKNOWN"]},
+              "notes": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "severity",
+          "category",
+          "statement",
+          "affected_refs",
+          "constraint_refs",
+          "requirement_refs",
+          "evidence_refs",
+          "source_refs",
+          "required_action",
+          "blocks_acceptance"
+        ],
+        "properties": {
+          "id": {"type": "string", "pattern": "^F-[0-9]{3,}$"},
+          "severity": {"enum": ["CRITICAL", "MAJOR", "MINOR", "INFO"]},
+          "category": {
+            "enum": [
+              "ARCHITECTURE",
+              "CORRECTNESS",
+              "PERFORMANCE",
+              "SECURITY",
+              "AUTHORIZATION",
+              "TRANSACTIONALITY",
+              "MAINTAINABILITY",
+              "OBSERVABILITY",
+              "VERIFICATION",
+              "UPGRADE",
+              "OTHER"
+            ]
+          },
+          "statement": {"type": "string", "minLength": 1},
+          "affected_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "constraint_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^AC-[0-9]{3,}$"}
+          },
+          "requirement_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^REQ-[0-9]{3,}$"}
+          },
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^E-[0-9]{3,}$"}
+          },
+          "source_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "required_action": {"type": "string", "minLength": 1},
+          "blocks_acceptance": {"type": "boolean"}
+        }
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "statement", "material", "blocks_review", "verification"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^U-[0-9]{3,}$"},
+          "statement": {"type": "string", "minLength": 1},
+          "material": {"type": "boolean"},
+          "blocks_review": {"type": "boolean"},
+          "verification": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "verification_debt": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "status", "evidence_refs"],
+        "properties": {
+          "type": {"type": "string", "minLength": 1},
+          "status": {"enum": ["PENDING", "EVIDENCE_PRESENT"]},
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^E-[0-9]{3,}$"}
+          }
+        }
+      }
+    },
+    "review_handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proceed_to_verification", "notes"],
+      "properties": {
+        "proceed_to_verification": {"type": "boolean"},
+        "notes": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "requested_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["verb", "purpose"],
+        "properties": {
+          "verb": {"enum": ["READ", "QUERY", "ANALYZE", "PROPOSE"]},
+          "purpose": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "next_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "description"],
+      "properties": {
+        "type": {
+          "enum": [
+            "HANDOFF_VERIFICATION",
+            "RETURN_TO_IMPLEMENTATION",
+            "RETURN_TO_ARCHITECTURE",
+            "REQUEST_REVIEW_CONTEXT",
+            "NONE"
+          ]
+        },
+        "description": {"type": "string"}
+      }
+    }
+  }
+}

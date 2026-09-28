@@ -1,0 +1,102 @@
+{
+  "contract_version": "m2.abap-development-result.v1",
+  "task_id": "ABAP-001",
+  "provenance": {
+    "input_fingerprint": "sha256:49e80ef7d0bbaec545de3e87d7f97167fe885f797f6b73a0475590de97841f54",
+    "configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "architecture_handoff_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "status": "WORK_PRODUCT_READY",
+  "architecture_alignment": {
+    "status": "PRESERVED",
+    "constraint_results": [
+      {
+        "constraint_ref": "AC-001",
+        "status": "PRESERVED",
+        "notes": "Uses the approved BAdI-style extension approach."
+      },
+      {
+        "constraint_ref": "AC-002",
+        "status": "PRESERVED",
+        "notes": "No direct standard-table update is proposed."
+      }
+    ]
+  },
+  "unknowns": [],
+  "existing_objects_used": [
+    {
+      "object_ref": "OBJ-001",
+      "purpose": "Use the supplied synthetic BAdI definition as the approved extension seam."
+    },
+    {
+      "object_ref": "OBJ-002",
+      "purpose": "Place the scoped validation implementation in the supplied synthetic class."
+    }
+  ],
+  "proposed_new_objects": [],
+  "implementation_plan": [
+    {
+      "id": "PLAN-001",
+      "description": "Implement the approved order-validation behavior in the supplied class through the supplied extension seam.",
+      "object_refs": [
+        "OBJ-001",
+        "OBJ-002"
+      ]
+    }
+  ],
+  "work_products": [
+    {
+      "id": "WP-001",
+      "type": "ABAP_SOURCE",
+      "target_object_ref": "OBJ-002",
+      "language": "ABAP",
+      "content": "METHOD validate_order.\\n  \\\" Synthetic fixture work product; compile/test verification still required.\\nENDMETHOD."
+    }
+  ],
+  "assumptions": [],
+  "risks": [
+    {
+      "id": "R-001",
+      "category": "CORRECTNESS",
+      "description": "The generated work product has not been compiled or executed.",
+      "mitigation": "Run compile, ATC, and ABAP Unit verification before delivery readiness."
+    }
+  ],
+  "required_verification": [
+    {
+      "id": "V-001",
+      "type": "COMPILE",
+      "description": "Compile the implementation in the target development context.",
+      "blocking_for_delivery": true
+    },
+    {
+      "id": "V-002",
+      "type": "ATC",
+      "description": "Run the applicable ATC checks.",
+      "blocking_for_delivery": true
+    },
+    {
+      "id": "V-003",
+      "type": "UNIT_TEST",
+      "description": "Execute or add ABAP Unit coverage for the validation behavior.",
+      "blocking_for_delivery": true
+    }
+  ],
+  "verification_claims": [],
+  "review_handoff": {
+    "ready_for_review": true,
+    "notes": [
+      "Generated source is a reviewable work product only; verification remains outstanding."
+    ]
+  },
+  "requested_capabilities": [
+    {
+      "verb": "PROPOSE",
+      "purpose": "Return the implementation work product for review without mutating SAP."
+    }
+  ],
+  "next_action": {
+    "type": "HANDOFF_REVIEW",
+    "description": "Review the proposed implementation and then execute the required verification pipeline."
+  }
+}

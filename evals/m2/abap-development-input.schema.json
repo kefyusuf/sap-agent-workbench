@@ -1,0 +1,347 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sap-agent-workbench:m2:abap-development-input:v1",
+  "title": "M2 SAP ABAP Development Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "task",
+    "scope",
+    "architecture_handoff",
+    "requirements",
+    "existing_objects",
+    "unknowns",
+    "evidence_catalog",
+    "capability_boundary",
+    "resolved_configuration_fingerprint",
+    "requested_result_contract"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "m2.abap-development-input.v1"
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "implementation_objective",
+        "requested_outcome"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "implementation_objective": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requested_outcome": {
+          "const": "IMPLEMENTATION_WORK_PRODUCT"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "modules",
+        "systems",
+        "environments",
+        "project"
+      ],
+      "properties": {
+        "modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "systems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "environments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "project": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "architecture_handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "fingerprint",
+        "status",
+        "approach",
+        "constraints",
+        "source_refs"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^AH-[0-9]{3,}$"
+        },
+        "fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "status": {
+          "enum": [
+            "APPROVED",
+            "APPROVED_WITH_VERIFICATION"
+          ]
+        },
+        "approach": {
+          "type": "string",
+          "minLength": 1
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "statement",
+              "material"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^AC-[0-9]{3,}$"
+              },
+              "statement": {
+                "type": "string",
+                "minLength": 1
+              },
+              "material": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "source_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "statement",
+          "evidence_refs",
+          "source_refs"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^REQ-[0-9]{3,}$"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^E-[0-9]{3,}$"
+            }
+          },
+          "source_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "existing_objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "evidence_refs",
+          "source_refs"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^OBJ-[0-9]{3,}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "CLASS",
+              "INTERFACE",
+              "TABLE",
+              "STRUCTURE",
+              "FUNCTION_MODULE",
+              "BADI_DEFINITION",
+              "BADI_IMPLEMENTATION",
+              "ENHANCEMENT",
+              "CDS",
+              "RAP_OBJECT",
+              "ODATA_SERVICE",
+              "FORM",
+              "JOB",
+              "OTHER"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^E-[0-9]{3,}$"
+            }
+          },
+          "source_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "statement",
+          "material",
+          "blocks_implementation",
+          "verification"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^IU-[0-9]{3,}$"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "material": {
+            "type": "boolean"
+          },
+          "blocks_implementation": {
+            "type": "boolean"
+          },
+          "verification": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "evidence_catalog": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "source_ref",
+          "revision",
+          "summary"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^E-[0-9]{3,}$"
+          },
+          "type": {
+            "enum": [
+              "LIVE_SYSTEM",
+              "SOURCE_CODE",
+              "EXECUTION_RESULT",
+              "TEST_RESULT",
+              "STATIC_ANALYSIS",
+              "LOG",
+              "CONFIGURATION",
+              "APPROVED_DOCUMENT",
+              "DECISION_RECORD",
+              "OFFICIAL_DOCUMENTATION",
+              "USER_CONFIRMATION"
+            ]
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "capability_boundary": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "READ",
+          "QUERY",
+          "ANALYZE",
+          "PROPOSE"
+        ]
+      }
+    },
+    "resolved_configuration_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "requested_result_contract": {
+      "const": "m2.abap-development-result.v1"
+    }
+  }
+}

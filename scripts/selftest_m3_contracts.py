@@ -97,6 +97,18 @@ def main() -> int:
             "result": ROOT / "evals" / "m3" / "result-examples" / "invalid-test-pass-without-evidence.json",
             "expected_valid": False,
         },
+        {
+            "name": "invalid-review-compile-with-document",
+            "case": case_paths["REVIEW-001"],
+            "result": ROOT / "evals" / "m3" / "result-examples" / "invalid-review-compile-with-document.json",
+            "expected_valid": False,
+        },
+        {
+            "name": "invalid-test-atc-with-document",
+            "case": case_paths["TEST-001"],
+            "result": ROOT / "evals" / "m3" / "result-examples" / "invalid-test-atc-with-document.json",
+            "expected_valid": False,
+        },
     ]
 
     for scenario in scenarios:
@@ -131,7 +143,7 @@ def main() -> int:
         print(f"Self-test failed: {', '.join(failures)}", file=sys.stderr)
         return 1
 
-    print("Summary: 11/11 PASS")
+    print("Summary: 13/13 PASS")
     return 0
 
 

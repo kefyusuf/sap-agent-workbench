@@ -35,6 +35,7 @@ Exact Node/npm verification baseline: PINNED
 Package lockfile: MATERIALIZED / STRUCTURAL PREFLIGHT PASS / INSTALL VALIDATION PENDING
 Static provider-independence/hardening preflight: PASS
 TypeScript runtime tests materialized: 11
+Reference verification runner: MATERIALIZED / FAIL-CLOSED PREFLIGHT PASS
 Strict compile/test: PENDING
 Provider integration: BLOCKED UNTIL REFERENCE HARNESS VERIFIES
 SAP live adapters: NOT_STARTED
@@ -189,18 +190,23 @@ Dependency lockfile preflight:
 
 `docs/verification/m1-lockfile-preflight.md`
 
+Verification runner preflight:
+
+`docs/verification/m1-verification-runner-preflight.md`
+
 ## Next gate
 
 Do **not** add a real provider adapter yet.
 
 The next gate is verification-only:
 
-1. consume the committed lockfile with Node 24.21.0 / npm 11.19.0
-2. run `npm ci`
-3. strict TypeScript 7.0.2 compile
-4. execute the 11 offline M1 runtime tests
-5. bind verification evidence to the exact tested branch revision
-6. fix any install/compile/test defect before provider integration
+1. run `node scripts/verify_m1_reference_harness.mjs` on the exact M1 revision using Node 24.21.0 / npm 11.19.0
+2. require successful `npm ci --ignore-scripts`
+3. require TypeScript 7.0.2
+4. require strict compile + 11/11 offline Node tests
+5. preserve a clean working tree before/after execution
+6. capture the generated revision-bound JSON verification report
+7. fix any install/compile/test defect before provider integration
 
 ## Guardrail
 

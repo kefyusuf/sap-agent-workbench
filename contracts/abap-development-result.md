@@ -233,8 +233,25 @@ Each claim contains:
 Rules:
 
 - every PASS/FAIL claim requires at least one input evidence reference
+- referenced evidence must be compatible with the verification type
 - an absent evidence-backed verification remains in `required_verification`
 - generated code alone can never create a PASS claim
+
+Initial evidence compatibility:
+
+| Verification | Compatible input evidence types |
+|---|---|
+| COMPILE | EXECUTION_RESULT, STATIC_ANALYSIS |
+| ATC | STATIC_ANALYSIS |
+| UNIT_TEST | TEST_RESULT |
+| INTEGRATION_TEST | TEST_RESULT |
+| AUTHORIZATION | TEST_RESULT, CONFIGURATION |
+| PERFORMANCE | TEST_RESULT, EXECUTION_RESULT |
+| PAYLOAD_CONTRACT | TEST_RESULT, EXECUTION_RESULT |
+| RUNTIME | EXECUTION_RESULT, LOG |
+| OTHER | must be explicitly justified by the verification pipeline |
+
+An APPROVED_DOCUMENT or model-generated work product is not sufficient evidence for a compile/ATC/test PASS claim.
 
 ## Review handoff
 
@@ -286,8 +303,9 @@ The future M2 structural validator must reject at least:
 7. proposed-new object ID/name represented as an existing object
 8. implementation/work-product object reference not resolvable to existing or proposed object IDs
 9. verification PASS/FAIL without input evidence
-10. false review readiness for non-ready status
-11. SAP mutation/admin capability request
-12. non-ready result requesting HANDOFF_REVIEW
+10. verification PASS/FAIL backed only by an incompatible evidence type
+11. false review readiness for non-ready status
+12. SAP mutation/admin capability request
+13. non-ready result requesting HANDOFF_REVIEW
 
 Semantic ABAP quality remains a separate evaluation layer.

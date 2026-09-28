@@ -27,7 +27,8 @@ Test Engineer input/result contracts: COMPLETE
 M3 contract static preflight: PASS
 M3 deterministic validator: MATERIALIZED / EXECUTION PENDING
 M3 runtime implementation: NOT_STARTED
-M3 deterministic self-test: MATERIALIZED / EXECUTION PENDING
+M3 deterministic self-test: MATERIALIZED / EXACT PYTHON EXECUTION PENDING
+M3 independent semantic replay: PASS — 11/11
 M3 validator static preflight: PASS
 Live verification tools: NOT_STARTED
 ```
@@ -102,6 +103,7 @@ See:
 - `docs/verification/m3-design-preflight.md`
 - `docs/verification/m3-contract-preflight.md`
 - `docs/verification/m3-validator-preflight.md`
+- `docs/verification/m3-independent-semantic-replay.md`
 
 ## Deterministic evaluation tooling
 
@@ -135,7 +137,7 @@ The next safe M3 action is **verification-only**:
 python scripts/selftest_m3_contracts.py
 ```
 
-Capture revision-bound execution evidence and fix any validator/self-test defect.
+Independent replay already reproduces all 11 expected outcomes. Exact committed Python self-test execution is still required before marking the M3 validator VERIFIED.
 
 Even after the deterministic self-test passes:
 

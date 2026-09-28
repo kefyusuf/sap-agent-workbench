@@ -24,8 +24,9 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-016](./ADR-016-abap-development-evaluation.md) | D157–D164 | ABAP Development Evaluation Model |
 | [ADR-017](./ADR-017-abap-development-contracts.md) | D165–D176 | ABAP Development Input & Result Contracts |
 | [ADR-018](./ADR-018-m2-verification-evidence-compatibility.md) | D177–D182 | M2 Verification Evidence Compatibility |
+| [ADR-019](./ADR-019-m2-deterministic-contract-validation.md) | D183–D191 | M2 Deterministic Contract Validation |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D182.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D191.
 
 ## Decision groups
 
@@ -154,3 +155,11 @@ Requires evidence-backed verification claims, defines initial verification/evide
 forbids documents/generated code from standing in for compile/ATC/test evidence,
 keeps missing verification as required work, closes claims over the input evidence catalog,
 and makes compatibility a deterministic CRITICAL boundary.
+
+
+### D183–D191 — M2 deterministic contract validation
+
+Allows evaluation tooling while product runtime remains blocked, standardizes Python-stdlib contract validation,
+binds results to invocation provenance, validates object-reference closure and WORK_PRODUCT_READY blockers,
+enforces verification-evidence compatibility, keeps case assertions evaluation-only,
+and requires positive/negative self-test coverage before later M2 runtime work.

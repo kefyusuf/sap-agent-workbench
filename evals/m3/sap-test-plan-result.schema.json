@@ -18,8 +18,13 @@
     "next_action"
   ],
   "properties": {
-    "contract_version": {"const": "m3.sap-test-plan-result.v1"},
-    "task_id": {"type": "string", "minLength": 1},
+    "contract_version": {
+      "const": "m3.sap-test-plan-result.v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
     "provenance": {
       "type": "object",
       "additionalProperties": false,
@@ -29,13 +34,26 @@
         "implementation_fingerprint"
       ],
       "properties": {
-        "input_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
-        "configuration_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
-        "implementation_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+        "input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "configuration_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "implementation_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
       }
     },
     "status": {
-      "enum": ["TEST_PLAN_READY", "NEEDS_CLARIFICATION", "BLOCKED"]
+      "enum": [
+        "TEST_PLAN_READY",
+        "NEEDS_CLARIFICATION",
+        "BLOCKED"
+      ]
     },
     "coverage": {
       "type": "array",
@@ -51,16 +69,34 @@
         ],
         "properties": {
           "source_type": {
-            "enum": ["REQUIREMENT", "CONSTRAINT", "REVIEW_FINDING", "RISK"]
+            "enum": [
+              "REQUIREMENT",
+              "CONSTRAINT",
+              "REVIEW_FINDING",
+              "RISK"
+            ]
           },
-          "source_ref": {"type": "string", "minLength": 1},
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
           "check_refs": {
             "type": "array",
             "uniqueItems": true,
-            "items": {"type": "string", "pattern": "^CHK-[0-9]{3,}$"}
+            "items": {
+              "type": "string",
+              "pattern": "^CHK-[0-9]{3,}$"
+            }
           },
-          "excluded": {"type": "boolean"},
-          "exclusion_justification": {"type": ["string", "null"]}
+          "excluded": {
+            "type": "boolean"
+          },
+          "exclusion_justification": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
         }
       }
     },
@@ -80,7 +116,10 @@
           "blocking_for_delivery"
         ],
         "properties": {
-          "id": {"type": "string", "pattern": "^CHK-[0-9]{3,}$"},
+          "id": {
+            "type": "string",
+            "pattern": "^CHK-[0-9]{3,}$"
+          },
           "type": {
             "enum": [
               "COMPILE",
@@ -98,17 +137,47 @@
               "OTHER"
             ]
           },
-          "description": {"type": "string", "minLength": 1},
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
           "trace_refs": {
             "type": "array",
             "minItems": 1,
             "uniqueItems": true,
-            "items": {"type": "string", "minLength": 1}
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
           },
-          "preconditions": {"type": "array", "items": {"type": "string"}},
-          "expected_result": {"type": "string", "minLength": 1},
-          "expected_evidence_type": {"type": "string", "minLength": 1},
-          "blocking_for_delivery": {"type": "boolean"}
+          "preconditions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expected_result": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected_evidence_type": {
+            "enum": [
+              "LIVE_SYSTEM",
+              "SOURCE_CODE",
+              "EXECUTION_RESULT",
+              "TEST_RESULT",
+              "STATIC_ANALYSIS",
+              "LOG",
+              "CONFIGURATION",
+              "APPROVED_DOCUMENT",
+              "DECISION_RECORD",
+              "OFFICIAL_DOCUMENTATION",
+              "USER_CONFIRMATION"
+            ]
+          },
+          "blocking_for_delivery": {
+            "type": "boolean"
+          }
         }
       }
     },
@@ -117,13 +186,32 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "statement", "material", "blocks_plan", "verification"],
+        "required": [
+          "id",
+          "statement",
+          "material",
+          "blocks_plan",
+          "verification"
+        ],
         "properties": {
-          "id": {"type": "string", "pattern": "^U-[0-9]{3,}$"},
-          "statement": {"type": "string", "minLength": 1},
-          "material": {"type": "boolean"},
-          "blocks_plan": {"type": "boolean"},
-          "verification": {"type": "string", "minLength": 1}
+          "id": {
+            "type": "string",
+            "pattern": "^U-[0-9]{3,}$"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "material": {
+            "type": "boolean"
+          },
+          "blocks_plan": {
+            "type": "boolean"
+          },
+          "verification": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
@@ -132,15 +220,39 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["type", "status", "evidence_refs"],
+        "required": [
+          "type",
+          "status",
+          "evidence_refs"
+        ],
         "properties": {
-          "type": {"type": "string", "minLength": 1},
-          "status": {"enum": ["PASS", "FAIL"]},
+          "type": {
+            "enum": [
+              "COMPILE",
+              "ATC",
+              "UNIT_TEST",
+              "INTEGRATION_TEST",
+              "AUTHORIZATION",
+              "PERFORMANCE",
+              "PAYLOAD_CONTRACT",
+              "RUNTIME",
+              "REGRESSION"
+            ]
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL"
+            ]
+          },
           "evidence_refs": {
             "type": "array",
             "minItems": 1,
             "uniqueItems": true,
-            "items": {"type": "string", "pattern": "^E-[0-9]{3,}$"}
+            "items": {
+              "type": "string",
+              "pattern": "^E-[0-9]{3,}$"
+            }
           }
         }
       }
@@ -148,10 +260,20 @@
     "execution_handoff": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["ready_for_execution", "notes"],
+      "required": [
+        "ready_for_execution",
+        "notes"
+      ],
       "properties": {
-        "ready_for_execution": {"type": "boolean"},
-        "notes": {"type": "array", "items": {"type": "string"}}
+        "ready_for_execution": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
     "requested_capabilities": {
@@ -159,17 +281,33 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["verb", "purpose"],
+        "required": [
+          "verb",
+          "purpose"
+        ],
         "properties": {
-          "verb": {"enum": ["READ", "QUERY", "ANALYZE", "PROPOSE"]},
-          "purpose": {"type": "string", "minLength": 1}
+          "verb": {
+            "enum": [
+              "READ",
+              "QUERY",
+              "ANALYZE",
+              "PROPOSE"
+            ]
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
     "next_action": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["type", "description"],
+      "required": [
+        "type",
+        "description"
+      ],
       "properties": {
         "type": {
           "enum": [
@@ -180,7 +318,9 @@
             "NONE"
           ]
         },
-        "description": {"type": "string"}
+        "description": {
+          "type": "string"
+        }
       }
     }
   }

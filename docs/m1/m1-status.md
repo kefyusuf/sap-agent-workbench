@@ -36,6 +36,7 @@ Package lockfile: MATERIALIZED / STRUCTURAL PREFLIGHT PASS / INSTALL VALIDATION 
 Static provider-independence/hardening preflight: PASS
 TypeScript runtime tests materialized: 11
 Reference verification runner: MATERIALIZED / FAIL-CLOSED PREFLIGHT PASS
+Pinned Docker verification path: MATERIALIZED
 Strict compile/test: PENDING
 Provider integration: BLOCKED UNTIL REFERENCE HARNESS VERIFIES
 SAP live adapters: NOT_STARTED
@@ -194,15 +195,19 @@ Verification runner preflight:
 
 `docs/verification/m1-verification-runner-preflight.md`
 
+Pinned Docker verification path:
+
+`docs/verification/m1-docker-verification.md`
+
 ## Next gate
 
 Do **not** add a real provider adapter yet.
 
 The next gate is verification-only:
 
-1. run `node scripts/verify_m1_reference_harness.mjs` on the exact M1 revision using Node 24.21.0 / npm 11.19.0
-2. require successful `npm ci --ignore-scripts`
-3. require TypeScript 7.0.2
+1. from the exact M1 revision, run `docker compose -f compose.m1-verify.yml run --rm m1-verify`
+2. require successful `npm ci --ignore-scripts` inside the pinned Node 24.21.0 image
+3. require npm 11.19.0 and TypeScript 7.0.2
 4. require strict compile + 11/11 offline Node tests
 5. preserve a clean working tree before/after execution
 6. capture the generated revision-bound JSON verification report

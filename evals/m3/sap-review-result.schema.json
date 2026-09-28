@@ -18,8 +18,13 @@
     "next_action"
   ],
   "properties": {
-    "contract_version": {"const": "m3.sap-review-result.v1"},
-    "task_id": {"type": "string", "minLength": 1},
+    "contract_version": {
+      "const": "m3.sap-review-result.v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
     "provenance": {
       "type": "object",
       "additionalProperties": false,
@@ -30,31 +35,71 @@
         "implementation_fingerprint"
       ],
       "properties": {
-        "input_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
-        "configuration_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
-        "architecture_handoff_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
-        "implementation_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+        "input_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "configuration_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "architecture_handoff_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "implementation_fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
       }
     },
     "outcome": {
-      "enum": ["REVIEW_ACCEPTABLE", "CHANGES_REQUIRED", "BLOCKED"]
+      "enum": [
+        "REVIEW_ACCEPTABLE",
+        "CHANGES_REQUIRED",
+        "BLOCKED"
+      ]
     },
     "architecture_alignment": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "constraint_results"],
+      "required": [
+        "status",
+        "constraint_results"
+      ],
       "properties": {
-        "status": {"enum": ["PRESERVED", "VIOLATED", "UNKNOWN"]},
+        "status": {
+          "enum": [
+            "PRESERVED",
+            "VIOLATED",
+            "UNKNOWN"
+          ]
+        },
         "constraint_results": {
           "type": "array",
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["constraint_ref", "status", "notes"],
+            "required": [
+              "constraint_ref",
+              "status",
+              "notes"
+            ],
             "properties": {
-              "constraint_ref": {"type": "string", "pattern": "^AC-[0-9]{3,}$"},
-              "status": {"enum": ["PRESERVED", "VIOLATED", "UNKNOWN"]},
-              "notes": {"type": "string"}
+              "constraint_ref": {
+                "type": "string",
+                "pattern": "^AC-[0-9]{3,}$"
+              },
+              "status": {
+                "enum": [
+                  "PRESERVED",
+                  "VIOLATED",
+                  "UNKNOWN"
+                ]
+              },
+              "notes": {
+                "type": "string"
+              }
             }
           }
         }
@@ -79,8 +124,18 @@
           "blocks_acceptance"
         ],
         "properties": {
-          "id": {"type": "string", "pattern": "^F-[0-9]{3,}$"},
-          "severity": {"enum": ["CRITICAL", "MAJOR", "MINOR", "INFO"]},
+          "id": {
+            "type": "string",
+            "pattern": "^F-[0-9]{3,}$"
+          },
+          "severity": {
+            "enum": [
+              "CRITICAL",
+              "MAJOR",
+              "MINOR",
+              "INFO"
+            ]
+          },
           "category": {
             "enum": [
               "ARCHITECTURE",
@@ -96,34 +151,57 @@
               "OTHER"
             ]
           },
-          "statement": {"type": "string", "minLength": 1},
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
           "affected_refs": {
             "type": "array",
             "uniqueItems": true,
-            "items": {"type": "string", "minLength": 1}
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           "constraint_refs": {
             "type": "array",
             "uniqueItems": true,
-            "items": {"type": "string", "pattern": "^AC-[0-9]{3,}$"}
+            "items": {
+              "type": "string",
+              "pattern": "^AC-[0-9]{3,}$"
+            }
           },
           "requirement_refs": {
             "type": "array",
             "uniqueItems": true,
-            "items": {"type": "string", "pattern": "^REQ-[0-9]{3,}$"}
+            "items": {
+              "type": "string",
+              "pattern": "^REQ-[0-9]{3,}$"
+            }
           },
           "evidence_refs": {
             "type": "array",
             "uniqueItems": true,
-            "items": {"type": "string", "pattern": "^E-[0-9]{3,}$"}
+            "items": {
+              "type": "string",
+              "pattern": "^E-[0-9]{3,}$"
+            }
           },
           "source_refs": {
             "type": "array",
             "uniqueItems": true,
-            "items": {"type": "string", "minLength": 1}
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
           },
-          "required_action": {"type": "string", "minLength": 1},
-          "blocks_acceptance": {"type": "boolean"}
+          "required_action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "blocks_acceptance": {
+            "type": "boolean"
+          }
         }
       }
     },
@@ -132,13 +210,32 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "statement", "material", "blocks_review", "verification"],
+        "required": [
+          "id",
+          "statement",
+          "material",
+          "blocks_review",
+          "verification"
+        ],
         "properties": {
-          "id": {"type": "string", "pattern": "^U-[0-9]{3,}$"},
-          "statement": {"type": "string", "minLength": 1},
-          "material": {"type": "boolean"},
-          "blocks_review": {"type": "boolean"},
-          "verification": {"type": "string", "minLength": 1}
+          "id": {
+            "type": "string",
+            "pattern": "^U-[0-9]{3,}$"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "material": {
+            "type": "boolean"
+          },
+          "blocks_review": {
+            "type": "boolean"
+          },
+          "verification": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
@@ -147,14 +244,39 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["type", "status", "evidence_refs"],
+        "required": [
+          "type",
+          "status",
+          "evidence_refs"
+        ],
         "properties": {
-          "type": {"type": "string", "minLength": 1},
-          "status": {"enum": ["PENDING", "EVIDENCE_PRESENT"]},
+          "type": {
+            "enum": [
+              "COMPILE",
+              "ATC",
+              "UNIT_TEST",
+              "INTEGRATION_TEST",
+              "AUTHORIZATION",
+              "PERFORMANCE",
+              "PAYLOAD_CONTRACT",
+              "RUNTIME",
+              "REGRESSION",
+              "OTHER"
+            ]
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "EVIDENCE_PRESENT"
+            ]
+          },
           "evidence_refs": {
             "type": "array",
             "uniqueItems": true,
-            "items": {"type": "string", "pattern": "^E-[0-9]{3,}$"}
+            "items": {
+              "type": "string",
+              "pattern": "^E-[0-9]{3,}$"
+            }
           }
         }
       }
@@ -162,10 +284,20 @@
     "review_handoff": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["proceed_to_verification", "notes"],
+      "required": [
+        "proceed_to_verification",
+        "notes"
+      ],
       "properties": {
-        "proceed_to_verification": {"type": "boolean"},
-        "notes": {"type": "array", "items": {"type": "string"}}
+        "proceed_to_verification": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
     "requested_capabilities": {
@@ -173,17 +305,33 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["verb", "purpose"],
+        "required": [
+          "verb",
+          "purpose"
+        ],
         "properties": {
-          "verb": {"enum": ["READ", "QUERY", "ANALYZE", "PROPOSE"]},
-          "purpose": {"type": "string", "minLength": 1}
+          "verb": {
+            "enum": [
+              "READ",
+              "QUERY",
+              "ANALYZE",
+              "PROPOSE"
+            ]
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
     "next_action": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["type", "description"],
+      "required": [
+        "type",
+        "description"
+      ],
       "properties": {
         "type": {
           "enum": [
@@ -194,7 +342,9 @@
             "NONE"
           ]
         },
-        "description": {"type": "string"}
+        "description": {
+          "type": "string"
+        }
       }
     }
   }

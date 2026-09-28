@@ -26,12 +26,21 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function deepFreeze<T>(value: T): Readonly<T> {
-  if (value !== null && typeof value === "object" && !Object.isFrozen(value)) {
-    Object.freeze(value);
+  if (value === null || typeof value !== "object" || Object.isFrozen(value)) {
+    return value;
+  }
 
-    for (const nested of Object.values(value as Record<string, unknown>)) {
+  Object.freeze(value);
+
+  if (Array.isArray(value)) {
+    for (const nested of value) {
       deepFreeze(nested);
     }
+    return value;
+  }
+
+  for (const nested of Object.values(value as object)) {
+    deepFreeze(nested);
   }
 
   return value;

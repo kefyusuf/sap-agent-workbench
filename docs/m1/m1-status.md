@@ -208,6 +208,10 @@ Manual repository-native workflow preflight:
 
 `docs/verification/m1-manual-ci-preflight.md`
 
+Frozen verification candidate manifest:
+
+`docs/verification/m1-verification-candidate.md`
+
 ## Next gate
 
 Do **not** add a real provider adapter yet.
@@ -233,3 +237,20 @@ Do not introduce:
 - production access
 
 during the next gate.
+
+
+## Verification candidate freeze
+
+The M1 runtime/test/fixture artifact set is now frozen for exact execution.
+
+Until the verification run completes, allowed M1 changes are limited to:
+
+- verification evidence/status documentation
+- defects exposed by verification
+- corrections required to make verification trustworthy
+
+Do not add new M1 behavior or provider integration.
+
+See:
+
+`docs/verification/m1-verification-candidate.md`

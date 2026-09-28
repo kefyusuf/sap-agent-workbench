@@ -5,7 +5,7 @@
 The product/reference runtime for M1 will use:
 
 - TypeScript
-- Node.js current LTS line
+- Node.js 24 LTS line
 - ESM modules
 - strict TypeScript compiler settings
 
@@ -136,6 +136,18 @@ Existing Python scripts remain valid M0/M1 evaluation utilities:
 The TypeScript runtime must not shell out to Python as part of normal product execution.
 
 This prevents the test harness language from leaking into the production runtime architecture.
+
+## Verification toolchain baseline
+
+The current pinned M1 verification baseline is:
+
+- Node.js `24.21.0`
+- npm `11.19.0`
+- TypeScript `7.0.2`
+- `@types/node` `24.13.6`
+
+The Node/npm pin establishes a reproducible verification target; compatible Node 24 releases may be considered later
+through an explicit dependency/toolchain update.
 
 ## Package baseline
 

@@ -1,0 +1,77 @@
+{
+  "contract_version": "m2.abap-development-result.v1",
+  "task_id": "ABAP-001",
+  "provenance": {
+    "input_fingerprint": "sha256:49e80ef7d0bbaec545de3e87d7f97167fe885f797f6b73a0475590de97841f54",
+    "configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "architecture_handoff_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "status": "WORK_PRODUCT_READY",
+  "architecture_alignment": {
+    "status": "PRESERVED",
+    "constraint_results": [
+      {
+        "constraint_ref": "AC-001",
+        "status": "PRESERVED",
+        "notes": "Architecture preserved."
+      },
+      {
+        "constraint_ref": "AC-002",
+        "status": "PRESERVED",
+        "notes": "No direct table mutation."
+      }
+    ]
+  },
+  "unknowns": [],
+  "existing_objects_used": [
+    {
+      "object_ref": "OBJ-001",
+      "purpose": "Use supplied extension seam."
+    },
+    {
+      "object_ref": "OBJ-002",
+      "purpose": "Use supplied implementation class."
+    }
+  ],
+  "proposed_new_objects": [],
+  "implementation_plan": [
+    {
+      "id": "PLAN-001",
+      "description": "Implement the scoped validation.",
+      "object_refs": [
+        "OBJ-001",
+        "OBJ-002"
+      ]
+    }
+  ],
+  "work_products": [
+    {
+      "id": "WP-001",
+      "type": "ABAP_SOURCE",
+      "target_object_ref": "OBJ-002",
+      "language": "ABAP",
+      "content": "METHOD validate_order. ENDMETHOD."
+    }
+  ],
+  "assumptions": [],
+  "risks": [],
+  "required_verification": [],
+  "verification_claims": [
+    {
+      "type": "ATC",
+      "status": "PASS",
+      "evidence_refs": [
+        "E-003"
+      ]
+    }
+  ],
+  "review_handoff": {
+    "ready_for_review": true,
+    "notes": []
+  },
+  "requested_capabilities": [],
+  "next_action": {
+    "type": "HANDOFF_REVIEW",
+    "description": "Review implementation."
+  }
+}

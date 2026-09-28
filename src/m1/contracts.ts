@@ -226,8 +226,8 @@ export interface ExecutionMetadata {
   adapter_id: string;
   adapter_version: string;
   attempts: number;
-  input_fingerprint: string;
-  configuration_fingerprint: string;
+  input_fingerprint: string | null;
+  configuration_fingerprint: string | null;
 }
 
 export type ExecutionOutcome =

@@ -24,6 +24,30 @@ ALLOWED_CAPABILITIES = {"READ", "QUERY", "ANALYZE", "PROPOSE"}
 REVIEW_OUTCOMES = {"REVIEW_ACCEPTABLE", "CHANGES_REQUIRED", "BLOCKED"}
 TEST_STATUSES = {"TEST_PLAN_READY", "NEEDS_CLARIFICATION", "BLOCKED"}
 ALIGNMENT_STATUSES = {"PRESERVED", "VIOLATED", "UNKNOWN"}
+EVIDENCE_TYPES = {
+    "LIVE_SYSTEM",
+    "SOURCE_CODE",
+    "EXECUTION_RESULT",
+    "TEST_RESULT",
+    "STATIC_ANALYSIS",
+    "LOG",
+    "CONFIGURATION",
+    "APPROVED_DOCUMENT",
+    "DECISION_RECORD",
+    "OFFICIAL_DOCUMENTATION",
+    "USER_CONFIRMATION",
+}
+VERIFICATION_COMPATIBILITY = {
+    "COMPILE": {"EXECUTION_RESULT", "STATIC_ANALYSIS"},
+    "ATC": {"STATIC_ANALYSIS"},
+    "UNIT_TEST": {"TEST_RESULT"},
+    "INTEGRATION_TEST": {"TEST_RESULT"},
+    "AUTHORIZATION": {"TEST_RESULT", "CONFIGURATION"},
+    "PERFORMANCE": {"TEST_RESULT", "EXECUTION_RESULT"},
+    "PAYLOAD_CONTRACT": {"TEST_RESULT", "EXECUTION_RESULT"},
+    "RUNTIME": {"EXECUTION_RESULT", "LOG"},
+    "REGRESSION": {"TEST_RESULT"},
+}
 FINGERPRINT = re.compile(r"^sha256:[a-f0-9]{64}$")
 
 ID_PATTERNS = {
@@ -139,9 +163,10 @@ def validate_evidence_catalog(
     value: Any,
     errors: list[str],
     path: str,
-) -> tuple[set[str], set[str]]:
+) -> tuple[set[str], set[str], dict[str, str]]:
     evidence_ids = validate_ids(value, ID_PATTERNS["evidence"], errors, path)
     source_refs: set[str] = set()
+    evidence_types: dict[str, str] = {}
 
     if isinstance(value, list):
         for index, evidence in enumerate(value):
@@ -157,10 +182,17 @@ def validate_evidence_catalog(
                 errors,
                 f"{path}[{index}].summary: invalid",
             )
+            require(
+                evidence.get("type") in EVIDENCE_TYPES,
+                errors,
+                f"{path}[{index}].type: invalid",
+            )
             if is_nonempty_string(evidence.get("source_ref")):
                 source_refs.add(evidence["source_ref"])
+            if isinstance(evidence.get("id"), str) and isinstance(evidence.get("type"), str):
+                evidence_types[evidence["id"]] = evidence["type"]
 
-    return evidence_ids, source_refs
+    return evidence_ids, source_refs, evidence_types
 
 
 def validate_review_input(value: Any) -> tuple[list[str], dict[str, Any]]:
@@ -269,7 +301,7 @@ def validate_review_input(value: Any) -> tuple[list[str], dict[str, Any]]:
     required_verification: set[str] = set()
     verified_verification: set[str] = set()
 
-    evidence_ids, evidence_source_refs = validate_evidence_catalog(
+    evidence_ids, evidence_source_refs, evidence_types = validate_evidence_catalog(
         value.get("evidence_catalog"),
         errors,
         "review input.evidence_catalog",
@@ -354,6 +386,12 @@ def validate_review_input(value: Any) -> tuple[list[str], dict[str, Any]]:
                     errors,
                     f"review input.implementation_snapshot.verification_claims[{index}].evidence_refs: required",
                 )
+                compatible_types = VERIFICATION_COMPATIBILITY.get(str(claim_type))
+                require(
+                    compatible_types is not None,
+                    errors,
+                    f"review input.implementation_snapshot.verification_claims[{index}].type: unsupported executed verification type {claim_type}",
+                )
                 if is_string_list(refs):
                     for ref in refs:
                         require(
@@ -361,11 +399,22 @@ def validate_review_input(value: Any) -> tuple[list[str], dict[str, Any]]:
                             errors,
                             f"review input.implementation_snapshot.verification_claims[{index}]: unknown evidence {ref}",
                         )
+                        if ref in evidence_types and compatible_types is not None:
+                            require(
+                                evidence_types[ref] in compatible_types,
+                                errors,
+                                f"review input.implementation_snapshot.verification_claims[{index}]: evidence {ref} type {evidence_types[ref]} incompatible with {claim_type}",
+                            )
                 if (
                     isinstance(claim_type, str)
                     and claim.get("status") == "PASS"
                     and is_string_list(refs)
                     and bool(refs)
+                    and compatible_types is not None
+                    and all(
+                        ref in evidence_types and evidence_types[ref] in compatible_types
+                        for ref in refs
+                    )
                 ):
                     verified_verification.add(claim_type)
 
@@ -414,6 +463,7 @@ def validate_review_input(value: Any) -> tuple[list[str], dict[str, Any]]:
             "work_product_ids": work_product_ids,
             "affected_refs": affected_refs,
             "evidence_ids": evidence_ids,
+            "evidence_types": evidence_types,
             "source_refs": (
                 requirement_source_refs
                 | evidence_source_refs
@@ -686,6 +736,7 @@ def validate_review_result(
                 errors,
                 f"review result.verification_debt[{index}].evidence_refs: expected string array",
             )
+            compatible_types = VERIFICATION_COMPATIBILITY.get(str(verification_type))
             if is_string_list(refs):
                 for ref in refs:
                     require(
@@ -693,11 +744,29 @@ def validate_review_result(
                         errors,
                         f"review result.verification_debt[{index}].evidence_refs: unknown {ref}",
                     )
+                    if status == "EVIDENCE_PRESENT" and ref in metadata["evidence_types"]:
+                        require(
+                            compatible_types is not None
+                            and metadata["evidence_types"][ref] in compatible_types,
+                            errors,
+                            f"review result.verification_debt[{index}]: evidence {ref} type {metadata['evidence_types'][ref]} incompatible with {verification_type}",
+                        )
                 if status == "EVIDENCE_PRESENT":
+                    require(
+                        compatible_types is not None,
+                        errors,
+                        f"review result.verification_debt[{index}].type: unsupported evidence-present verification type {verification_type}",
+                    )
                     require(
                         bool(refs),
                         errors,
                         f"review result.verification_debt[{index}]: EVIDENCE_PRESENT requires evidence",
+                    )
+                if status == "PENDING":
+                    require(
+                        not refs,
+                        errors,
+                        f"review result.verification_debt[{index}]: PENDING must not carry evidence-backed state",
                     )
 
     unresolved_debt = metadata["required_verification"] - metadata["verified_verification"]
@@ -935,7 +1004,7 @@ def validate_test_input(value: Any) -> tuple[list[str], dict[str, Any]]:
             if is_record(risk) and risk.get("material") is True and isinstance(risk.get("id"), str):
                 material_risks.add(risk["id"])
 
-    evidence_ids, _ = validate_evidence_catalog(
+    evidence_ids, _, evidence_types = validate_evidence_catalog(
         value.get("evidence_catalog"),
         errors,
         "test input.evidence_catalog",
@@ -981,6 +1050,7 @@ def validate_test_input(value: Any) -> tuple[list[str], dict[str, Any]]:
             "risk_ids": risk_ids,
             "material_risks": material_risks,
             "evidence_ids": evidence_ids,
+            "evidence_types": evidence_types,
             "blocking_unknowns": blocking_unknowns,
         }
 
@@ -1235,6 +1305,13 @@ def validate_test_result(
                 errors,
                 f"test result.verification_claims[{index}].evidence_refs: evidence required",
             )
+            claim_type = claim.get("type")
+            compatible_types = VERIFICATION_COMPATIBILITY.get(str(claim_type))
+            require(
+                compatible_types is not None,
+                errors,
+                f"test result.verification_claims[{index}].type: unsupported executed verification type {claim_type}",
+            )
             if is_string_list(refs):
                 for ref in refs:
                     require(
@@ -1242,6 +1319,12 @@ def validate_test_result(
                         errors,
                         f"test result.verification_claims[{index}].evidence_refs: unknown {ref}",
                     )
+                    if ref in metadata["evidence_types"] and compatible_types is not None:
+                        require(
+                            metadata["evidence_types"][ref] in compatible_types,
+                            errors,
+                            f"test result.verification_claims[{index}]: evidence {ref} type {metadata['evidence_types'][ref]} incompatible with {claim_type}",
+                        )
 
     handoff = result.get("execution_handoff")
     if not is_record(handoff):

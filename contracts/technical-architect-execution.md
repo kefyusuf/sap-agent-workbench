@@ -63,7 +63,8 @@ Canonical M1 v1 sequence:
 8. parse provider output into a semantic draft
 9. attach runtime-owned fields
 10. validate the normalized result contract
-11. return either an accepted result or a typed execution failure
+11. validate result evidence/source references against the immutable invocation input
+12. return either an accepted result or a typed execution failure
 
 Evaluation mode may additionally apply case-specific assertions after step 10.
 
@@ -170,6 +171,7 @@ A provider invocation produces an accepted Technical Architect result only when:
 3. provider output was parsed
 4. runtime-owned fields were attached
 5. deterministic result validation passed
+6. result evidence/source provenance resolves against the invocation input snapshot
 
 In evaluation mode, case-specific deterministic assertions may add an additional acceptance gate.
 

@@ -25,8 +25,9 @@ Initial synthetic cases: 4 NORMALIZED
 Reviewer input/result contracts: COMPLETE
 Test Engineer input/result contracts: COMPLETE
 M3 contract static preflight: PASS
-M3 deterministic validator: NOT_STARTED
+M3 deterministic validator: MATERIALIZED / EXECUTION PENDING
 M3 runtime implementation: NOT_STARTED
+M3 deterministic self-test: MATERIALIZED / EXECUTION PENDING
 Live verification tools: NOT_STARTED
 ```
 
@@ -100,27 +101,44 @@ See:
 - `docs/verification/m3-design-preflight.md`
 - `docs/verification/m3-contract-preflight.md`
 
+## Deterministic evaluation tooling
+
+Materialized:
+
+- `scripts/validate_m3_contracts.py`
+- `scripts/selftest_m3_contracts.py`
+- valid REVIEW_ACCEPTABLE result
+- valid CHANGES_REQUIRED result
+- invalid REVIEW_ACCEPTABLE-with-architecture-violation result
+- valid TEST-001 plan
+- valid TEST-002 plan
+- invalid missing-critical-requirement-coverage result
+- invalid PASS-without-input-evidence result
+- ADR-023 / SAP-AW-D227 through SAP-AW-D236
+
+The self-test is designed for 11 scenarios:
+
+```text
+4 normalized inputs
+7 positive/negative result cases
+-------------------------------
+11 scenarios
+```
+
 ## Next gate
 
-The next safe M3 step is deterministic **contract/evaluation tooling**, not runtime implementation.
+The next safe M3 action is **verification-only**:
 
-It may validate:
+```text
+python scripts/selftest_m3_contracts.py
+```
 
-1. Reviewer/Test Engineer input invariants
-2. result/outcome status consistency
-3. architecture-constraint/finding reference integrity
-4. review-blocking finding semantics
-5. verification-debt evidence integrity
-6. critical requirement coverage
-7. planned-check traceability
-8. no invented PASS/FAIL claims
-9. no-mutation capability boundary
+Capture revision-bound execution evidence and fix any validator/self-test defect.
 
-It must not invoke:
+Even after the deterministic self-test passes:
 
-- a model/provider
-- SAP
-- ABAP compiler
-- ATC
-- test execution
-- transport/deployment
+- M3 product runtime remains blocked
+- live verification execution remains blocked
+- M2 product runtime remains blocked
+
+until the parent M1 reference-harness verification gate is cleared.

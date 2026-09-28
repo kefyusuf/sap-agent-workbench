@@ -17,6 +17,7 @@ It does **not** represent workflow DONE or transport readiness.
 - `provenance`
 - `status`
 - `architecture_alignment`
+- `unknowns`
 - `existing_objects_used`
 - `proposed_new_objects`
 - `implementation_plan`
@@ -87,6 +88,24 @@ Rules:
 - `WORK_PRODUCT_READY` requires `architecture_alignment.status = PRESERVED`
 - any material architecture deviation requires architecture review
 - M2 never silently changes the upstream approach
+
+## Unknowns
+
+Unresolved implementation facts remain explicit in the result.
+
+Each unknown contains:
+
+- `id`
+- `statement`
+- `material`
+- `blocks_work_product`
+- `verification`
+
+Rules:
+
+- `WORK_PRODUCT_READY` cannot contain a material unknown with `blocks_work_product: true`
+- the Agent must not remove an input blocker by inventing a system fact
+- an input blocker may disappear only when the invocation includes evidence/context that resolves it
 
 ## Existing objects used
 
@@ -261,7 +280,7 @@ The future M2 structural validator must reject at least:
 1. unsupported contract version
 2. malformed provenance fingerprints
 3. architecture handoff fingerprint mismatch
-4. WORK_PRODUCT_READY with a blocking input unknown
+4. WORK_PRODUCT_READY with a blocking input/result unknown
 5. WORK_PRODUCT_READY with architecture status REQUIRES_REVIEW
 6. existing-object reference not present in input
 7. proposed-new object ID/name represented as an existing object

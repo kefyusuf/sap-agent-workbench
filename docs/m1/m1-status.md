@@ -28,7 +28,9 @@ Input/invocation data contract: COMPLETE
 Runtime invocation semantics: COMPLETE
 Deterministic input validator: MATERIALIZED
 Runtime technology boundary: COMPLETE
-Reference harness implementation: MATERIALIZED / VERIFICATION PENDING
+Reference harness implementation: MATERIALIZED / HARDENED / VERIFICATION PENDING
+Result provenance integrity: COMPLETE
+Exact Node/npm verification baseline: PINNED
 Package lockfile: PENDING
 Strict compile/test: PENDING
 Provider integration: BLOCKED UNTIL REFERENCE HARNESS VERIFIES
@@ -167,6 +169,9 @@ Materialized:
 - runtime-owned task/provenance binding
 - typed runtime failures
 - offline Node test suite
+- invocation-aware evidence/source provenance validation
+- assumption-reference integrity
+- exact Node 24.21.0 / npm 11.19.0 verification baseline
 - no provider SDK / network / credentials / SAP connectivity
 
 See:
@@ -180,7 +185,7 @@ Do **not** add a real provider adapter yet.
 The next gate is verification-only:
 
 1. generate the repository lockfile from the pinned manifest
-2. run the selected Node 24 / TypeScript 7 toolchain
+2. run Node 24.21.0 / npm 11.19.0 with the pinned TypeScript 7.0.2 toolchain
 3. strict compile
 4. execute the offline M1 runtime tests
 5. bind verification evidence to the branch revision

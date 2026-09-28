@@ -1,0 +1,58 @@
+{
+  "contract_version": "m3.sap-review-result.v1",
+  "task_id": "REVIEW-001",
+  "provenance": {
+    "input_fingerprint": "sha256:b1a71700b2834fc7eb1694a4999f7d7c5564c83acd00fa0ed8e65cdde1e17a96",
+    "configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "architecture_handoff_fingerprint": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "implementation_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "outcome": "REVIEW_ACCEPTABLE",
+  "architecture_alignment": {
+    "status": "PRESERVED",
+    "constraint_results": [
+      {
+        "constraint_ref": "AC-001",
+        "status": "PRESERVED",
+        "notes": "Architecture preserved."
+      },
+      {
+        "constraint_ref": "AC-002",
+        "status": "PRESERVED",
+        "notes": "No direct standard-table mutation."
+      }
+    ]
+  },
+  "findings": [],
+  "unknowns": [],
+  "verification_debt": [
+    {
+      "type": "COMPILE",
+      "status": "EVIDENCE_PRESENT",
+      "evidence_refs": [
+        "E-001"
+      ]
+    },
+    {
+      "type": "ATC",
+      "status": "PENDING",
+      "evidence_refs": []
+    },
+    {
+      "type": "UNIT_TEST",
+      "status": "PENDING",
+      "evidence_refs": []
+    }
+  ],
+  "review_handoff": {
+    "proceed_to_verification": true,
+    "notes": [
+      "Invalid example: APPROVED_DOCUMENT is incorrectly treated as compile evidence."
+    ]
+  },
+  "requested_capabilities": [],
+  "next_action": {
+    "type": "HANDOFF_VERIFICATION",
+    "description": "Invalid example."
+  }
+}

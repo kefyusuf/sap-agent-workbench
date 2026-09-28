@@ -17,16 +17,17 @@ async function readCaseInput(caseId: string): Promise<TechnicalArchitectInput> {
     `evals/m1/technical-architect/${caseId}.json`,
   );
 
-  assert.equal(typeof value, "object");
-  assert.notEqual(value, null);
-  assert.ok("input" in value);
+  if (value === null || typeof value !== "object" || !("input" in value)) {
+    throw new TypeError(`${caseId}: expected case object with input`);
+  }
 
   return (value as { input: TechnicalArchitectInput }).input;
 }
 
 function semanticDraftFromResult(value: unknown): Record<string, unknown> {
-  assert.equal(typeof value, "object");
-  assert.notEqual(value, null);
+  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+    throw new TypeError("expected result object");
+  }
 
   const {
     contract_version: _contractVersion,

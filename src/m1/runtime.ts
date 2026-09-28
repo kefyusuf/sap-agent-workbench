@@ -11,6 +11,7 @@ import type { ProviderAdapter } from "./provider-adapter.js";
 import {
   asTechnicalArchitectInput,
   asTechnicalArchitectResult,
+  buildInvocationReferenceContext,
   validateTechnicalArchitectInput,
   validateTechnicalArchitectResult,
 } from "./validation.js";
@@ -199,10 +200,14 @@ export async function executeTechnicalArchitect(
     ...draft,
   };
 
-  const resultErrors = validateTechnicalArchitectResult(normalized, {
+  const referenceContext = buildInvocationReferenceContext(
+    input,
     inputFingerprint,
-    configurationFingerprint,
-  });
+  );
+  const resultErrors = validateTechnicalArchitectResult(
+    normalized,
+    referenceContext,
+  );
 
   if (resultErrors.length > 0) {
     return {

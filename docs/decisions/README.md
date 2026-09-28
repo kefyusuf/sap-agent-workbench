@@ -29,8 +29,9 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-021](./ADR-021-review-test-evaluation.md) | D205–D213 | Reviewer & Test Engineer Evaluation Model |
 | [ADR-022](./ADR-022-m3-review-test-contracts.md) | D214–D226 | M3 Reviewer & Test Engineer Contracts |
 | [ADR-023](./ADR-023-m3-deterministic-contract-validation.md) | D227–D236 | M3 Deterministic Contract Validation |
+| [ADR-024](./ADR-024-m3-verification-evidence-compatibility.md) | D237–D244 | M3 Verification Evidence Compatibility |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D236.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D244.
 
 ## Decision groups
 
@@ -198,3 +199,11 @@ Allows deterministic Reviewer/Test Engineer evaluation tooling while product run
 binds review/test results to invocation provenance, enforces review-acceptance and finding/reference integrity,
 preserves verification debt, requires critical-requirement coverage, validates planned-check references,
 rejects unsupported PASS/FAIL claims, and requires positive/negative self-test coverage before later M3 runtime work.
+
+
+### D237–D244 — M3 verification evidence compatibility
+
+Requires invocation-bound evidence for Reviewer/Test Engineer verification state,
+defines verification/evidence-type compatibility, prevents documents/planning text from masquerading as executed verification,
+validates Reviewer input/debt compatibility, validates Test Engineer PASS/FAIL compatibility,
+keeps OTHER execution claims closed pending a later decision, and makes the boundary deterministic/CRITICAL.

@@ -27,7 +27,8 @@ Result validator self-test: MATERIALIZED / EXECUTION PENDING
 Input/invocation data contract: COMPLETE
 Runtime invocation semantics: COMPLETE
 Deterministic input validator: MATERIALIZED
-Runtime technology/reference harness gate: NOT_STARTED
+Runtime technology boundary: COMPLETE
+Reference harness implementation: NOT_STARTED
 Provider integration: NOT_STARTED
 SAP live adapters: NOT_STARTED
 ```
@@ -131,18 +132,41 @@ See:
 - `contracts/technical-architect-execution.md`
 - `docs/m1/runtime-invocation.md`
 
+## Runtime technology boundary
+
+Materialized:
+
+- TypeScript + Node.js LTS product/reference runtime
+- ESM + strict TypeScript
+- framework-free first slice
+- provider-SDK-free core
+- deterministic in-memory Fixture Provider first
+- Node built-in test baseline
+- no credentials/network/SAP connection
+- Python retained only as evaluation tooling
+- minimal pinned dependencies
+- repository-root package for M1
+- ADR-013 / SAP-AW-D131 through SAP-AW-D140
+
+See:
+
+`docs/m1/runtime-technology.md`
+
 ## Next gate
 
-Before implementing the reference harness, choose the **M1 runtime technology boundary**.
+Implement the **minimal provider-neutral reference harness** only.
 
-The next gate is limited to:
+The first implementation slice is limited to:
 
-1. product runtime language
-2. package/runtime baseline
-3. dependency policy
-4. provider-adapter interface placement
-5. reference/fake adapter test strategy
-6. no live provider credentials or SAP connectivity yet
+1. TypeScript input/result types
+2. canonical input fingerprint using Node crypto
+3. ProviderAdapter interface
+4. deterministic FixtureProvider
+5. runtime-owned provenance binding
+6. typed execution outcome/failure
+7. result invariant validation required for the fixture cases
+8. offline Node tests
+9. no real provider SDK, network, credentials, or SAP connectivity
 
 ## Guardrail
 

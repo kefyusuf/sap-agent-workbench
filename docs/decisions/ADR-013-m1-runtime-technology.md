@@ -18,7 +18,7 @@ and future provider/MCP integration. It does not need Python-specific ML librari
 
 ### SAP-AW-D131
 
-The M1 product/reference runtime uses TypeScript on the current supported Node.js LTS line.
+The M1 product/reference runtime uses TypeScript on the Node.js 24 LTS line.
 
 ### SAP-AW-D132
 
@@ -56,7 +56,7 @@ Python remains deterministic evaluation tooling and is not invoked by the normal
 
 ### SAP-AW-D139
 
-Runtime dependencies are kept minimal and pinned by the repository lockfile.
+Runtime dependencies are kept minimal and pinned by the repository lockfile. The current verification baseline pins Node.js 24.21.0, npm 11.19.0, TypeScript 7.0.2, and @types/node 24.13.6.
 
 A dependency requires explicit implementation value; provider SDKs do not leak into core.
 

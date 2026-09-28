@@ -208,3 +208,103 @@ test("provider failure is distinct from BLOCKED agent result", async () => {
   assert.equal(outcome.code, "PROVIDER_FAILURE");
   assert.equal(outcome.stage, "PROVIDER_INVOCATION");
 });
+
+
+test("rejects fabricated evidence references from provider output", async () => {
+  const input = await readCaseInput("TA-002");
+  const fullResult = await readJson(
+    "evals/m1/result-examples/valid-completed.json",
+  );
+  const draft = semanticDraftFromResult(fullResult);
+  const claims = draft.claims as Array<Record<string, unknown>>;
+
+  assert.ok(claims[1]);
+  claims[1].evidence_refs = ["E-999"];
+
+  const provider = new FixtureProvider({
+    kind: "output",
+    value: draft,
+  });
+
+  const outcome = await executeTechnicalArchitect(input, provider);
+
+  assert.equal(outcome.ok, false);
+  assert.equal(provider.attempts, 1);
+
+  if (outcome.ok) {
+    return;
+  }
+
+  assert.equal(outcome.code, "RESULT_CONTRACT_VIOLATION");
+  assert.ok(
+    outcome.errors.some((error) =>
+      error.includes("unknown reference E-999"),
+    ),
+  );
+});
+
+test("rejects fabricated factual source references from provider output", async () => {
+  const input = await readCaseInput("TA-002");
+  const fullResult = await readJson(
+    "evals/m1/result-examples/valid-completed.json",
+  );
+  const draft = semanticDraftFromResult(fullResult);
+  const claims = draft.claims as Array<Record<string, unknown>>;
+
+  assert.ok(claims[0]);
+  claims[0].source_refs = ["fabricated-source"];
+
+  const provider = new FixtureProvider({
+    kind: "output",
+    value: draft,
+  });
+
+  const outcome = await executeTechnicalArchitect(input, provider);
+
+  assert.equal(outcome.ok, false);
+  assert.equal(provider.attempts, 1);
+
+  if (outcome.ok) {
+    return;
+  }
+
+  assert.equal(outcome.code, "RESULT_CONTRACT_VIOLATION");
+  assert.ok(
+    outcome.errors.some((error) =>
+      error.includes("unknown reference fabricated-source"),
+    ),
+  );
+});
+
+test("rejects assumption references to non-ASSUMED claims", async () => {
+  const input = await readCaseInput("TA-002");
+  const fullResult = await readJson(
+    "evals/m1/result-examples/valid-completed.json",
+  );
+  const draft = semanticDraftFromResult(fullResult);
+  const options = draft.solution_options as Array<Record<string, unknown>>;
+
+  assert.ok(options[0]);
+  options[0].assumption_refs = ["C-001"];
+
+  const provider = new FixtureProvider({
+    kind: "output",
+    value: draft,
+  });
+
+  const outcome = await executeTechnicalArchitect(input, provider);
+
+  assert.equal(outcome.ok, false);
+  assert.equal(provider.attempts, 1);
+
+  if (outcome.ok) {
+    return;
+  }
+
+  assert.equal(outcome.code, "RESULT_CONTRACT_VIOLATION");
+  assert.ok(
+    outcome.errors.some((error) =>
+      error.includes("unknown reference C-001"),
+    ),
+  );
+});

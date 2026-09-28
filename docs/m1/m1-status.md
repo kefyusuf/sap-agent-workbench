@@ -28,8 +28,10 @@ Input/invocation data contract: COMPLETE
 Runtime invocation semantics: COMPLETE
 Deterministic input validator: MATERIALIZED
 Runtime technology boundary: COMPLETE
-Reference harness implementation: NOT_STARTED
-Provider integration: NOT_STARTED
+Reference harness implementation: MATERIALIZED / VERIFICATION PENDING
+Package lockfile: PENDING
+Strict compile/test: PENDING
+Provider integration: BLOCKED UNTIL REFERENCE HARNESS VERIFIES
 SAP live adapters: NOT_STARTED
 ```
 
@@ -152,21 +154,37 @@ See:
 
 `docs/m1/runtime-technology.md`
 
+## Reference harness implementation
+
+Materialized:
+
+- strict TypeScript contract types
+- canonical SHA-256 input fingerprinting
+- provider-neutral `ProviderAdapter`
+- deterministic in-memory `FixtureProvider`
+- input/result invariant validation
+- provider-neutral execution runtime
+- runtime-owned task/provenance binding
+- typed runtime failures
+- offline Node test suite
+- no provider SDK / network / credentials / SAP connectivity
+
+See:
+
+`docs/verification/m1-reference-harness-preflight.md`
+
 ## Next gate
 
-Implement the **minimal provider-neutral reference harness** only.
+Do **not** add a real provider adapter yet.
 
-The first implementation slice is limited to:
+The next gate is verification-only:
 
-1. TypeScript input/result types
-2. canonical input fingerprint using Node crypto
-3. ProviderAdapter interface
-4. deterministic FixtureProvider
-5. runtime-owned provenance binding
-6. typed execution outcome/failure
-7. result invariant validation required for the fixture cases
-8. offline Node tests
-9. no real provider SDK, network, credentials, or SAP connectivity
+1. generate the repository lockfile from the pinned manifest
+2. run the selected Node 24 / TypeScript 7 toolchain
+3. strict compile
+4. execute the offline M1 runtime tests
+5. bind verification evidence to the branch revision
+6. fix any compile/test defects before provider integration
 
 ## Guardrail
 

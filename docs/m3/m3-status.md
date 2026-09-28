@@ -21,7 +21,7 @@ Stack:
 Reviewer Agent boundary: COMPLETE
 Test Engineer Agent boundary: COMPLETE
 M3 evaluation contract: COMPLETE
-Initial synthetic cases: NOT_STARTED
+Initial synthetic cases: 4 MATERIALIZED
 M3 input/result contracts: NOT_STARTED
 M3 runtime implementation: NOT_STARTED
 Live verification tools: NOT_STARTED
@@ -48,11 +48,31 @@ M2 product runtime remains blocked because the M1 reference harness has not yet 
 
 M3 therefore remains design-only.
 
+## Initial cases
+
+Reviewer:
+
+- `REVIEW-001` — architecture preserved; review may proceed to verification but not delivery
+- `REVIEW-002` — direct standard-table mutation violates a material architecture constraint
+
+Test Engineer:
+
+- `TEST-001` — order-validation requirements require traceable positive/negative/static verification planning
+- `TEST-002` — PI/PO payload change requires payload-contract and regression coverage without false PASS claims
+
 ## Next gate
 
-Materialize the minimum synthetic/anonymized Reviewer/Test Engineer cases required by ADR-020 and ADR-021.
+Define the minimum **M3 provider-independent input/result contracts** that make these four cases machine-checkable.
 
-Do not define a runtime or live verification adapter yet.
+The next gate remains design-only.
+
+Do not implement:
+
+- Reviewer runtime
+- Test Engineer runtime
+- test execution
+- provider integration
+- live SAP adapters
 
 ## Guardrail
 

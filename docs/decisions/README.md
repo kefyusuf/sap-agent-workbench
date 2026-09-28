@@ -28,8 +28,9 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-020](./ADR-020-review-test-agent-boundaries.md) | D192–D204 | Reviewer & Test Engineer Agent Boundaries |
 | [ADR-021](./ADR-021-review-test-evaluation.md) | D205–D213 | Reviewer & Test Engineer Evaluation Model |
 | [ADR-022](./ADR-022-m3-review-test-contracts.md) | D214–D226 | M3 Reviewer & Test Engineer Contracts |
+| [ADR-023](./ADR-023-m3-deterministic-contract-validation.md) | D227–D236 | M3 Deterministic Contract Validation |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D226.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D236.
 
 ## Decision groups
 
@@ -189,3 +190,11 @@ Defines provider-independent Reviewer/Test Engineer input/result contracts, revi
 review acceptance semantics, implementation/architecture provenance binding,
 verification-debt preservation, test-plan coverage mapping, critical requirement coverage,
 planned-check semantics, evidence-backed verification claims, and preservation of the no-mutation boundary.
+
+
+### D227–D236 — M3 deterministic contract validation
+
+Allows deterministic Reviewer/Test Engineer evaluation tooling while product runtimes remain blocked,
+binds review/test results to invocation provenance, enforces review-acceptance and finding/reference integrity,
+preserves verification debt, requires critical-requirement coverage, validates planned-check references,
+rejects unsupported PASS/FAIL claims, and requires positive/negative self-test coverage before later M3 runtime work.

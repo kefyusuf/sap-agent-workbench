@@ -107,6 +107,20 @@ Existing evidence-backed claims may be represented:
 
 No evidence → no PASS/FAIL claim.
 
+Evidence must also be compatible with the claimed verification type under ADR-024:
+
+- COMPILE → EXECUTION_RESULT or STATIC_ANALYSIS
+- ATC → STATIC_ANALYSIS
+- UNIT_TEST → TEST_RESULT
+- INTEGRATION_TEST → TEST_RESULT
+- AUTHORIZATION → TEST_RESULT or CONFIGURATION
+- PERFORMANCE → TEST_RESULT or EXECUTION_RESULT
+- PAYLOAD_CONTRACT → TEST_RESULT or EXECUTION_RESULT
+- RUNTIME → EXECUTION_RESULT or LOG
+- REGRESSION → TEST_RESULT
+
+`OTHER` PASS/FAIL is not accepted in M3 v1 without a later explicit compatibility decision.
+
 Planning itself never creates evidence.
 
 ## Execution handoff

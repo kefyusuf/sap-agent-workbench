@@ -241,7 +241,7 @@ function validateCrossCollectionIds(
   for (const collection of collections) {
     for (const id of collection) {
       if (seen.has(id)) {
-        errors.push(`${path}: duplicate result-local id ${id}`);
+        errors.push(`${path}: duplicate local id ${id}`);
       }
       seen.add(id);
     }

@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sap-agent-workbench:m3:sap-test-plan-result:v1",
+  "title": "M3 SAP Test Engineer Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "task_id",
+    "provenance",
+    "status",
+    "coverage",
+    "planned_checks",
+    "unknowns",
+    "verification_claims",
+    "execution_handoff",
+    "requested_capabilities",
+    "next_action"
+  ],
+  "properties": {
+    "contract_version": {"const": "m3.sap-test-plan-result.v1"},
+    "task_id": {"type": "string", "minLength": 1},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_fingerprint",
+        "configuration_fingerprint",
+        "implementation_fingerprint"
+      ],
+      "properties": {
+        "input_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "configuration_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "implementation_fingerprint": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      }
+    },
+    "status": {
+      "enum": ["TEST_PLAN_READY", "NEEDS_CLARIFICATION", "BLOCKED"]
+    },
+    "coverage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_type",
+          "source_ref",
+          "check_refs",
+          "excluded",
+          "exclusion_justification"
+        ],
+        "properties": {
+          "source_type": {
+            "enum": ["REQUIREMENT", "CONSTRAINT", "REVIEW_FINDING", "RISK"]
+          },
+          "source_ref": {"type": "string", "minLength": 1},
+          "check_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^CHK-[0-9]{3,}$"}
+          },
+          "excluded": {"type": "boolean"},
+          "exclusion_justification": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "planned_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "description",
+          "trace_refs",
+          "preconditions",
+          "expected_result",
+          "expected_evidence_type",
+          "blocking_for_delivery"
+        ],
+        "properties": {
+          "id": {"type": "string", "pattern": "^CHK-[0-9]{3,}$"},
+          "type": {
+            "enum": [
+              "COMPILE",
+              "ATC",
+              "UNIT_TEST",
+              "INTEGRATION_TEST",
+              "AUTHORIZATION",
+              "PERFORMANCE",
+              "PAYLOAD_CONTRACT",
+              "NEGATIVE_CASE",
+              "BOUNDARY_CASE",
+              "TRANSACTIONAL",
+              "RUNTIME",
+              "REGRESSION",
+              "OTHER"
+            ]
+          },
+          "description": {"type": "string", "minLength": 1},
+          "trace_refs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "preconditions": {"type": "array", "items": {"type": "string"}},
+          "expected_result": {"type": "string", "minLength": 1},
+          "expected_evidence_type": {"type": "string", "minLength": 1},
+          "blocking_for_delivery": {"type": "boolean"}
+        }
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "statement", "material", "blocks_plan", "verification"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^U-[0-9]{3,}$"},
+          "statement": {"type": "string", "minLength": 1},
+          "material": {"type": "boolean"},
+          "blocks_plan": {"type": "boolean"},
+          "verification": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "verification_claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "status", "evidence_refs"],
+        "properties": {
+          "type": {"type": "string", "minLength": 1},
+          "status": {"enum": ["PASS", "FAIL"]},
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^E-[0-9]{3,}$"}
+          }
+        }
+      }
+    },
+    "execution_handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ready_for_execution", "notes"],
+      "properties": {
+        "ready_for_execution": {"type": "boolean"},
+        "notes": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "requested_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["verb", "purpose"],
+        "properties": {
+          "verb": {"enum": ["READ", "QUERY", "ANALYZE", "PROPOSE"]},
+          "purpose": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "next_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "description"],
+      "properties": {
+        "type": {
+          "enum": [
+            "HANDOFF_VERIFICATION_EXECUTION",
+            "REQUEST_CLARIFICATION",
+            "VERIFY_CONTEXT",
+            "RETURN_TO_IMPLEMENTATION",
+            "NONE"
+          ]
+        },
+        "description": {"type": "string"}
+      }
+    }
+  }
+}

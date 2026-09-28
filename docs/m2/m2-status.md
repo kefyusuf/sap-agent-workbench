@@ -23,8 +23,9 @@ Initial synthetic cases: 4 NORMALIZED
 M2 input contract: COMPLETE
 M2 result contract: COMPLETE
 Verification-evidence compatibility: COMPLETE
-M2 deterministic contract validator: MATERIALIZED / EXECUTION PENDING
+M2 deterministic contract validator: VERIFIED — 7/7 PASS
 M2 contract static preflight: PASS
+M2 deterministic self-test: PASS — Python 3.13.5 / exit 0
 M2 runtime implementation: BLOCKED ON PARENT M1 VERIFICATION
 Provider integration: NOT_STARTED
 SAP live adapters: NOT_STARTED
@@ -115,17 +116,38 @@ See:
 
 `docs/verification/m2-contract-preflight.md`
 
-## Next gate
+## Deterministic verification
 
-The next safe M2 action is **verification-only**:
+Executed verification:
 
 ```text
 python scripts/selftest_m2_contracts.py
+
+7/7 PASS
+exit code 0
 ```
 
-Capture revision-bound execution evidence and fix any validator/self-test defect.
+See:
 
-Even after that passes, M2 product runtime remains blocked until the parent M1 reference harness is verified.
+`docs/verification/m2-contract-selftest.md`
+
+The validator/self-test and all exercised fixture/example bytes were matched to their Git blob identities before execution.
+
+## Next gate
+
+M2 design/evaluation tooling is now verified.
+
+Do **not** implement the M2 product runtime yet.
+
+The next cross-milestone priority is clearing the parent M1 reference-harness verification gate:
+
+1. exact Node 24.21.0 / npm 11.19.0 environment
+2. repository lockfile
+3. TypeScript 7.0.2 strict compile
+4. 11 offline M1 runtime tests
+5. revision-bound verification evidence
+
+Only after that parent gate passes may M2 runtime implementation be reconsidered.
 
 ## Guardrail
 

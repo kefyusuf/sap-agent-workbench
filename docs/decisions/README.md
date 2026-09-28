@@ -20,8 +20,10 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-012](./ADR-012-technical-architect-runtime-invocation.md) | D120–D130 | Technical Architect Runtime Invocation Semantics |
 | [ADR-013](./ADR-013-m1-runtime-technology.md) | D131–D140 | M1 Runtime Technology Boundary |
 | [ADR-014](./ADR-014-m1-result-provenance-integrity.md) | D141–D145 | M1 Result Provenance Integrity |
+| [ADR-015](./ADR-015-abap-development-agent-boundary.md) | D146–D156 | ABAP Development Agent Boundary |
+| [ADR-016](./ADR-016-abap-development-evaluation.md) | D157–D164 | ABAP Development Evaluation Model |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D145.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D164.
 
 ## Decision groups
 
@@ -122,3 +124,17 @@ minimal pinned dependencies, and deferred workspace splitting.
 Requires accepted result evidence/source references to remain closed over the validated invocation snapshot,
 forbids model-created system evidence, restricts assumption references to ASSUMED claims,
 and requires the TypeScript reference validator to preserve all contract-critical boundaries.
+
+
+### D146–D156 — M2 ABAP Development Agent boundary
+
+Defines implementation ownership downstream from architecture, architecture-fidelity rules,
+system-object identity discipline, generated-code vs verification-evidence separation,
+verification honesty, reuse-before-create, no-mutation boundaries, revision-bound handoff,
+and synthetic/offline-first M2 scope.
+
+### D157–D164 — M2 ABAP Development evaluation
+
+Defines property-based implementation evaluation, synthetic fixtures, architecture-fidelity testing,
+system-object hallucination failures, false verification failures, no-mutation checks,
+missing-context behavior, and the rule that model grading cannot solely decide CRITICAL boundaries.

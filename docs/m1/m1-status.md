@@ -32,7 +32,7 @@ Reference harness implementation: MATERIALIZED / HARDENED / VERIFICATION PENDING
 Result provenance integrity: COMPLETE
 M1 decisions D087–D145 continuity: PASS
 Exact Node/npm verification baseline: PINNED
-Package lockfile: PENDING
+Package lockfile: MATERIALIZED / STRUCTURAL PREFLIGHT PASS / INSTALL VALIDATION PENDING
 Static provider-independence/hardening preflight: PASS
 TypeScript runtime tests materialized: 11
 Strict compile/test: PENDING
@@ -185,18 +185,22 @@ Latest hardening preflight:
 
 `docs/verification/m1-reference-harness-hardening-preflight.md`
 
+Dependency lockfile preflight:
+
+`docs/verification/m1-lockfile-preflight.md`
+
 ## Next gate
 
 Do **not** add a real provider adapter yet.
 
 The next gate is verification-only:
 
-1. generate the repository lockfile from the pinned manifest
-2. run Node 24.21.0 / npm 11.19.0 with the pinned TypeScript 7.0.2 toolchain
-3. strict compile
-4. execute the offline M1 runtime tests
-5. bind verification evidence to the branch revision
-6. fix any compile/test defects before provider integration
+1. consume the committed lockfile with Node 24.21.0 / npm 11.19.0
+2. run `npm ci`
+3. strict TypeScript 7.0.2 compile
+4. execute the 11 offline M1 runtime tests
+5. bind verification evidence to the exact tested branch revision
+6. fix any install/compile/test defect before provider integration
 
 ## Guardrail
 

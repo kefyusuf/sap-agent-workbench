@@ -28,6 +28,7 @@ M3 contract static preflight: PASS
 M3 deterministic validator: MATERIALIZED / EXECUTION PENDING
 M3 runtime implementation: NOT_STARTED
 M3 deterministic self-test: MATERIALIZED / EXECUTION PENDING
+M3 validator static preflight: PASS
 Live verification tools: NOT_STARTED
 ```
 
@@ -100,6 +101,7 @@ See:
 
 - `docs/verification/m3-design-preflight.md`
 - `docs/verification/m3-contract-preflight.md`
+- `docs/verification/m3-validator-preflight.md`
 
 ## Deterministic evaluation tooling
 

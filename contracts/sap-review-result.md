@@ -99,7 +99,22 @@ Each item contains:
 - `status`: PENDING | EVIDENCE_PRESENT
 - `evidence_refs`
 
-EVIDENCE_PRESENT requires evidence from the review input catalog.
+EVIDENCE_PRESENT requires evidence from the review input catalog **and** that evidence must be compatible with the verification type under ADR-024.
+
+For M3 v1:
+
+- COMPILE → EXECUTION_RESULT or STATIC_ANALYSIS
+- ATC → STATIC_ANALYSIS
+- UNIT_TEST → TEST_RESULT
+- INTEGRATION_TEST → TEST_RESULT
+- AUTHORIZATION → TEST_RESULT or CONFIGURATION
+- PERFORMANCE → TEST_RESULT or EXECUTION_RESULT
+- PAYLOAD_CONTRACT → TEST_RESULT or EXECUTION_RESULT
+- RUNTIME → EXECUTION_RESULT or LOG
+- REGRESSION → TEST_RESULT
+
+`PENDING` debt carries no evidence-backed success/failure state.
+`OTHER` cannot be marked EVIDENCE_PRESENT until a later compatibility decision defines acceptable evidence.
 
 ## Review handoff
 

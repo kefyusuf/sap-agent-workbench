@@ -67,7 +67,15 @@
         "material": true
       }
     ],
-    "evidence_catalog": [],
+    "evidence_catalog": [
+      {
+        "id": "E-001",
+        "type": "APPROVED_DOCUMENT",
+        "source_ref": "fixture-test-plan-approved-context",
+        "revision": "fixture-v1",
+        "summary": "Approved synthetic requirement/context document; not executed compile, ATC, or test evidence."
+      }
+    ],
     "unknowns": [],
     "capability_boundary": [
       "READ",

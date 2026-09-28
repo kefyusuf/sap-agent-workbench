@@ -30,8 +30,11 @@ Deterministic input validator: MATERIALIZED
 Runtime technology boundary: COMPLETE
 Reference harness implementation: MATERIALIZED / HARDENED / VERIFICATION PENDING
 Result provenance integrity: COMPLETE
+M1 decisions D087–D145 continuity: PASS
 Exact Node/npm verification baseline: PINNED
 Package lockfile: PENDING
+Static provider-independence/hardening preflight: PASS
+TypeScript runtime tests materialized: 11
 Strict compile/test: PENDING
 Provider integration: BLOCKED UNTIL REFERENCE HARNESS VERIFIES
 SAP live adapters: NOT_STARTED
@@ -177,6 +180,10 @@ Materialized:
 See:
 
 `docs/verification/m1-reference-harness-preflight.md`
+
+Latest hardening preflight:
+
+`docs/verification/m1-reference-harness-hardening-preflight.md`
 
 ## Next gate
 

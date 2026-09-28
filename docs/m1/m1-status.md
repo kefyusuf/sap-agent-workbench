@@ -37,6 +37,7 @@ Static provider-independence/hardening preflight: PASS
 TypeScript runtime tests materialized: 11
 Reference verification runner: MATERIALIZED / FAIL-CLOSED PREFLIGHT PASS
 Pinned Docker verification path: MATERIALIZED / IMAGE PIN AUDIT PASS
+Manual repository-native M1 workflow: MATERIALIZED / STATIC PREFLIGHT PASS
 Strict compile/test: PENDING
 Provider integration: BLOCKED UNTIL REFERENCE HARNESS VERIFIES
 SAP live adapters: NOT_STARTED
@@ -202,6 +203,10 @@ Pinned Docker verification path:
 Docker image pin audit:
 
 `docs/verification/m1-docker-image-pin-audit.md`
+
+Manual repository-native workflow preflight:
+
+`docs/verification/m1-manual-ci-preflight.md`
 
 ## Next gate
 

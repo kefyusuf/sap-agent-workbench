@@ -1,0 +1,74 @@
+{
+  "contract_version": "m3.sap-review-result.v1",
+  "task_id": "REVIEW-002",
+  "provenance": {
+    "input_fingerprint": "sha256:f3556956782c1213ed5ea51e87f912b79cfa4d8fe838196d3db72a3f9d93e3fe",
+    "configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "architecture_handoff_fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "implementation_fingerprint": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "outcome": "CHANGES_REQUIRED",
+  "architecture_alignment": {
+    "status": "VIOLATED",
+    "constraint_results": [
+      {
+        "constraint_ref": "AC-001",
+        "status": "VIOLATED",
+        "notes": "WP-001 contains a direct update against the synthetic standard table."
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "severity": "CRITICAL",
+      "category": "ARCHITECTURE",
+      "statement": "The implementation directly updates the synthetic standard table and violates the approved architecture constraint.",
+      "affected_refs": [
+        "WP-001"
+      ],
+      "constraint_refs": [
+        "AC-001"
+      ],
+      "requirement_refs": [
+        "REQ-001"
+      ],
+      "evidence_refs": [],
+      "source_refs": [
+        "fixture-modernization-requirement",
+        "architecture-review-standard"
+      ],
+      "required_action": "Remove the direct standard-table update and return the implementation to the approved supported extension approach.",
+      "blocks_acceptance": true
+    }
+  ],
+  "unknowns": [],
+  "verification_debt": [
+    {
+      "type": "COMPILE",
+      "status": "PENDING",
+      "evidence_refs": []
+    },
+    {
+      "type": "ATC",
+      "status": "PENDING",
+      "evidence_refs": []
+    }
+  ],
+  "review_handoff": {
+    "proceed_to_verification": false,
+    "notes": [
+      "Implementation correction is required before verification can proceed."
+    ]
+  },
+  "requested_capabilities": [
+    {
+      "verb": "PROPOSE",
+      "purpose": "Return the blocking review finding without mutating the work product."
+    }
+  ],
+  "next_action": {
+    "type": "RETURN_TO_IMPLEMENTATION",
+    "description": "Correct the architecture violation and resubmit the implementation snapshot for review."
+  }
+}

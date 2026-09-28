@@ -77,3 +77,21 @@ tests passed
 ```
 
 No runtime or verification executor is introduced by these fixtures.
+
+
+## Verification evidence compatibility
+
+M3 v1 validates executed verification state by both reference identity and evidence type.
+
+Examples:
+
+- COMPILE → EXECUTION_RESULT or STATIC_ANALYSIS
+- ATC → STATIC_ANALYSIS
+- UNIT_TEST / INTEGRATION_TEST / REGRESSION → TEST_RESULT
+- AUTHORIZATION → TEST_RESULT or CONFIGURATION
+- PERFORMANCE / PAYLOAD_CONTRACT → TEST_RESULT or EXECUTION_RESULT
+- RUNTIME → EXECUTION_RESULT or LOG
+
+APPROVED_DOCUMENT does not prove compile, ATC, test, runtime, or performance PASS.
+
+The deterministic self-test now contains two additional negative cases for this boundary and therefore covers 13 scenarios.

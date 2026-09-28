@@ -22,8 +22,10 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-014](./ADR-014-m1-result-provenance-integrity.md) | D141–D145 | M1 Result Provenance Integrity |
 | [ADR-015](./ADR-015-abap-development-agent-boundary.md) | D146–D156 | ABAP Development Agent Boundary |
 | [ADR-016](./ADR-016-abap-development-evaluation.md) | D157–D164 | ABAP Development Evaluation Model |
+| [ADR-017](./ADR-017-abap-development-contracts.md) | D165–D176 | ABAP Development Input & Result Contracts |
+| [ADR-018](./ADR-018-m2-verification-evidence-compatibility.md) | D177–D182 | M2 Verification Evidence Compatibility |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D164.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D182.
 
 ## Decision groups
 
@@ -138,3 +140,17 @@ and synthetic/offline-first M2 scope.
 Defines property-based implementation evaluation, synthetic fixtures, architecture-fidelity testing,
 system-object hallucination failures, false verification failures, no-mutation checks,
 missing-context behavior, and the rule that model grading cannot solely decide CRITICAL boundaries.
+
+
+### D165–D176 — M2 ABAP Development contracts
+
+Defines the provider-independent M2 input/result contracts, architecture-handoff binding,
+existing-vs-proposed object identity, WORK_PRODUCT_READY semantics, object-reference integrity,
+generated-code/evidence separation, provenance binding, and preservation of the no-mutation boundary.
+
+### D177–D182 — M2 verification evidence compatibility
+
+Requires evidence-backed verification claims, defines initial verification/evidence-type compatibility,
+forbids documents/generated code from standing in for compile/ATC/test evidence,
+keeps missing verification as required work, closes claims over the input evidence catalog,
+and makes compatibility a deterministic CRITICAL boundary.

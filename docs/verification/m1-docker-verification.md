@@ -15,11 +15,11 @@ It does not add:
 
 ## Image
 
-The compose file pins:
+The compose file pins the multi-platform Docker Hub index digest:
 
 ```text
 node:24.21.0-bookworm
-sha256:64af3819f9275802414d7cdc38c27e9d82bd564dec4d4da87d008255d36c63b4
+sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0
 ```
 
 Node.js 24.21.0 bundles npm 11.19.0.
@@ -119,3 +119,26 @@ until the failure is understood and the exact M1 verification passes.
 
 This path removes the dependency on repository-native GitHub Actions for obtaining local execution evidence,
 but it does not weaken the later requirement to replay canonical CI when Actions capacity becomes available.
+
+
+## Image pin audit
+
+The image pin was revalidated against Docker Hub's current metadata for `node:24.21.0-bookworm`.
+
+Verified metadata:
+
+```text
+tag:          node:24.21.0-bookworm
+Node version: 24.21.0
+index digest: sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0
+```
+
+For linux/amd64, Docker Hub currently reports manifest digest:
+
+```text
+sha256:b977d0f785d96029d8d4c0790b6bf1c2a4c72e0f26319808e7ba2e9d966a1ac3
+```
+
+The compose file intentionally pins the multi-platform **index digest**, not one architecture-specific manifest digest.
+
+This audit corrects an earlier unverified digest value. No execution PASS is inferred from the correction.

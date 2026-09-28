@@ -23,7 +23,8 @@ Initial synthetic cases: 4 NORMALIZED
 M2 input contract: COMPLETE
 M2 result contract: COMPLETE
 Verification-evidence compatibility: COMPLETE
-M2 deterministic contract validator: NOT_STARTED
+M2 deterministic contract validator: MATERIALIZED / EXECUTION PENDING
+M2 contract static preflight: PASS
 M2 runtime implementation: BLOCKED ON PARENT M1 VERIFICATION
 Provider integration: NOT_STARTED
 SAP live adapters: NOT_STARTED
@@ -95,21 +96,36 @@ M2 REAL PROVIDER INTEGRATION    BLOCKED
 M2 LIVE SAP                     BLOCKED
 ```
 
+## Deterministic evaluation tooling
+
+Materialized:
+
+- `scripts/validate_m2_contracts.py`
+- `scripts/selftest_m2_contracts.py`
+- valid WORK_PRODUCT_READY example
+- valid BLOCKED example
+- invalid false-ATC-verification example
+- input/result provenance checks
+- existing/proposed object-reference checks
+- architecture alignment/status checks
+- verification evidence compatibility checks
+- case-specific output assertions
+
+See:
+
+`docs/verification/m2-contract-preflight.md`
+
 ## Next gate
 
-The next safe M2 step is a **deterministic contract/evaluation validator**, not an Agent runtime.
+The next safe M2 action is **verification-only**:
 
-It may validate:
+```text
+python scripts/selftest_m2_contracts.py
+```
 
-1. M2 input schema/invariants
-2. M2 result schema/invariants
-3. case-specific output assertions
-4. existing/proposed object-reference integrity
-5. architecture alignment/status consistency
-6. verification evidence compatibility
-7. no-mutation capability boundary
+Capture revision-bound execution evidence and fix any validator/self-test defect.
 
-It must remain evaluation tooling and must not invoke a provider, SAP, or an ABAP runtime.
+Even after that passes, M2 product runtime remains blocked until the parent M1 reference harness is verified.
 
 ## Guardrail
 

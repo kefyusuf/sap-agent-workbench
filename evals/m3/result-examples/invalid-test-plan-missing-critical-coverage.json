@@ -2,7 +2,7 @@
   "contract_version": "m3.sap-test-plan-result.v1",
   "task_id": "TEST-001",
   "provenance": {
-    "input_fingerprint": "sha256:0feb95b7e90704bee56debb47ff4296ae3ae6447a87f38342f38ab04797d2094",
+    "input_fingerprint": "sha256:b0312a283ffcd74b4a46062f8673947bd30bc0e964c3a90279b45439bea4d9fe",
     "configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
     "implementation_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
   },

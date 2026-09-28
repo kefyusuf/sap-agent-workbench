@@ -19,8 +19,9 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-011](./ADR-011-technical-architect-input-invocation.md) | D111–D119 | Technical Architect Input & Invocation Contract |
 | [ADR-012](./ADR-012-technical-architect-runtime-invocation.md) | D120–D130 | Technical Architect Runtime Invocation Semantics |
 | [ADR-013](./ADR-013-m1-runtime-technology.md) | D131–D140 | M1 Runtime Technology Boundary |
+| [ADR-014](./ADR-014-m1-result-provenance-integrity.md) | D141–D145 | M1 Result Provenance Integrity |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D140.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D145.
 
 ## Decision groups
 
@@ -114,3 +115,10 @@ Defines TypeScript/Node.js LTS as the product/reference runtime, ESM/strict comp
 framework-free/provider-SDK-free core boundaries, deterministic Fixture Provider first,
 synthetic/offline tests, Node standard-library preference, Python tooling separation,
 minimal pinned dependencies, and deferred workspace splitting.
+
+
+### D141–D145 — M1 result provenance integrity
+
+Requires accepted result evidence/source references to remain closed over the validated invocation snapshot,
+forbids model-created system evidence, restricts assumption references to ASSUMED claims,
+and requires the TypeScript reference validator to preserve all contract-critical boundaries.

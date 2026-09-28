@@ -19,7 +19,7 @@ Stack:
 ```text
 M2 Agent boundary: COMPLETE
 M2 evaluation contract: COMPLETE
-Initial synthetic cases: NOT_STARTED
+Initial synthetic cases: 4 MATERIALIZED
 M2 input/result contracts: NOT_STARTED
 M2 runtime implementation: NOT_STARTED
 Provider integration: NOT_STARTED
@@ -47,11 +47,20 @@ M1 reference harness verification remains pending.
 M2 work on this branch is therefore design-only.
 No M2 runtime or provider integration begins while the parent M1 reference harness is unverified.
 
+## Initial cases
+
+- `ABAP-001` — approved scoped enhancement/object context
+- `ABAP-002` — exact extension object missing
+- `ABAP-003` — modernization forbids direct standard-table mutation
+- `ABAP-004` — existing PI/PO path must remain unchanged
+
 ## Next gate
 
-Materialize the minimum synthetic/anonymized M2 implementation cases required by ADR-016.
+Define the minimum **M2 implementation input/result contract** needed to make these cases machine-checkable.
 
-Do not define a runtime yet.
+The next gate remains design-only because the parent M1 reference harness is not yet verified.
+
+Do not implement an M2 runtime yet.
 
 ## Guardrail
 

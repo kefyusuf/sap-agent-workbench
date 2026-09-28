@@ -25,8 +25,10 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-017](./ADR-017-abap-development-contracts.md) | D165–D176 | ABAP Development Input & Result Contracts |
 | [ADR-018](./ADR-018-m2-verification-evidence-compatibility.md) | D177–D182 | M2 Verification Evidence Compatibility |
 | [ADR-019](./ADR-019-m2-deterministic-contract-validation.md) | D183–D191 | M2 Deterministic Contract Validation |
+| [ADR-020](./ADR-020-review-test-agent-boundaries.md) | D192–D204 | Reviewer & Test Engineer Agent Boundaries |
+| [ADR-021](./ADR-021-review-test-evaluation.md) | D205–D213 | Reviewer & Test Engineer Evaluation Model |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D191.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D213.
 
 ## Decision groups
 
@@ -163,3 +165,18 @@ Allows evaluation tooling while product runtime remains blocked, standardizes Py
 binds results to invocation provenance, validates object-reference closure and WORK_PRODUCT_READY blockers,
 enforces verification-evidence compatibility, keeps case assertions evaluation-only,
 and requires positive/negative self-test coverage before later M2 runtime work.
+
+
+### D192–D204 — M3 Reviewer & Test Engineer boundaries
+
+Defines separate bounded Reviewer and Test Engineer responsibilities, review/test-plan outcome semantics,
+architecture-fidelity and verification-honesty rules, requirement/risk/finding traceability,
+planned-vs-executed verification separation, no-execution/no-mutation boundaries,
+and workflow-stage completion limits.
+
+### D205–D213 — M3 review/test evaluation
+
+Defines property-based independent evaluation for Reviewer/Test Engineer behavior,
+architecture-fidelity and outcome consistency checks, requirement/risk/finding coverage,
+false-verification CRITICAL failures, synthetic/offline-first fixtures,
+and the rule that model grading cannot solely decide CRITICAL M3 boundaries.

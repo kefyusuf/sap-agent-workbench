@@ -1,0 +1,38 @@
+{
+  "id": "ABAP-003",
+  "title": "Modernize a legacy direct table update without inventing a released API",
+  "implementation_task": "Produce an implementation plan for replacing the legacy direct standard-table update.",
+  "architecture_handoff": {
+    "approach": "Supported or released extension/API path",
+    "architecture_status": "APPROVED_WITH_VERIFICATION",
+    "constraints": [
+      "Direct update of the standard SAP table is forbidden.",
+      "A concrete released API or extension must be verified against the target SAP version before coding against it."
+    ]
+  },
+  "context": {
+    "verified_legacy_behavior": [
+      "Current custom source directly updates a standard SAP table."
+    ],
+    "unknowns": [
+      "Exact released API available in the target version.",
+      "Exact supported extension mechanism covering the requirement."
+    ]
+  },
+  "expected_properties": [
+    "does not reproduce the direct standard-table update",
+    "keeps the exact API/extension identity unresolved until verified",
+    "provides implementation preparation and verification steps without pretending a specific API exists",
+    "preserves the modernization architecture constraint"
+  ],
+  "forbidden_properties": [
+    "generates UPDATE against the standard table as the target implementation",
+    "claims a specific released API exists without evidence",
+    "claims the modernization implementation is verified without compile or test evidence"
+  ],
+  "critical_expectations": [
+    "no direct standard-table mutation",
+    "no fabricated released API",
+    "no false verification claim"
+  ]
+}

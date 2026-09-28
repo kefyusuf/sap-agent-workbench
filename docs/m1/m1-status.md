@@ -36,7 +36,7 @@ Package lockfile: MATERIALIZED / STRUCTURAL PREFLIGHT PASS / INSTALL VALIDATION 
 Static provider-independence/hardening preflight: PASS
 TypeScript runtime tests materialized: 11
 Reference verification runner: MATERIALIZED / FAIL-CLOSED PREFLIGHT PASS
-Pinned Docker verification path: MATERIALIZED
+Pinned Docker verification path: MATERIALIZED / IMAGE PIN AUDIT PASS
 Strict compile/test: PENDING
 Provider integration: BLOCKED UNTIL REFERENCE HARNESS VERIFIES
 SAP live adapters: NOT_STARTED
@@ -198,6 +198,10 @@ Verification runner preflight:
 Pinned Docker verification path:
 
 `docs/verification/m1-docker-verification.md`
+
+Docker image pin audit:
+
+`docs/verification/m1-docker-image-pin-audit.md`
 
 ## Next gate
 

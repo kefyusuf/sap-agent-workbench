@@ -1,0 +1,15 @@
+services:
+  m1-verify:
+    image: node:24.21.0-bookworm@sha256:6dac556d980b7f0e5498d08f08cee0ca67798b4ad6c23964a9214920e67758d0
+    working_dir: /workspace
+    environment:
+      GIT_CONFIG_COUNT: "1"
+      GIT_CONFIG_KEY_0: safe.directory
+      GIT_CONFIG_VALUE_0: /workspace
+    volumes:
+      - .:/workspace
+      - /workspace/node_modules
+      - /workspace/dist
+    command:
+      - node
+      - scripts/verify_m1_reference_harness.mjs

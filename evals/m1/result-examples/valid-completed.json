@@ -30,7 +30,7 @@
       "statement": "Project Legacy customer synchronization currently uses PI/PO.",
       "system_specific": true,
       "evidence_refs": [
-        "project-context-current-path"
+        "E-001"
       ],
       "source_refs": []
     },
@@ -40,7 +40,7 @@
       "statement": "The current change request excludes migration of the transport path.",
       "system_specific": false,
       "evidence_refs": [
-        "project-scope-constraint"
+        "E-002"
       ],
       "source_refs": []
     }
@@ -55,7 +55,7 @@
         "status": "APPLICABLE",
         "notes": "The project-specific existing PI/PO path is in scope to extend.",
         "evidence_refs": [
-          "project-context-current-path"
+          "E-001"
         ]
       },
       {
@@ -63,7 +63,7 @@
         "status": "NOT_APPLICABLE",
         "notes": "Migration of the transport path is explicitly outside the current request.",
         "evidence_refs": [
-          "project-scope-constraint"
+          "E-002"
         ]
       }
     ]
@@ -81,8 +81,8 @@
         "Future migration may require separate redesign."
       ],
       "evidence_refs": [
-        "project-context-current-path",
-        "project-scope-constraint"
+        "E-001",
+        "E-002"
       ],
       "assumption_refs": [],
       "required_verification": []
@@ -97,8 +97,8 @@
     ],
     "confidence": "HIGH",
     "evidence_refs": [
-      "project-context-current-path",
-      "project-scope-constraint"
+      "E-001",
+      "E-002"
     ],
     "assumption_refs": []
   },

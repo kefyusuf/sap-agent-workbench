@@ -86,7 +86,7 @@ The package manifest pins:
 - TypeScript: `7.0.2`
 - `@types/node`: `24.13.6`
 
-A repository lockfile has **not yet been generated**.
+A repository lockfile is now committed and has passed deterministic structural/provenance preflight. Exact npm install validation remains pending.
 
 The current execution environment available during this preflight has Node 22 and TypeScript 5.8.3 and cannot reach
 the package registry. It therefore cannot provide authoritative build/test evidence for the selected Node 24 /
@@ -98,11 +98,10 @@ Remote GitHub Actions is also currently unavailable due the user-reported Action
 
 Before this implementation slice can be marked VERIFIED, capture:
 
-1. a generated lockfile from the pinned package manifest
-2. `npm ci`
-3. `npm run check`
-4. the exact Node / npm / TypeScript versions used
-5. test output bound to the M1 branch revision
+1. `npm ci` against the committed lockfile
+2. `npm run check`
+3. the exact Node / npm / TypeScript versions used
+4. test output bound to the exact tested M1 revision
 
 Any compile or test failure must be fixed before adding a real provider adapter.
 
@@ -114,7 +113,8 @@ REFERENCE_HARNESS_MATERIALIZED YES
 STATIC_PROVIDER_BOUNDARY       PASS
 STACK_SCOPE                    PASS
 
-LOCKFILE                       PENDING
+LOCKFILE                       MATERIALIZED / PREFLIGHT PASS
+LOCKFILE_INSTALL_VALIDATION    PENDING
 STRICT_COMPILE                 PENDING
 OFFLINE TEST EXECUTION         PENDING
 REFERENCE_HARNESS_VERIFIED     NO
@@ -122,3 +122,12 @@ REAL_PROVIDER_GATE             CLOSED
 ```
 
 The next safe step is verification of this exact reference slice, not provider integration.
+
+
+## Lockfile follow-up
+
+See:
+
+`docs/verification/m1-lockfile-preflight.md`
+
+The lockfile materialization step does not claim successful npm installation or TypeScript execution.

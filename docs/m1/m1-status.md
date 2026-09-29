@@ -36,8 +36,9 @@ Package lockfile: MATERIALIZED / STRUCTURAL PREFLIGHT PASS / INSTALL VALIDATION 
 Static provider-independence/hardening preflight: PASS
 TypeScript runtime tests materialized: 11
 Reference verification runner: MATERIALIZED / FAIL-CLOSED PREFLIGHT PASS
-Pinned Docker verification path: MATERIALIZED / IMAGE PIN AUDIT PASS
+Pinned Docker verification path: MATERIALIZED / IMAGE PIN AUDIT PASS / GIT SAFE-DIRECTORY PREFLIGHT PASS
 Manual repository-native M1 workflow: MATERIALIZED / STATIC PREFLIGHT PASS
+Frozen candidate integrity: PASS — 20/20 blob identities
 Strict compile/test: PENDING
 Provider integration: BLOCKED UNTIL REFERENCE HARNESS VERIFIES
 SAP live adapters: NOT_STARTED
@@ -254,3 +255,25 @@ Do not add new M1 behavior or provider integration.
 See:
 
 `docs/verification/m1-verification-candidate.md`
+
+
+## Docker Git ownership correction
+
+The pinned Node Bookworm image executes as root. A Linux host bind mount may be owned by a different UID, causing Git to reject the mounted checkout as dubious ownership before revision/clean-tree evidence can be collected.
+
+The Docker verification service now passes a process-scoped:
+
+`safe.directory=/workspace`
+
+through `GIT_CONFIG_COUNT/GIT_CONFIG_KEY_0/GIT_CONFIG_VALUE_0`.
+
+A disposable ownership-mismatch probe reproduced the Git failure without the override and returned exit code 0 with the scoped override.
+
+No product/runtime/test/fixture artifact changed. The verification candidate was re-frozen and re-audited:
+
+```text
+frozen artifacts: 20
+matched:          20
+mismatches:        0
+integrity:         PASS
+```

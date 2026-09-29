@@ -45,7 +45,7 @@ tests      11
 | `package-lock.json` | `25ec7de9ef19b3f473e67fc7613a1ca273d40b1f` |
 | `tsconfig.json` | `27c1d75cc42b4e5de645414b5d4d4b02ef18d0b1` |
 | `scripts/verify_m1_reference_harness.mjs` | `44ba22f71194d4796e67c6d8a78b1e3374cbc1a3` |
-| `compose.m1-verify.yml` | `0681b028d2f93dd74ee626697887d672b4bb1907` |
+| `compose.m1-verify.yml` | `b024d3b56d1178fc1828af58aaba195027d5c224` |
 | `.github/workflows/m1-reference-harness.yml` | `6782ca90218f2a184c95bacd685d41417d84512f` |
 
 ## M1 runtime artifact set
@@ -137,3 +137,21 @@ M2/M3 PRODUCT RUNTIME GATES      CLOSED
 ```
 
 The next M1 engineering action is execution or defect repair only.
+
+
+## Git safe-directory correction
+
+The frozen verification-infrastructure artifact `compose.m1-verify.yml` changed under the explicitly allowed
+"correction required to make verification trustworthy" exception.
+
+Reason:
+
+- the pinned Node Bookworm image runs the verification command as root
+- a Linux host bind mount may be owned by a different UID
+- Git can reject revision/clean-tree checks as dubious ownership before the M1 harness is exercised
+
+The compose path now supplies a process-scoped `safe.directory=/workspace` override.
+
+No `src/m1/*`, `test/m1/*`, fixture, package manifest, lockfile, or authoritative verification-runner artifact changed.
+
+The compose blob recorded above is the new frozen verification candidate identity.

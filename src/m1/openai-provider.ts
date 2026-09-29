@@ -413,7 +413,7 @@ function extractOutputText(value: unknown): string {
     );
   }
 
-  return outputTexts[0];
+  return outputTexts[0]!;
 }
 
 export class OpenAIProvider implements ProviderAdapter {

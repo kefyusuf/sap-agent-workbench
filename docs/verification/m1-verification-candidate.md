@@ -2,7 +2,7 @@
 
 ## Status
 
-CANDIDATE ARTIFACT SET FROZEN / EXACT EXECUTION PENDING
+VERIFIED CANDIDATE / EXACT EXECUTION PASS
 
 This manifest freezes the M1 reference-harness artifact set that must be exercised by the next exact verification run.
 
@@ -44,7 +44,7 @@ tests      11
 | `package.json` | `292ecc3a2407fc4530e1cec3a322c48358a5f4ed` |
 | `package-lock.json` | `25ec7de9ef19b3f473e67fc7613a1ca273d40b1f` |
 | `tsconfig.json` | `27c1d75cc42b4e5de645414b5d4d4b02ef18d0b1` |
-| `scripts/verify_m1_reference_harness.mjs` | `44ba22f71194d4796e67c6d8a78b1e3374cbc1a3` |
+| `scripts/verify_m1_reference_harness.mjs` | `b0c4c835e3523ddf1f978b908a28f74a7d574679` |
 | `compose.m1-verify.yml` | `b024d3b56d1178fc1828af58aaba195027d5c224` |
 | `.github/workflows/m1-reference-harness.yml` | `6782ca90218f2a184c95bacd685d41417d84512f` |
 
@@ -75,7 +75,7 @@ The committed test file contains 11 offline Node tests.
 | `evals/m1/technical-architect/TA-002.json` | `76a26531e6546659958c485d41e1c86bde5bbe96` |
 | `evals/m1/technical-architect/TA-003.json` | `430a0ffb94c2b11795294cd5e94e55ec90341e76` |
 | `evals/m1/result-examples/valid-blocked.json` | `861eb37f887bc5f2bea3fa67412ca5f948510e3b` |
-| `evals/m1/result-examples/valid-completed.json` | `b11374d74058f35827c97448fd68a583041ad139` |
+| `evals/m1/result-examples/valid-completed.json` | `f03754757cb57a7c35eb55a79d4bd29f3f3036ef` |
 | `evals/m1/result-examples/invalid-completed-with-blocker.json` | `ab662a866d2e08559921e4478c9a8ef0f4c95e1f` |
 
 ## Verification paths
@@ -130,13 +130,16 @@ build/m1-reference-harness-verification.json
 M1 PRODUCT/DESIGN SCOPE          FROZEN
 M1 CANDIDATE ARTIFACT SET        FROZEN
 
-EXACT INSTALL/COMPILE/TEST       PENDING
-M1 REFERENCE HARNESS VERIFIED    NO
-REAL PROVIDER GATE               CLOSED
-M2/M3 PRODUCT RUNTIME GATES      CLOSED
+EXACT INSTALL/COMPILE/TEST       PASS
+M1 REFERENCE HARNESS VERIFIED    YES
+VERIFIED REVISION                6bb388af42e4e0d9fce11df3b78b5e3eb221c78f
+
+REAL PROVIDER IMPLEMENTATION      NOT STARTED
+M2 PARENT REFRESH                 ALLOWED
+M3 REFRESH                        WAITS FOR M2
 ```
 
-The next M1 engineering action is execution or defect repair only.
+The exact M1 verification gate is closed. See `docs/verification/m1-reference-harness-execution.md`. Further M1 product changes require a new scope gate.
 
 
 ## Git safe-directory correction
@@ -155,3 +158,32 @@ The compose path now supplies a process-scoped `safe.directory=/workspace` overr
 No `src/m1/*`, `test/m1/*`, fixture, package manifest, lockfile, or authoritative verification-runner artifact changed.
 
 The compose blob recorded above is the new frozen verification candidate identity.
+
+
+## Exact execution result
+
+The final frozen runtime/test candidate was executed at:
+
+```text
+6bb388af42e4e0d9fce11df3b78b5e3eb221c78f
+```
+
+Result:
+
+```text
+Node.js    24.21.0
+npm        11.19.0
+TypeScript 7.0.2
+
+tests      11
+pass       11
+fail       0
+
+clean_before true
+clean_after  true
+overall      PASS
+```
+
+Exact execution evidence:
+
+`docs/verification/m1-reference-harness-execution.md`

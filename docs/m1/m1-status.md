@@ -28,15 +28,19 @@ Input/invocation data contract: COMPLETE
 Runtime invocation semantics: COMPLETE
 Deterministic input validator: MATERIALIZED
 Runtime technology boundary: COMPLETE
-Reference harness implementation: MATERIALIZED / HARDENED / VERIFICATION PENDING
+Reference harness implementation: VERIFIED — exact revision 6bb388af42e4e0d9fce11df3b78b5e3eb221c78f
 Result provenance integrity: COMPLETE
 M1 decisions D087–D145 continuity: PASS
 Exact Node/npm verification baseline: PINNED
-Package lockfile: PENDING
+Package lockfile: VERIFIED BY npm ci
 Static provider-independence/hardening preflight: PASS
 TypeScript runtime tests materialized: 11
-Strict compile/test: PENDING
-Provider integration: BLOCKED UNTIL REFERENCE HARNESS VERIFIES
+Reference verification runner: MATERIALIZED / FAIL-CLOSED PREFLIGHT PASS
+Pinned Docker verification path: MATERIALIZED / IMAGE PIN AUDIT PASS / GIT SAFE-DIRECTORY PREFLIGHT PASS
+Manual repository-native M1 workflow: MATERIALIZED / STATIC PREFLIGHT PASS
+Frozen candidate integrity: PASS — 20/20 blob identities
+Strict compile/test: PASS — 11/11
+Provider integration: NOT STARTED — requires separate next-scope gate
 SAP live adapters: NOT_STARTED
 ```
 
@@ -185,18 +189,70 @@ Latest hardening preflight:
 
 `docs/verification/m1-reference-harness-hardening-preflight.md`
 
+Dependency lockfile preflight:
+
+`docs/verification/m1-lockfile-preflight.md`
+
+Verification runner preflight:
+
+`docs/verification/m1-verification-runner-preflight.md`
+
+Pinned Docker verification path:
+
+`docs/verification/m1-docker-verification.md`
+
+Docker image pin audit:
+
+`docs/verification/m1-docker-image-pin-audit.md`
+
+Manual repository-native workflow preflight:
+
+`docs/verification/m1-manual-ci-preflight.md`
+
+Frozen verification candidate manifest:
+
+`docs/verification/m1-verification-candidate.md`
+
+## Exact verification result
+
+Verified revision:
+
+`6bb388af42e4e0d9fce11df3b78b5e3eb221c78f`
+
+Result:
+
+```text
+Node.js    24.21.0
+npm        11.19.0
+TypeScript 7.0.2
+
+npm ci     PASS
+compile    PASS
+tests      11
+pass       11
+fail       0
+
+clean_before true
+clean_after  true
+overall      PASS
+```
+
+See:
+
+`docs/verification/m1-reference-harness-execution.md`
+
 ## Next gate
 
-Do **not** add a real provider adapter yet.
+M1 product/runtime verification is complete.
 
-The next gate is verification-only:
+The next safe action is stack maintenance only:
 
-1. generate the repository lockfile from the pinned manifest
-2. run Node 24.21.0 / npm 11.19.0 with the pinned TypeScript 7.0.2 toolchain
-3. strict compile
-4. execute the offline M1 runtime tests
-5. bind verification evidence to the branch revision
-6. fix any compile/test defects before provider integration
+1. refresh M2 onto the finalized M1 branch
+2. re-run `python scripts/selftest_m2_contracts.py`
+3. require 7/7 PASS
+4. only then refresh M3 onto M2
+
+Do not add a real provider adapter during this stack-maintenance gate.
 
 ## Guardrail
 
@@ -209,3 +265,42 @@ Do not introduce:
 - production access
 
 during the next gate.
+
+
+## Verification candidate freeze
+
+The M1 runtime/test/fixture artifact set was frozen and has now passed exact execution.
+
+Until the verification run completes, allowed M1 changes are limited to:
+
+- verification evidence/status documentation
+- defects exposed by verification
+- corrections required to make verification trustworthy
+
+Do not add new M1 behavior or provider integration.
+
+See:
+
+`docs/verification/m1-verification-candidate.md`
+
+
+## Docker Git ownership correction
+
+The pinned Node Bookworm image executes as root. A Linux host bind mount may be owned by a different UID, causing Git to reject the mounted checkout as dubious ownership before revision/clean-tree evidence can be collected.
+
+The Docker verification service now passes a process-scoped:
+
+`safe.directory=/workspace`
+
+through `GIT_CONFIG_COUNT/GIT_CONFIG_KEY_0/GIT_CONFIG_VALUE_0`.
+
+A disposable ownership-mismatch probe reproduced the Git failure without the override and returned exit code 0 with the scoped override.
+
+No product/runtime/test/fixture artifact changed. The verification candidate was re-frozen and re-audited:
+
+```text
+frozen artifacts: 20
+matched:          20
+mismatches:        0
+integrity:         PASS
+```

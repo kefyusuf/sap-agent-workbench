@@ -169,9 +169,9 @@ try {
           fail("npm run check failed.");
         } else {
           const checkOutput = outputText(check);
-          const testsMatch = checkOutput.match(/# tests\s+(\d+)/);
-          const passMatch = checkOutput.match(/# pass\s+(\d+)/);
-          const failMatch = checkOutput.match(/# fail\s+(\d+)/);
+          const testsMatch = checkOutput.match(/^\s*(?:#|ℹ)\s+tests\s+(\d+)\s*$/m);
+          const passMatch = checkOutput.match(/^\s*(?:#|ℹ)\s+pass\s+(\d+)\s*$/m);
+          const failMatch = checkOutput.match(/^\s*(?:#|ℹ)\s+fail\s+(\d+)\s*$/m);
           report.test_summary.tests = testsMatch ? Number(testsMatch[1]) : null;
           report.test_summary.pass = passMatch ? Number(passMatch[1]) : null;
           report.test_summary.fail = failMatch ? Number(failMatch[1]) : null;

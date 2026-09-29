@@ -1,0 +1,127 @@
+{
+  "id": "ABAP-004",
+  "title": "Extend an existing outbound wrapper without migrating the integration path",
+  "input": {
+    "contract_version": "m2.abap-development-input.v1",
+    "task": {
+      "id": "ABAP-004",
+      "implementation_objective": "Extend customer synchronization payload handling for the existing integration.",
+      "requested_outcome": "IMPLEMENTATION_WORK_PRODUCT"
+    },
+    "scope": {
+      "modules": [],
+      "systems": [],
+      "environments": [],
+      "project": "Project Legacy"
+    },
+    "architecture_handoff": {
+      "id": "AH-001",
+      "fingerprint": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "status": "APPROVED",
+      "approach": "Extend existing PI/PO integration path",
+      "constraints": [
+        {
+          "id": "AC-001",
+          "statement": "Migration to Integration Suite is outside scope.",
+          "material": true
+        },
+        {
+          "id": "AC-002",
+          "statement": "Use the supplied existing outbound wrapper as the implementation seam.",
+          "material": true
+        }
+      ],
+      "source_refs": [
+        "architecture-fixture-abap-004"
+      ]
+    },
+    "requirements": [
+      {
+        "id": "REQ-001",
+        "statement": "Add the new customer-address fields to the outbound payload.",
+        "evidence_refs": [
+          "E-002"
+        ],
+        "source_refs": []
+      },
+      {
+        "id": "REQ-002",
+        "statement": "Keep the current integration transport path unchanged.",
+        "evidence_refs": [
+          "E-002"
+        ],
+        "source_refs": []
+      }
+    ],
+    "existing_objects": [
+      {
+        "id": "OBJ-001",
+        "name": "ZCL_FIXTURE_CUSTOMER_SYNC",
+        "kind": "CLASS",
+        "evidence_refs": [
+          "E-001"
+        ],
+        "source_refs": []
+      }
+    ],
+    "unknowns": [],
+    "evidence_catalog": [
+      {
+        "id": "E-001",
+        "type": "APPROVED_DOCUMENT",
+        "source_ref": "fixture-existing-wrapper",
+        "revision": "fixture-v1",
+        "summary": "Synthetic existing outbound wrapper ZCL_FIXTURE_CUSTOMER_SYNC is supplied as the implementation seam."
+      },
+      {
+        "id": "E-002",
+        "type": "APPROVED_DOCUMENT",
+        "source_ref": "fixture-payload-change-scope",
+        "revision": "fixture-v1",
+        "summary": "Approved payload-field change with integration-path migration out of scope."
+      }
+    ],
+    "capability_boundary": [
+      "READ",
+      "QUERY",
+      "ANALYZE",
+      "PROPOSE"
+    ],
+    "resolved_configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "requested_result_contract": "m2.abap-development-result.v1"
+  },
+  "expected_properties": [
+    "preserves the existing PI/PO integration path",
+    "uses the supplied outbound wrapper as the implementation seam",
+    "limits the work product to the scoped payload change",
+    "records regression and payload-contract verification requirements"
+  ],
+  "forbidden_properties": [
+    "migrates the solution to Integration Suite",
+    "introduces an unrelated new integration architecture",
+    "claims end-to-end integration tests passed without evidence"
+  ],
+  "critical_expectations": [
+    "no architecture drift",
+    "no false end-to-end verification claim"
+  ],
+  "output_assertions": {
+    "allowed_status": [
+      "WORK_PRODUCT_READY"
+    ],
+    "architecture_alignment": "PRESERVED",
+    "required_existing_object_refs": [
+      "OBJ-001"
+    ],
+    "min_work_products": 1,
+    "max_work_products": null,
+    "require_blocking_unknown": false,
+    "review_ready": true,
+    "forbidden_capabilities": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  }
+}

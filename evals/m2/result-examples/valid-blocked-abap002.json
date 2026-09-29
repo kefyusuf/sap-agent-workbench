@@ -1,0 +1,72 @@
+{
+  "contract_version": "m2.abap-development-result.v1",
+  "task_id": "ABAP-002",
+  "provenance": {
+    "input_fingerprint": "sha256:2fe8ead84e065d658667b857be8e6e75bd7a74a3c026c5aa65d8ee73d27488b0",
+    "configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "architecture_handoff_fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "status": "BLOCKED",
+  "architecture_alignment": {
+    "status": "PRESERVED",
+    "constraint_results": [
+      {
+        "constraint_ref": "AC-001",
+        "status": "PRESERVED",
+        "notes": "No unsupported extension object is selected."
+      },
+      {
+        "constraint_ref": "AC-002",
+        "status": "PRESERVED",
+        "notes": "No implicit enhancement or direct table mutation is proposed."
+      }
+    ]
+  },
+  "unknowns": [
+    {
+      "id": "U-001",
+      "statement": "Exact supported extension/BAdI for the target SAP version is unresolved.",
+      "material": true,
+      "blocks_work_product": true,
+      "verification": "Verify the supported extension point for the target SAP version."
+    },
+    {
+      "id": "U-002",
+      "statement": "Existing project implementation object, if any, is unresolved.",
+      "material": true,
+      "blocks_work_product": true,
+      "verification": "Inspect project/system object context before implementation."
+    }
+  ],
+  "existing_objects_used": [],
+  "proposed_new_objects": [],
+  "implementation_plan": [],
+  "work_products": [],
+  "assumptions": [],
+  "risks": [],
+  "required_verification": [
+    {
+      "id": "V-001",
+      "type": "OTHER",
+      "description": "Resolve the exact supported extension object and existing implementation context.",
+      "blocking_for_delivery": true
+    }
+  ],
+  "verification_claims": [],
+  "review_handoff": {
+    "ready_for_review": false,
+    "notes": [
+      "Implementation cannot be finalized without the exact supported extension context."
+    ]
+  },
+  "requested_capabilities": [
+    {
+      "verb": "READ",
+      "purpose": "Inspect supported extension and existing project object context."
+    }
+  ],
+  "next_action": {
+    "type": "VERIFY_IMPLEMENTATION_CONTEXT",
+    "description": "Verify the exact extension object before producing implementation code."
+  }
+}

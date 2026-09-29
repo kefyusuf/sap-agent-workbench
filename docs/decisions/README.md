@@ -20,8 +20,13 @@ This directory contains canonical architecture decisions for SAP Agent Workbench
 | [ADR-012](./ADR-012-technical-architect-runtime-invocation.md) | D120–D130 | Technical Architect Runtime Invocation Semantics |
 | [ADR-013](./ADR-013-m1-runtime-technology.md) | D131–D140 | M1 Runtime Technology Boundary |
 | [ADR-014](./ADR-014-m1-result-provenance-integrity.md) | D141–D145 | M1 Result Provenance Integrity |
+| [ADR-015](./ADR-015-abap-development-agent-boundary.md) | D146–D156 | ABAP Development Agent Boundary |
+| [ADR-016](./ADR-016-abap-development-evaluation.md) | D157–D164 | ABAP Development Evaluation Model |
+| [ADR-017](./ADR-017-abap-development-contracts.md) | D165–D176 | ABAP Development Input & Result Contracts |
+| [ADR-018](./ADR-018-m2-verification-evidence-compatibility.md) | D177–D182 | M2 Verification Evidence Compatibility |
+| [ADR-019](./ADR-019-m2-deterministic-contract-validation.md) | D183–D191 | M2 Deterministic Contract Validation |
 
-The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D145.
+The ADRs above materialize every currently accepted decision ID from SAP-AW-D001 through SAP-AW-D191.
 
 ## Decision groups
 
@@ -122,3 +127,39 @@ minimal pinned dependencies, and deferred workspace splitting.
 Requires accepted result evidence/source references to remain closed over the validated invocation snapshot,
 forbids model-created system evidence, restricts assumption references to ASSUMED claims,
 and requires the TypeScript reference validator to preserve all contract-critical boundaries.
+
+
+### D146–D156 — M2 ABAP Development Agent boundary
+
+Defines implementation ownership downstream from architecture, architecture-fidelity rules,
+system-object identity discipline, generated-code vs verification-evidence separation,
+verification honesty, reuse-before-create, no-mutation boundaries, revision-bound handoff,
+and synthetic/offline-first M2 scope.
+
+### D157–D164 — M2 ABAP Development evaluation
+
+Defines property-based implementation evaluation, synthetic fixtures, architecture-fidelity testing,
+system-object hallucination failures, false verification failures, no-mutation checks,
+missing-context behavior, and the rule that model grading cannot solely decide CRITICAL boundaries.
+
+
+### D165–D176 — M2 ABAP Development contracts
+
+Defines the provider-independent M2 input/result contracts, architecture-handoff binding,
+existing-vs-proposed object identity, WORK_PRODUCT_READY semantics, object-reference integrity,
+generated-code/evidence separation, provenance binding, and preservation of the no-mutation boundary.
+
+### D177–D182 — M2 verification evidence compatibility
+
+Requires evidence-backed verification claims, defines initial verification/evidence-type compatibility,
+forbids documents/generated code from standing in for compile/ATC/test evidence,
+keeps missing verification as required work, closes claims over the input evidence catalog,
+and makes compatibility a deterministic CRITICAL boundary.
+
+
+### D183–D191 — M2 deterministic contract validation
+
+Allows evaluation tooling while product runtime remains blocked, standardizes Python-stdlib contract validation,
+binds results to invocation provenance, validates object-reference closure and WORK_PRODUCT_READY blockers,
+enforces verification-evidence compatibility, keeps case assertions evaluation-only,
+and requires positive/negative self-test coverage before later M2 runtime work.

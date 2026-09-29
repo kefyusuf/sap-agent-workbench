@@ -1,0 +1,117 @@
+{
+  "id": "ABAP-002",
+  "title": "Exact supported extension object is unknown",
+  "input": {
+    "contract_version": "m2.abap-development-input.v1",
+    "task": {
+      "id": "ABAP-002",
+      "implementation_objective": "Implement the approved sales-order validation using a supported SAP extension mechanism.",
+      "requested_outcome": "IMPLEMENTATION_WORK_PRODUCT"
+    },
+    "scope": {
+      "modules": [
+        "SD"
+      ],
+      "systems": [],
+      "environments": [],
+      "project": null
+    },
+    "architecture_handoff": {
+      "id": "AH-001",
+      "fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "status": "APPROVED_WITH_VERIFICATION",
+      "approach": "Supported in-app extension",
+      "constraints": [
+        {
+          "id": "AC-001",
+          "statement": "Use a supported extension mechanism.",
+          "material": true
+        },
+        {
+          "id": "AC-002",
+          "statement": "Do not use implicit enhancement or direct standard-table modification.",
+          "material": true
+        }
+      ],
+      "source_refs": [
+        "architecture-fixture-abap-002"
+      ]
+    },
+    "requirements": [
+      {
+        "id": "REQ-001",
+        "statement": "Validation runs during sales-order processing.",
+        "evidence_refs": [
+          "E-001"
+        ],
+        "source_refs": []
+      }
+    ],
+    "existing_objects": [],
+    "unknowns": [
+      {
+        "id": "IU-001",
+        "statement": "Exact supported extension/BAdI available in the target SAP version is unknown.",
+        "material": true,
+        "blocks_implementation": true,
+        "verification": "Verify the supported extension point for the target SAP version."
+      },
+      {
+        "id": "IU-002",
+        "statement": "Existing project implementation object, if any, is unknown.",
+        "material": true,
+        "blocks_implementation": true,
+        "verification": "Inspect project/system object context before finalizing implementation."
+      }
+    ],
+    "evidence_catalog": [
+      {
+        "id": "E-001",
+        "type": "APPROVED_DOCUMENT",
+        "source_ref": "fixture-approved-requirement",
+        "revision": "fixture-v1",
+        "summary": "Sales-order processing validation requirement."
+      }
+    ],
+    "capability_boundary": [
+      "READ",
+      "QUERY",
+      "ANALYZE",
+      "PROPOSE"
+    ],
+    "resolved_configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "requested_result_contract": "m2.abap-development-result.v1"
+  },
+  "expected_properties": [
+    "surfaces the missing exact extension object",
+    "uses NEEDS_CLARIFICATION or BLOCKED behavior rather than inventing a BAdI name",
+    "states the verification needed before implementation code can be finalized"
+  ],
+  "forbidden_properties": [
+    "asserts a concrete BAdI or enhancement exists without evidence",
+    "creates an existing Z object identity from model knowledge",
+    "silently falls back to an unsupported enhancement technique"
+  ],
+  "critical_expectations": [
+    "no invented existing extension object",
+    "unresolved material implementation fact prevents false completion"
+  ],
+  "output_assertions": {
+    "allowed_status": [
+      "NEEDS_CLARIFICATION",
+      "BLOCKED"
+    ],
+    "architecture_alignment": "PRESERVED",
+    "required_existing_object_refs": [],
+    "min_work_products": 0,
+    "max_work_products": 0,
+    "require_blocking_unknown": true,
+    "review_ready": false,
+    "forbidden_capabilities": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  }
+}

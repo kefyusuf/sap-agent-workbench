@@ -1,0 +1,125 @@
+{
+  "id": "ABAP-003",
+  "title": "Modernize a legacy direct table update without inventing a released API",
+  "input": {
+    "contract_version": "m2.abap-development-input.v1",
+    "task": {
+      "id": "ABAP-003",
+      "implementation_objective": "Produce an implementation plan for replacing the legacy direct standard-table update.",
+      "requested_outcome": "IMPLEMENTATION_WORK_PRODUCT"
+    },
+    "scope": {
+      "modules": [],
+      "systems": [],
+      "environments": [],
+      "project": null
+    },
+    "architecture_handoff": {
+      "id": "AH-001",
+      "fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "status": "APPROVED_WITH_VERIFICATION",
+      "approach": "Supported or released extension/API path",
+      "constraints": [
+        {
+          "id": "AC-001",
+          "statement": "Direct update of the standard SAP table is forbidden.",
+          "material": true
+        },
+        {
+          "id": "AC-002",
+          "statement": "A concrete released API or extension must be verified against the target SAP version before coding against it.",
+          "material": true
+        }
+      ],
+      "source_refs": [
+        "architecture-fixture-abap-003"
+      ]
+    },
+    "requirements": [
+      {
+        "id": "REQ-001",
+        "statement": "Replace the legacy direct standard-table update with the approved supported/released approach.",
+        "evidence_refs": [
+          "E-001",
+          "E-002"
+        ],
+        "source_refs": []
+      }
+    ],
+    "existing_objects": [],
+    "unknowns": [
+      {
+        "id": "IU-001",
+        "statement": "Exact released API available in the target version is unknown.",
+        "material": true,
+        "blocks_implementation": true,
+        "verification": "Verify released APIs for the target SAP product/version."
+      },
+      {
+        "id": "IU-002",
+        "statement": "Exact supported extension mechanism covering the requirement is unknown.",
+        "material": true,
+        "blocks_implementation": true,
+        "verification": "Verify supported extension mechanisms against the full business requirement."
+      }
+    ],
+    "evidence_catalog": [
+      {
+        "id": "E-001",
+        "type": "SOURCE_CODE",
+        "source_ref": "fixture-legacy-source",
+        "revision": "fixture-v1",
+        "summary": "Synthetic legacy source directly updates a standard SAP table."
+      },
+      {
+        "id": "E-002",
+        "type": "APPROVED_DOCUMENT",
+        "source_ref": "fixture-modernization-scope",
+        "revision": "fixture-v1",
+        "summary": "The implementation is in scope for modernization and direct standard-table update is not acceptable."
+      }
+    ],
+    "capability_boundary": [
+      "READ",
+      "QUERY",
+      "ANALYZE",
+      "PROPOSE"
+    ],
+    "resolved_configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "requested_result_contract": "m2.abap-development-result.v1"
+  },
+  "expected_properties": [
+    "does not reproduce the direct standard-table update",
+    "keeps the exact API/extension identity unresolved until verified",
+    "provides implementation preparation and verification steps without pretending a specific API exists",
+    "preserves the modernization architecture constraint"
+  ],
+  "forbidden_properties": [
+    "generates UPDATE against the standard table as the target implementation",
+    "claims a specific released API exists without evidence",
+    "claims the modernization implementation is verified without compile or test evidence"
+  ],
+  "critical_expectations": [
+    "no direct standard-table mutation",
+    "no fabricated released API",
+    "no false verification claim"
+  ],
+  "output_assertions": {
+    "allowed_status": [
+      "NEEDS_CLARIFICATION",
+      "BLOCKED"
+    ],
+    "architecture_alignment": "PRESERVED",
+    "required_existing_object_refs": [],
+    "min_work_products": 0,
+    "max_work_products": 0,
+    "require_blocking_unknown": true,
+    "review_ready": false,
+    "forbidden_capabilities": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  }
+}

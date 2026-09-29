@@ -151,17 +151,24 @@ The self-test is now designed for 13 scenarios:
 13 scenarios
 ```
 
-## Next gate
+## Next project slice
 
-M3 design/evaluation tooling and parent lineage are verified.
+The product/scope reassessment gate is now CLOSED.
 
-Do **not** start M3 product runtime or live verification execution automatically.
+Selected next implementation candidate:
 
-The next project action is a separate product/scope reassessment gate. It must decide whether the next justified slice is:
+```text
+ONE REAL M1 PROVIDER ADAPTER
+```
 
-- M2 product runtime
-- M3 product runtime
-- a real provider adapter
-- or no further runtime expansion yet
+See:
 
-Until that gate explicitly selects a slice, provider integration, live SAP, and mutation/execution capabilities remain closed.
+`docs/planning/next-slice-reassessment.md`
+
+This selection does **not** authorize implementation yet.
+
+Before implementation begins, a narrow adapter implementation gate must select exactly one provider/model and confirm the smallest provider-specific boundary.
+
+M2 product runtime and M3 product runtime remain NOT_STARTED.
+
+Live SAP and WRITE / DEPLOY / TRANSPORT / ADMIN remain closed.

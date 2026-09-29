@@ -25,9 +25,9 @@ Initial synthetic cases: 4 NORMALIZED
 Reviewer input/result contracts: COMPLETE
 Test Engineer input/result contracts: COMPLETE
 M3 contract static preflight: PASS
-M3 deterministic validator: MATERIALIZED / EXECUTION PENDING
+M3 deterministic validator: VERIFIED — exact self-test PASS
 M3 runtime implementation: NOT_STARTED
-M3 deterministic self-test: MATERIALIZED / EXACT PYTHON EXECUTION PENDING
+M3 deterministic self-test: PASS — 13/13 / Python 3.11.6 / exit 0
 M3 independent semantic replay: PASS — 13/13
 M3 validator static preflight: PASS
 M3 verification-evidence compatibility: COMPLETE / REPLAY PASS
@@ -85,17 +85,36 @@ All four use only READ / QUERY / ANALYZE / PROPOSE.
 
 ## Parent gates
 
-```text
-M2 deterministic contract tooling: VERIFIED
-M2 product runtime: BLOCKED on M1 reference-harness verification
+M1 provider-neutral reference harness is VERIFIED.
 
-M3 DESIGN / CONTRACT WORK: ALLOWED
-M3 EVALUATION TOOLING:     ALLOWED
-M3 PRODUCT RUNTIME:        BLOCKED
-LIVE VERIFICATION TOOLS:   BLOCKED
+M2 parent lineage is normalized and its deterministic contract tooling is revalidated:
+
+```text
+M2 head: d5bf77c1f48e43d9d7293bda9dd0bcd4a8897183
+M2 deterministic self-test: 7/7 PASS
 ```
 
-No parent runtime gate is bypassed.
+M3 was refreshed onto that M2 parent and the pushed M3 revision was executed:
+
+```text
+M3 tested revision: 141092ec709e44d7ff563099a0088be2a170e0a7
+M3 deterministic self-test: 13/13 PASS
+Python: 3.11.6
+exit code: 0
+```
+
+A later M2 status-only documentation commit was synchronized into M3 without changing M3 validator/test/case/schema artifacts.
+
+Current gate:
+
+```text
+M3 DESIGN / CONTRACT WORK: VERIFIED
+M3 EVALUATION TOOLING:     VERIFIED
+M3 PRODUCT RUNTIME:        NOT_STARTED
+LIVE VERIFICATION TOOLS:   NOT_STARTED
+```
+
+Passing parent/deterministic gates does not automatically authorize M3 product runtime or live verification execution.
 
 ## Verification
 
@@ -105,6 +124,7 @@ See:
 - `docs/verification/m3-contract-preflight.md`
 - `docs/verification/m3-validator-preflight.md`
 - `docs/verification/m3-independent-semantic-replay.md`
+- `docs/verification/m3-contract-selftest.md`
 
 ## Deterministic evaluation tooling
 
@@ -133,18 +153,15 @@ The self-test is now designed for 13 scenarios:
 
 ## Next gate
 
-The next safe M3 action is **verification-only**:
+M3 design/evaluation tooling and parent lineage are verified.
 
-```text
-python scripts/selftest_m3_contracts.py
-```
+Do **not** start M3 product runtime or live verification execution automatically.
 
-The hardened 13-scenario semantic replay passes. Exact committed Python self-test execution is still required before marking the M3 validator VERIFIED.
+The next project action is a separate product/scope reassessment gate. It must decide whether the next justified slice is:
 
-Even after the deterministic self-test passes:
+- M2 product runtime
+- M3 product runtime
+- a real provider adapter
+- or no further runtime expansion yet
 
-- M3 product runtime remains blocked
-- live verification execution remains blocked
-- M2 product runtime remains blocked
-
-until the parent M1 reference-harness verification gate is cleared.
+Until that gate explicitly selects a slice, provider integration, live SAP, and mutation/execution capabilities remain closed.

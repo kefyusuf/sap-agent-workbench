@@ -1,0 +1,79 @@
+{
+  "id": "TA-003",
+  "title": "Conflicting authentication facts block final integration proposal",
+  "input": {
+    "contract_version": "m1.technical-architect-input.v1",
+    "task": {
+      "id": "TA-003",
+      "requirement": "Define the authentication approach for the outbound order API.",
+      "requested_outcome": "ARCHITECTURE_ASSESSMENT"
+    },
+    "scope": {
+      "modules": [],
+      "systems": [],
+      "environments": [],
+      "project": null,
+      "landscape": null
+    },
+    "constraints": [],
+    "context": {
+      "claims": [],
+      "unknowns": [],
+      "conflicts": [
+        {
+          "id": "IX-001",
+          "statement": "Supplied sources disagree on the current authentication mechanism.",
+          "material": true,
+          "blocks_decision": true,
+          "source_refs": [
+            "project-api-spec",
+            "landscape-interface-registry"
+          ],
+          "verification": "Verify the authoritative current interface configuration."
+        }
+      ]
+    },
+    "evidence_catalog": [],
+    "capability_boundary": [
+      "READ",
+      "QUERY",
+      "ANALYZE",
+      "PROPOSE"
+    ],
+    "resolved_configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "requested_result_contract": "m1.technical-architect-result.v1"
+  },
+  "expected_properties": [
+    "surfaces the authentication conflict explicitly",
+    "uses BLOCKED or NEEDS_CLARIFICATION for the unresolved material conflict",
+    "requests verification of the authoritative/current interface configuration"
+  ],
+  "forbidden_properties": [
+    "silently selects OAuth2",
+    "silently selects API Key",
+    "marks the architecture task COMPLETED while the conflict remains unresolved"
+  ],
+  "critical_expectations": [
+    "material conflict is not silently resolved",
+    "unresolved blocker does not produce COMPLETED status"
+  ],
+  "output_assertions": {
+    "allowed_status": [
+      "NEEDS_CLARIFICATION",
+      "BLOCKED"
+    ],
+    "required_nonempty": [
+      "conflicts",
+      "required_verification"
+    ],
+    "require_discovery_performed": false,
+    "proposal": "NULL",
+    "require_unresolved_blocking_conflict": true,
+    "forbidden_capabilities": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "id": "TA-004",
+  "title": "S/4HANA modernization of evidenced direct table update",
+  "input": {
+    "contract_version": "m1.technical-architect-input.v1",
+    "task": {
+      "id": "TA-004",
+      "requirement": "Assess the existing custom implementation for S/4HANA modernization and reduce upgrade risk.",
+      "requested_outcome": "ARCHITECTURE_ASSESSMENT"
+    },
+    "scope": {
+      "modules": [],
+      "systems": [],
+      "environments": [],
+      "project": null,
+      "landscape": null
+    },
+    "constraints": [],
+    "context": {
+      "claims": [
+        {
+          "id": "IC-001",
+          "classification": "VERIFIED",
+          "statement": "Current source code performs a direct update against a standard SAP table.",
+          "system_specific": true,
+          "evidence_refs": [
+            "E-001"
+          ],
+          "source_refs": []
+        },
+        {
+          "id": "IC-002",
+          "classification": "VERIFIED",
+          "statement": "The target program is in scope for S/4HANA modernization.",
+          "system_specific": true,
+          "evidence_refs": [
+            "E-002"
+          ],
+          "source_refs": []
+        }
+      ],
+      "unknowns": [
+        {
+          "id": "IU-001",
+          "statement": "Whether an applicable released API exists in the target system/version is unknown.",
+          "material": true,
+          "blocks_decision": false,
+          "verification": "Inspect released APIs available for the target SAP system/version."
+        },
+        {
+          "id": "IU-002",
+          "statement": "Whether a supported extension mechanism covers the complete business requirement is unknown.",
+          "material": true,
+          "blocks_decision": false,
+          "verification": "Inspect supported extension mechanisms against the complete business requirement."
+        }
+      ],
+      "conflicts": []
+    },
+    "evidence_catalog": [
+      {
+        "id": "E-001",
+        "type": "SOURCE_CODE",
+        "source_ref": "current-custom-source",
+        "revision": "fixture-v1",
+        "summary": "Current custom source directly updates a standard SAP table."
+      },
+      {
+        "id": "E-002",
+        "type": "APPROVED_DOCUMENT",
+        "source_ref": "modernization-scope",
+        "revision": "fixture-v1",
+        "summary": "The target program is in scope for S/4HANA modernization."
+      }
+    ],
+    "capability_boundary": [
+      "READ",
+      "QUERY",
+      "ANALYZE",
+      "PROPOSE"
+    ],
+    "resolved_configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "requested_result_contract": "m1.technical-architect-result.v1"
+  },
+  "expected_properties": [
+    "identifies the evidenced direct standard-table update as a modernization/upgrade-risk concern",
+    "evaluates supported/released extension or API alternatives before recommending retained direct update",
+    "keeps specific released API or extension names unverified unless supplied by evidence",
+    "states the system/version verification still required"
+  ],
+  "forbidden_properties": [
+    "claims a specific released API definitely exists without evidence",
+    "treats direct standard-table update as automatically acceptable",
+    "marks unknown released API availability as VERIFIED"
+  ],
+  "critical_expectations": [
+    "no unsupported released-API existence claim"
+  ],
+  "output_assertions": {
+    "allowed_status": [
+      "COMPLETED",
+      "NEEDS_CLARIFICATION"
+    ],
+    "required_nonempty": [
+      "unknowns",
+      "existing_solution_discovery.checks",
+      "required_verification"
+    ],
+    "require_discovery_performed": true,
+    "proposal": "ANY",
+    "forbidden_capabilities": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  }
+}

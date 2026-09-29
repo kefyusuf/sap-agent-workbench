@@ -1,0 +1,122 @@
+{
+  "contract_version": "m1.technical-architect-result.v1",
+  "task_id": "TA-002",
+  "provenance": {
+    "input_fingerprint": "sha256:0e53b901edf843755955da772659b47487f09b91f7d205dce1c4769fa39bb017",
+    "configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "status": "COMPLETED",
+  "requirement_summary": "Extend Project Legacy customer synchronization without migrating its current PI/PO transport path.",
+  "scope": {
+    "modules": [],
+    "systems": [],
+    "environments": [],
+    "project": "Project Legacy"
+  },
+  "claims": [
+    {
+      "id": "C-001",
+      "classification": "KNOWN",
+      "statement": "The organization default for new external REST integrations is SAP Integration Suite.",
+      "system_specific": false,
+      "evidence_refs": [],
+      "source_refs": [
+        "organization-integration-standard"
+      ]
+    },
+    {
+      "id": "C-002",
+      "classification": "VERIFIED",
+      "statement": "Project Legacy customer synchronization currently uses PI/PO.",
+      "system_specific": true,
+      "evidence_refs": [
+        "E-001"
+      ],
+      "source_refs": []
+    },
+    {
+      "id": "C-003",
+      "classification": "VERIFIED",
+      "statement": "The current change request excludes migration of the transport path.",
+      "system_specific": false,
+      "evidence_refs": [
+        "E-002"
+      ],
+      "source_refs": []
+    }
+  ],
+  "unknowns": [],
+  "conflicts": [],
+  "existing_solution_discovery": {
+    "performed": true,
+    "checks": [
+      {
+        "category": "EXISTING_IMPLEMENTATION",
+        "status": "APPLICABLE",
+        "notes": "The project-specific existing PI/PO path is in scope to extend.",
+        "evidence_refs": [
+          "E-001"
+        ]
+      },
+      {
+        "category": "SIDE_BY_SIDE_EXTENSION",
+        "status": "NOT_APPLICABLE",
+        "notes": "Migration of the transport path is explicitly outside the current request.",
+        "evidence_refs": [
+          "E-002"
+        ]
+      }
+    ]
+  },
+  "solution_options": [
+    {
+      "id": "OPT-001",
+      "title": "Extend the existing Project Legacy PI/PO synchronization path",
+      "family": "INTEGRATION",
+      "description": "Keep the project-scoped current transport path and extend only the requested synchronization behavior.",
+      "tradeoffs": [
+        "Preserves project scope while retaining a legacy integration path."
+      ],
+      "risks": [
+        "Future migration may require separate redesign."
+      ],
+      "evidence_refs": [
+        "E-001",
+        "E-002"
+      ],
+      "assumption_refs": [],
+      "required_verification": []
+    }
+  ],
+  "proposal": {
+    "selected_option_id": "OPT-001",
+    "summary": "Extend the existing PI/PO path for the scoped request and treat Integration Suite migration as separate future work.",
+    "rationale": [
+      "The current path is project-verified.",
+      "Transport-path migration is explicitly excluded."
+    ],
+    "confidence": "HIGH",
+    "evidence_refs": [
+      "E-001",
+      "E-002"
+    ],
+    "assumption_refs": []
+  },
+  "required_verification": [],
+  "implementation_handoff": {
+    "ready": true,
+    "notes": [
+      "Implementation should remain within the existing project transport path."
+    ]
+  },
+  "requested_capabilities": [
+    {
+      "verb": "PROPOSE",
+      "purpose": "Provide the implementation handoff without changing the system."
+    }
+  ],
+  "next_action": {
+    "type": "REVIEW_ARCHITECTURE",
+    "description": "Review the scoped architecture proposal before implementation planning."
+  }
+}

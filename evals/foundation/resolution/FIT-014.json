@@ -1,0 +1,35 @@
+{
+  "id": "FIT-014",
+  "revision": 1,
+  "criticality": "REQUIRED",
+  "category": "context-resolution",
+  "kind": "same-scope-conflict",
+  "title": "Same-scope material conflict is not silently resolved",
+  "given": {
+    "facts": [
+      {
+        "id": "org.auth.rule-a",
+        "scope_rank": 3,
+        "value": "OAUTH2"
+      },
+      {
+        "id": "org.auth.rule-b",
+        "scope_rank": 3,
+        "value": "API_KEY"
+      }
+    ]
+  },
+  "when": {
+    "operation": "resolve-context"
+  },
+  "then": {
+    "resolution": "CONFLICT",
+    "effective_value": null,
+    "conflicting_sources": [
+      "org.auth.rule-a",
+      "org.auth.rule-b"
+    ]
+  },
+  "invariant": "Same-scope material conflicts remain explicit conflicts.",
+  "decision_refs": ["SAP-AW-D026", "SAP-AW-D061"]
+}

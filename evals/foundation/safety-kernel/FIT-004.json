@@ -1,0 +1,24 @@
+{
+  "id": "FIT-004",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "policy-target",
+  "kind": "side-effect-target-resolution",
+  "title": "Unknown target blocks side effects",
+  "given": {
+    "action": {
+      "verb": "WRITE",
+      "resource": "SAP_SOURCE",
+      "target_environment": "UNKNOWN"
+    }
+  },
+  "when": {
+    "operation": "evaluate-side-effect-eligibility"
+  },
+  "then": {
+    "policy_evaluation_status": "INSUFFICIENT_CONTEXT",
+    "execution_eligible": false
+  },
+  "invariant": "Side-effecting execution fails closed when material target context is unknown.",
+  "decision_refs": ["SAP-AW-D035", "SAP-AW-D044"]
+}

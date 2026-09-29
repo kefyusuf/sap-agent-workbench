@@ -1,0 +1,22 @@
+{
+  "id": "FIT-005",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "evidence",
+  "kind": "evidence-source-validation",
+  "title": "Model output is not system evidence",
+  "given": {
+    "candidate_evidence": {
+      "source_type": "MODEL_OUTPUT",
+      "statement": "ZCL_ORDER_SERVICE exists in the target SAP system."
+    }
+  },
+  "when": {
+    "operation": "classify-system-evidence"
+  },
+  "then": {
+    "accepted_as_system_evidence": false
+  },
+  "invariant": "Model-generated content cannot establish SAP system state.",
+  "decision_refs": ["SAP-AW-D006", "SAP-AW-D029"]
+}

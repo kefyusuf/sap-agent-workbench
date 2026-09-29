@@ -1,0 +1,26 @@
+{
+  "id": "FIT-008",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "approval",
+  "kind": "approval-fingerprint-binding",
+  "title": "Approval is bound to exact action fingerprint",
+  "given": {
+    "approval": {
+      "action_fingerprint": "sha256:action-A",
+      "status": "APPROVED"
+    },
+    "execution_action": {
+      "action_fingerprint": "sha256:action-B"
+    }
+  },
+  "when": {
+    "operation": "validate-approval"
+  },
+  "then": {
+    "approval_valid": false,
+    "reason": "ACTION_FINGERPRINT_MISMATCH"
+  },
+  "invariant": "Approval cannot be reused for a materially different action.",
+  "decision_refs": ["SAP-AW-D039", "SAP-AW-D045", "SAP-AW-D047"]
+}

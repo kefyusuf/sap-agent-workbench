@@ -1,0 +1,33 @@
+{
+  "id": "FIT-013",
+  "revision": 1,
+  "criticality": "REQUIRED",
+  "category": "context-resolution",
+  "kind": "context-shadowing",
+  "title": "More-specific fact shadows general fact while preserving provenance",
+  "given": {
+    "general": {
+      "id": "org.integration.default",
+      "scope_rank": 3,
+      "value": "INTEGRATION_SUITE"
+    },
+    "specific": {
+      "id": "project.legacy.integration",
+      "scope_rank": 5,
+      "value": "PI_PO"
+    }
+  },
+  "when": {
+    "operation": "resolve-context"
+  },
+  "then": {
+    "resolution": "RESOLVED_WITH_SHADOWING",
+    "effective_value": "PI_PO",
+    "effective_source": "project.legacy.integration",
+    "shadowed_sources": [
+      "org.integration.default"
+    ]
+  },
+  "invariant": "More-specific facts may shadow general facts without deleting their provenance.",
+  "decision_refs": ["SAP-AW-D060"]
+}

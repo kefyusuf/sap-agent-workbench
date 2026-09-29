@@ -1,0 +1,21 @@
+{
+  "id": "FIT-003",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "customization-policy",
+  "kind": "policy-layering",
+  "title": "Project cannot weaken organization safety",
+  "given": {
+    "organization_policy": "MUST_NOT_PROCEED",
+    "project_policy": "AUTO_EXECUTE"
+  },
+  "when": {
+    "operation": "resolve-layered-policy"
+  },
+  "then": {
+    "effective_decision": "MUST_NOT_PROCEED",
+    "project_override_applied": false
+  },
+  "invariant": "Lower customization layers may tighten policy but cannot weaken inherited safety.",
+  "decision_refs": ["SAP-AW-D018", "SAP-AW-D042", "SAP-AW-D057"]
+}

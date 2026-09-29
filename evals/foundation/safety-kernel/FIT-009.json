@@ -1,0 +1,23 @@
+{
+  "id": "FIT-009",
+  "revision": 1,
+  "criticality": "CRITICAL",
+  "category": "approval-policy",
+  "kind": "approval-deny-precedence",
+  "title": "Approval cannot override MUST_NOT_PROCEED",
+  "given": {
+    "policy_decision": "MUST_NOT_PROCEED",
+    "approval": {
+      "status": "APPROVED"
+    }
+  },
+  "when": {
+    "operation": "evaluate-execution-eligibility"
+  },
+  "then": {
+    "execution_eligible": false,
+    "effective_decision": "MUST_NOT_PROCEED"
+  },
+  "invariant": "Human approval satisfies REQUEST_APPROVAL only; it never defeats MUST_NOT_PROCEED.",
+  "decision_refs": ["SAP-AW-D046"]
+}

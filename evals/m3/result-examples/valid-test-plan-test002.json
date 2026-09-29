@@ -1,0 +1,120 @@
+{
+  "contract_version": "m3.sap-test-plan-result.v1",
+  "task_id": "TEST-002",
+  "provenance": {
+    "input_fingerprint": "sha256:cedf20f7393f1c90a53f923437ea7a8fdfd46ae104dbf0de832e3279712ae928",
+    "configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "implementation_fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "status": "TEST_PLAN_READY",
+  "coverage": [
+    {
+      "source_type": "REQUIREMENT",
+      "source_ref": "REQ-001",
+      "check_refs": [
+        "CHK-001"
+      ],
+      "excluded": false,
+      "exclusion_justification": null
+    },
+    {
+      "source_type": "REQUIREMENT",
+      "source_ref": "REQ-002",
+      "check_refs": [
+        "CHK-002",
+        "CHK-003"
+      ],
+      "excluded": false,
+      "exclusion_justification": null
+    },
+    {
+      "source_type": "CONSTRAINT",
+      "source_ref": "AC-001",
+      "check_refs": [
+        "CHK-002",
+        "CHK-003"
+      ],
+      "excluded": false,
+      "exclusion_justification": null
+    },
+    {
+      "source_type": "RISK",
+      "source_ref": "R-001",
+      "check_refs": [
+        "CHK-001",
+        "CHK-003"
+      ],
+      "excluded": false,
+      "exclusion_justification": null
+    }
+  ],
+  "planned_checks": [
+    {
+      "id": "CHK-001",
+      "type": "PAYLOAD_CONTRACT",
+      "description": "Verify the new customer-address fields are present and compatible with the outbound payload contract.",
+      "trace_refs": [
+        "REQ-001",
+        "R-001",
+        "WP-001"
+      ],
+      "preconditions": [
+        "Representative customer-address fixture data is available."
+      ],
+      "expected_result": "Required address fields are serialized with the expected contract without breaking existing fields.",
+      "expected_evidence_type": "TEST_RESULT",
+      "blocking_for_delivery": true
+    },
+    {
+      "id": "CHK-002",
+      "type": "REGRESSION",
+      "description": "Verify the existing PI/PO path remains the selected transport path.",
+      "trace_refs": [
+        "REQ-002",
+        "AC-001",
+        "WP-001"
+      ],
+      "preconditions": [
+        "Existing integration configuration/path can be inspected in the verification stage."
+      ],
+      "expected_result": "No migration or routing change away from the existing PI/PO path is introduced.",
+      "expected_evidence_type": "CONFIGURATION",
+      "blocking_for_delivery": true
+    },
+    {
+      "id": "CHK-003",
+      "type": "INTEGRATION_TEST",
+      "description": "Exercise the scoped outbound change end to end through the existing integration path.",
+      "trace_refs": [
+        "REQ-001",
+        "REQ-002",
+        "AC-001",
+        "R-001"
+      ],
+      "preconditions": [
+        "A governed integration-test environment and representative downstream endpoint are available."
+      ],
+      "expected_result": "The payload change is delivered through the existing path without regression.",
+      "expected_evidence_type": "TEST_RESULT",
+      "blocking_for_delivery": true
+    }
+  ],
+  "unknowns": [],
+  "verification_claims": [],
+  "execution_handoff": {
+    "ready_for_execution": true,
+    "notes": [
+      "Plan is ready; no PI/PO integration execution or PASS result is claimed."
+    ]
+  },
+  "requested_capabilities": [
+    {
+      "verb": "PROPOSE",
+      "purpose": "Return the verification plan only."
+    }
+  ],
+  "next_action": {
+    "type": "HANDOFF_VERIFICATION_EXECUTION",
+    "description": "Execute the plan in a separately governed verification stage."
+  }
+}

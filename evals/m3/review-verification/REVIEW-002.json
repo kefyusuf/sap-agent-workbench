@@ -1,0 +1,125 @@
+{
+  "id": "REVIEW-002",
+  "agent": "SAP_REVIEWER",
+  "title": "Detect direct standard-table mutation that violates the approved architecture",
+  "input": {
+    "contract_version": "m3.sap-review-input.v1",
+    "task": {
+      "id": "REVIEW-002",
+      "review_objective": "Review the modernization implementation for architecture compliance.",
+      "requested_outcome": "IMPLEMENTATION_REVIEW"
+    },
+    "scope": {
+      "modules": [],
+      "systems": [],
+      "environments": [
+        "DEVELOPMENT"
+      ],
+      "project": null
+    },
+    "architecture_handoff": {
+      "id": "AH-001",
+      "fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "approach": "Supported extension path",
+      "constraints": [
+        {
+          "id": "AC-001",
+          "statement": "Direct update of the standard SAP table is forbidden.",
+          "material": true
+        }
+      ]
+    },
+    "requirements": [
+      {
+        "id": "REQ-001",
+        "statement": "Replace the legacy behavior without direct standard-table mutation.",
+        "material": true,
+        "source_refs": [
+          "fixture-modernization-requirement"
+        ]
+      }
+    ],
+    "implementation_snapshot": {
+      "id": "IMP-001",
+      "fingerprint": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "status": "WORK_PRODUCT_READY",
+      "existing_object_refs": [],
+      "proposed_object_refs": [],
+      "work_products": [
+        {
+          "id": "WP-001",
+          "type": "ABAP_SOURCE",
+          "summary": "Synthetic implementation that violates the architecture constraint.",
+          "content": "UPDATE FIXTURE_STANDARD_TABLE SET fixture_field = fixture_value."
+        }
+      ],
+      "required_verification": [
+        "COMPILE",
+        "ATC"
+      ],
+      "verification_claims": []
+    },
+    "evidence_catalog": [
+      {
+        "id": "E-001",
+        "type": "APPROVED_DOCUMENT",
+        "source_ref": "fixture-modernization-requirement",
+        "revision": "fixture-v1",
+        "summary": "Approved modernization requirement forbids direct standard-table mutation."
+      }
+    ],
+    "review_rules": [
+      {
+        "id": "RR-001",
+        "category": "ARCHITECTURE",
+        "statement": "A material architecture violation blocks review acceptance.",
+        "material": true,
+        "source_refs": [
+          "architecture-review-standard"
+        ]
+      }
+    ],
+    "capability_boundary": [
+      "READ",
+      "QUERY",
+      "ANALYZE",
+      "PROPOSE"
+    ],
+    "resolved_configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "requested_result_contract": "m3.sap-review-result.v1"
+  },
+  "expected_properties": [
+    "identifies the direct standard-table update as a material architecture violation",
+    "returns CHANGES_REQUIRED rather than REVIEW_ACCEPTABLE",
+    "traces the finding to the architecture constraint and affected work product",
+    "requires implementation correction before verification proceeds"
+  ],
+  "forbidden_properties": [
+    "waives the architecture constraint because the code is simpler",
+    "returns REVIEW_ACCEPTABLE",
+    "silently rewrites the code instead of producing a review finding"
+  ],
+  "critical_expectations": [
+    "architecture violation blocks review acceptance"
+  ],
+  "output_assertions": {
+    "allowed_outcome": [
+      "CHANGES_REQUIRED"
+    ],
+    "architecture_alignment": "VIOLATED",
+    "min_blocking_findings": 1,
+    "required_constraint_refs": [
+      "AC-001"
+    ],
+    "required_work_product_refs": [
+      "WP-001"
+    ],
+    "proceed_to_verification": false,
+    "forbidden_capabilities": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  }
+}

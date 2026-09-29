@@ -1,0 +1,68 @@
+{
+  "contract_version": "m3.sap-review-result.v1",
+  "task_id": "REVIEW-002",
+  "provenance": {
+    "input_fingerprint": "sha256:f3556956782c1213ed5ea51e87f912b79cfa4d8fe838196d3db72a3f9d93e3fe",
+    "configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "architecture_handoff_fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "implementation_fingerprint": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "outcome": "REVIEW_ACCEPTABLE",
+  "architecture_alignment": {
+    "status": "VIOLATED",
+    "constraint_results": [
+      {
+        "constraint_ref": "AC-001",
+        "status": "VIOLATED",
+        "notes": "The direct standard-table mutation violates the approved constraint."
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "severity": "CRITICAL",
+      "category": "ARCHITECTURE",
+      "statement": "Direct standard-table mutation violates AC-001.",
+      "affected_refs": [
+        "WP-001"
+      ],
+      "constraint_refs": [
+        "AC-001"
+      ],
+      "requirement_refs": [
+        "REQ-001"
+      ],
+      "evidence_refs": [],
+      "source_refs": [
+        "fixture-modernization-requirement"
+      ],
+      "required_action": "Correct the implementation.",
+      "blocks_acceptance": true
+    }
+  ],
+  "unknowns": [],
+  "verification_debt": [
+    {
+      "type": "COMPILE",
+      "status": "PENDING",
+      "evidence_refs": []
+    },
+    {
+      "type": "ATC",
+      "status": "PENDING",
+      "evidence_refs": []
+    }
+  ],
+  "review_handoff": {
+    "proceed_to_verification": true,
+    "notes": [
+      "Invalid example: attempts to proceed despite a blocking architecture violation."
+    ]
+  },
+  "requested_capabilities": [],
+  "next_action": {
+    "type": "HANDOFF_VERIFICATION",
+    "description": "Invalid example."
+  }
+}

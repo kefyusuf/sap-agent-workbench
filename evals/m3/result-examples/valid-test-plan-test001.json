@@ -1,0 +1,120 @@
+{
+  "contract_version": "m3.sap-test-plan-result.v1",
+  "task_id": "TEST-001",
+  "provenance": {
+    "input_fingerprint": "sha256:b0312a283ffcd74b4a46062f8673947bd30bc0e964c3a90279b45439bea4d9fe",
+    "configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "implementation_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "status": "TEST_PLAN_READY",
+  "coverage": [
+    {
+      "source_type": "REQUIREMENT",
+      "source_ref": "REQ-001",
+      "check_refs": [
+        "CHK-003",
+        "CHK-004"
+      ],
+      "excluded": false,
+      "exclusion_justification": null
+    },
+    {
+      "source_type": "REQUIREMENT",
+      "source_ref": "REQ-002",
+      "check_refs": [
+        "CHK-003"
+      ],
+      "excluded": false,
+      "exclusion_justification": null
+    },
+    {
+      "source_type": "RISK",
+      "source_ref": "R-001",
+      "check_refs": [
+        "CHK-003",
+        "CHK-004"
+      ],
+      "excluded": false,
+      "exclusion_justification": null
+    }
+  ],
+  "planned_checks": [
+    {
+      "id": "CHK-001",
+      "type": "COMPILE",
+      "description": "Compile the implementation snapshot in the target development context.",
+      "trace_refs": [
+        "WP-001"
+      ],
+      "preconditions": [
+        "Implementation snapshot under review is available."
+      ],
+      "expected_result": "The implementation compiles without syntax errors.",
+      "expected_evidence_type": "EXECUTION_RESULT",
+      "blocking_for_delivery": true
+    },
+    {
+      "id": "CHK-002",
+      "type": "ATC",
+      "description": "Run the applicable ATC checks against the reviewed implementation.",
+      "trace_refs": [
+        "WP-001"
+      ],
+      "preconditions": [
+        "Implementation is compilable."
+      ],
+      "expected_result": "No blocking ATC finding remains.",
+      "expected_evidence_type": "STATIC_ANALYSIS",
+      "blocking_for_delivery": true
+    },
+    {
+      "id": "CHK-003",
+      "type": "UNIT_TEST",
+      "description": "Verify valid and invalid order-validation behavior and controlled messages.",
+      "trace_refs": [
+        "REQ-001",
+        "REQ-002",
+        "WP-001"
+      ],
+      "preconditions": [
+        "ABAP Unit seam is available."
+      ],
+      "expected_result": "Invalid orders are rejected and controlled messages are returned while valid behavior remains intact.",
+      "expected_evidence_type": "TEST_RESULT",
+      "blocking_for_delivery": true
+    },
+    {
+      "id": "CHK-004",
+      "type": "NEGATIVE_CASE",
+      "description": "Exercise boundary/error inputs that could cause incorrect acceptance or rejection.",
+      "trace_refs": [
+        "REQ-001",
+        "R-001"
+      ],
+      "preconditions": [
+        "Representative invalid/boundary fixture data is available."
+      ],
+      "expected_result": "Boundary/error inputs follow the required rejection behavior without unexpected side effects.",
+      "expected_evidence_type": "TEST_RESULT",
+      "blocking_for_delivery": true
+    }
+  ],
+  "unknowns": [],
+  "verification_claims": [],
+  "execution_handoff": {
+    "ready_for_execution": true,
+    "notes": [
+      "This is a verification plan only; no check has been executed by the Test Engineer."
+    ]
+  },
+  "requested_capabilities": [
+    {
+      "verb": "PROPOSE",
+      "purpose": "Return the verification plan without executing tests or mutating SAP."
+    }
+  ],
+  "next_action": {
+    "type": "HANDOFF_VERIFICATION_EXECUTION",
+    "description": "Hand the plan to a separately governed verification execution stage."
+  }
+}

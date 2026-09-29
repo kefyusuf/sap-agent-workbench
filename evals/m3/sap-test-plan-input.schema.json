@@ -1,0 +1,368 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sap-agent-workbench:m3:sap-test-plan-input:v1",
+  "title": "M3 SAP Test Engineer Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "task",
+    "scope",
+    "requirements",
+    "architecture_constraints",
+    "implementation_snapshot",
+    "review_findings",
+    "risks",
+    "evidence_catalog",
+    "unknowns",
+    "capability_boundary",
+    "resolved_configuration_fingerprint",
+    "requested_result_contract"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "m3.sap-test-plan-input.v1"
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "planning_objective",
+        "requested_outcome"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "planning_objective": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requested_outcome": {
+          "const": "VERIFICATION_PLAN"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "modules",
+        "systems",
+        "environments",
+        "project"
+      ],
+      "properties": {
+        "modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "systems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "environments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "project": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "statement",
+          "critical"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^REQ-[0-9]{3,}$"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "critical": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "architecture_constraints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "statement",
+          "material"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^AC-[0-9]{3,}$"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "material": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "implementation_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "fingerprint",
+        "object_refs",
+        "work_products",
+        "verification_debt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^IMP-[0-9]{3,}$"
+        },
+        "fingerprint": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "object_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "work_products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "type",
+              "summary"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^WP-[0-9]{3,}$"
+              },
+              "type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "verification_debt": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "review_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "severity",
+          "statement",
+          "testable",
+          "blocks_verification"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^F-[0-9]{3,}$"
+          },
+          "severity": {
+            "enum": [
+              "CRITICAL",
+              "MAJOR",
+              "MINOR",
+              "INFO"
+            ]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "testable": {
+            "type": "boolean"
+          },
+          "blocks_verification": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "category",
+          "description",
+          "material"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^R-[0-9]{3,}$"
+          },
+          "category": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "material": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "evidence_catalog": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "source_ref",
+          "revision",
+          "summary"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^E-[0-9]{3,}$"
+          },
+          "type": {
+            "enum": [
+              "LIVE_SYSTEM",
+              "SOURCE_CODE",
+              "EXECUTION_RESULT",
+              "TEST_RESULT",
+              "STATIC_ANALYSIS",
+              "LOG",
+              "CONFIGURATION",
+              "APPROVED_DOCUMENT",
+              "DECISION_RECORD",
+              "OFFICIAL_DOCUMENTATION",
+              "USER_CONFIRMATION"
+            ]
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "statement",
+          "material",
+          "blocks_plan",
+          "verification"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^IU-[0-9]{3,}$"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "material": {
+            "type": "boolean"
+          },
+          "blocks_plan": {
+            "type": "boolean"
+          },
+          "verification": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "capability_boundary": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "READ",
+          "QUERY",
+          "ANALYZE",
+          "PROPOSE"
+        ]
+      }
+    },
+    "resolved_configuration_fingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "requested_result_contract": {
+      "const": "m3.sap-test-plan-result.v1"
+    }
+  }
+}

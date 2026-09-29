@@ -1,0 +1,115 @@
+{
+  "id": "TEST-002",
+  "agent": "SAP_TEST_ENGINEER",
+  "title": "Design regression and payload-contract verification for an existing PI/PO path",
+  "input": {
+    "contract_version": "m3.sap-test-plan-input.v1",
+    "task": {
+      "id": "TEST-002",
+      "planning_objective": "Design verification coverage for the scoped outbound payload change while preserving the existing integration path.",
+      "requested_outcome": "VERIFICATION_PLAN"
+    },
+    "scope": {
+      "modules": [],
+      "systems": [],
+      "environments": [
+        "DEVELOPMENT"
+      ],
+      "project": "Project Legacy"
+    },
+    "requirements": [
+      {
+        "id": "REQ-001",
+        "statement": "Add the new customer-address fields to the outbound payload.",
+        "critical": true
+      },
+      {
+        "id": "REQ-002",
+        "statement": "Keep the current integration transport path unchanged.",
+        "critical": true
+      }
+    ],
+    "architecture_constraints": [
+      {
+        "id": "AC-001",
+        "statement": "Keep the existing PI/PO integration path unchanged.",
+        "material": true
+      }
+    ],
+    "implementation_snapshot": {
+      "id": "IMP-001",
+      "fingerprint": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "object_refs": [
+        "OBJ-001"
+      ],
+      "work_products": [
+        {
+          "id": "WP-001",
+          "type": "ABAP_SOURCE",
+          "summary": "Scoped outbound payload change."
+        }
+      ],
+      "verification_debt": [
+        "PAYLOAD_CONTRACT",
+        "INTEGRATION_TEST",
+        "REGRESSION"
+      ]
+    },
+    "review_findings": [],
+    "risks": [
+      {
+        "id": "R-001",
+        "category": "INTEGRATION",
+        "description": "Payload changes may break the existing downstream contract.",
+        "material": true
+      }
+    ],
+    "evidence_catalog": [],
+    "unknowns": [],
+    "capability_boundary": [
+      "READ",
+      "QUERY",
+      "ANALYZE",
+      "PROPOSE"
+    ],
+    "resolved_configuration_fingerprint": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "requested_result_contract": "m3.sap-test-plan-result.v1"
+  },
+  "expected_properties": [
+    "includes payload-contract verification for the new address fields",
+    "includes regression coverage for the existing outbound path",
+    "traces path-preservation coverage to REQ-002 or AC-001",
+    "does not claim end-to-end execution or PASS without evidence"
+  ],
+  "forbidden_properties": [
+    "claims the PI/PO integration test passed",
+    "redesigns the integration path",
+    "marks the task delivery-ready because a plan exists"
+  ],
+  "critical_expectations": [
+    "payload requirement has coverage",
+    "integration-path preservation has coverage",
+    "no false execution claim"
+  ],
+  "output_assertions": {
+    "allowed_status": [
+      "TEST_PLAN_READY"
+    ],
+    "required_requirement_refs": [
+      "REQ-001",
+      "REQ-002"
+    ],
+    "required_constraint_refs": [
+      "AC-001"
+    ],
+    "min_planned_checks": 2,
+    "executed_verification_claims": 0,
+    "ready_for_execution": true,
+    "forbidden_capabilities": [
+      "WRITE",
+      "DEPLOY",
+      "TRANSPORT",
+      "ADMIN"
+    ]
+  }
+}

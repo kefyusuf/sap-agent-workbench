@@ -26,7 +26,7 @@ Verification-evidence compatibility: COMPLETE
 M2 deterministic contract validator: VERIFIED — 7/7 PASS
 M2 contract static preflight: PASS
 M2 deterministic self-test: PASS — Python 3.13.5 / exit 0
-M2 runtime implementation: BLOCKED ON PARENT M1 VERIFICATION
+M2 runtime implementation: NOT_STARTED — requires separate implementation gate
 Provider integration: NOT_STARTED
 SAP live adapters: NOT_STARTED
 ```
@@ -80,22 +80,41 @@ SAP live adapters: NOT_STARTED
 
 ## Parent gate
 
-M1 reference harness verification remains pending:
+M1 provider-neutral reference harness is VERIFIED.
 
-- package lockfile
-- Node 24.21.0 / npm 11.19.0 execution
-- TypeScript 7.0.2 strict compile
-- offline M1 runtime tests
+Verified runtime revision:
+
+```text
+6bb388af42e4e0d9fce11df3b78b5e3eb221c78f
+```
+
+The M2 branch has been refreshed onto the finalized M1 branch.
+
+Refresh revision:
+
+```text
+d5bf77c1f48e43d9d7293bda9dd0bcd4a8897183
+```
+
+Post-refresh deterministic verification:
+
+```text
+Python 3.11.6
+Summary: 7/7 PASS
+exit code: 0
+```
 
 Therefore:
 
 ```text
-M2 DESIGN / CONTRACT WORK       ALLOWED
-M2 EVALUATION TOOLING           ALLOWED
-M2 PRODUCT RUNTIME              BLOCKED
-M2 REAL PROVIDER INTEGRATION    BLOCKED
-M2 LIVE SAP                     BLOCKED
+M2 DESIGN / CONTRACT WORK       VERIFIED
+M2 EVALUATION TOOLING           VERIFIED
+M2 PRODUCT RUNTIME              NOT_STARTED
+M2 REAL PROVIDER INTEGRATION    NOT_STARTED
+M2 LIVE SAP                     NOT_STARTED
 ```
+
+Passing the M1 parent gate does not automatically authorize M2 product runtime work. A separate implementation scope gate is still required.
 
 ## Deterministic evaluation tooling
 
@@ -135,19 +154,11 @@ The validator/self-test and all exercised fixture/example bytes were matched to 
 
 ## Next gate
 
-M2 design/evaluation tooling is now verified.
+M2 design/evaluation tooling is verified and parent lineage is normalized.
 
-Do **not** implement the M2 product runtime yet.
+Do **not** implement the M2 product runtime automatically.
 
-The next cross-milestone priority is clearing the parent M1 reference-harness verification gate:
-
-1. exact Node 24.21.0 / npm 11.19.0 environment
-2. repository lockfile
-3. TypeScript 7.0.2 strict compile
-4. 11 offline M1 runtime tests
-5. revision-bound verification evidence
-
-Only after that parent gate passes may M2 runtime implementation be reconsidered.
+The next action is a separate product/scope reassessment gate deciding whether M2 runtime is the next justified implementation slice. Until that decision is made, keep provider integration and live SAP closed.
 
 ## Guardrail
 
@@ -160,4 +171,4 @@ Do not introduce:
 - ABAP compiler/ATC invocation
 - production credentials
 
-until the parent M1 verification gate is satisfied.
+until a separate M2 runtime implementation gate explicitly authorizes them.

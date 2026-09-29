@@ -28,19 +28,19 @@ Input/invocation data contract: COMPLETE
 Runtime invocation semantics: COMPLETE
 Deterministic input validator: MATERIALIZED
 Runtime technology boundary: COMPLETE
-Reference harness implementation: MATERIALIZED / HARDENED / VERIFICATION PENDING
+Reference harness implementation: VERIFIED — exact revision 6bb388af42e4e0d9fce11df3b78b5e3eb221c78f
 Result provenance integrity: COMPLETE
 M1 decisions D087–D145 continuity: PASS
 Exact Node/npm verification baseline: PINNED
-Package lockfile: MATERIALIZED / STRUCTURAL PREFLIGHT PASS / INSTALL VALIDATION PENDING
+Package lockfile: VERIFIED BY npm ci
 Static provider-independence/hardening preflight: PASS
 TypeScript runtime tests materialized: 11
 Reference verification runner: MATERIALIZED / FAIL-CLOSED PREFLIGHT PASS
 Pinned Docker verification path: MATERIALIZED / IMAGE PIN AUDIT PASS / GIT SAFE-DIRECTORY PREFLIGHT PASS
 Manual repository-native M1 workflow: MATERIALIZED / STATIC PREFLIGHT PASS
 Frozen candidate integrity: PASS — 20/20 blob identities
-Strict compile/test: PENDING
-Provider integration: BLOCKED UNTIL REFERENCE HARNESS VERIFIES
+Strict compile/test: PASS — 11/11
+Provider integration: NOT STARTED — requires separate next-scope gate
 SAP live adapters: NOT_STARTED
 ```
 
@@ -213,19 +213,46 @@ Frozen verification candidate manifest:
 
 `docs/verification/m1-verification-candidate.md`
 
+## Exact verification result
+
+Verified revision:
+
+`6bb388af42e4e0d9fce11df3b78b5e3eb221c78f`
+
+Result:
+
+```text
+Node.js    24.21.0
+npm        11.19.0
+TypeScript 7.0.2
+
+npm ci     PASS
+compile    PASS
+tests      11
+pass       11
+fail       0
+
+clean_before true
+clean_after  true
+overall      PASS
+```
+
+See:
+
+`docs/verification/m1-reference-harness-execution.md`
+
 ## Next gate
 
-Do **not** add a real provider adapter yet.
+M1 product/runtime verification is complete.
 
-The next gate is verification-only:
+The next safe action is stack maintenance only:
 
-1. from the exact M1 revision, run `docker compose -f compose.m1-verify.yml run --rm m1-verify`
-2. require successful `npm ci --ignore-scripts` inside the pinned Node 24.21.0 image
-3. require npm 11.19.0 and TypeScript 7.0.2
-4. require strict compile + 11/11 offline Node tests
-5. preserve a clean working tree before/after execution
-6. capture the generated revision-bound JSON verification report
-7. fix any install/compile/test defect before provider integration
+1. refresh M2 onto the finalized M1 branch
+2. re-run `python scripts/selftest_m2_contracts.py`
+3. require 7/7 PASS
+4. only then refresh M3 onto M2
+
+Do not add a real provider adapter during this stack-maintenance gate.
 
 ## Guardrail
 
@@ -242,7 +269,7 @@ during the next gate.
 
 ## Verification candidate freeze
 
-The M1 runtime/test/fixture artifact set is now frozen for exact execution.
+The M1 runtime/test/fixture artifact set was frozen and has now passed exact execution.
 
 Until the verification run completes, allowed M1 changes are limited to:
 

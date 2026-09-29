@@ -2,7 +2,17 @@
 
 ## Status
 
-M0 — Foundation / Pre-Implementation
+Verified M0–M3 baseline merged to `main`.
+
+Current product boundary:
+
+- M0 foundation: VERIFIED
+- M1 provider-neutral Technical Architect reference runtime: VERIFIED
+- M2 ABAP Development design/evaluation tooling: VERIFIED
+- M3 Reviewer/Test Engineer design/evaluation tooling: VERIFIED
+- next selected slice: one real M1 provider adapter
+- live SAP connectivity: NOT_STARTED
+- WRITE / DEPLOY / TRANSPORT / ADMIN: NOT REGISTERED
 
 ## Purpose
 

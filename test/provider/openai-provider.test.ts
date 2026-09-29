@@ -119,6 +119,7 @@ test("OpenAI adapter sends one stateless structured Responses request", async ()
   const body = JSON.parse(call.init?.body as string) as Record<string, unknown>;
 
   assert.equal(body.model, "gpt-5.6-terra");
+  assert.equal(JSON.stringify(body).includes("test-secret"), false);
   assert.equal(body.store, false);
   assert.equal(body.stream, false);
   assert.deepEqual(body.reasoning, { effort: "medium" });
@@ -315,4 +316,64 @@ test("invalid OpenAI response shape fails explicitly", async () => {
 
   assert.equal(outcome.code, "PROVIDER_FAILURE");
   assert.match(outcome.message, /exactly one output_text/);
+});
+
+
+test("OpenAI draft schema keeps every object closed and fully required", () => {
+  function walk(value: unknown): void {
+    if (value === null || typeof value !== "object" || Array.isArray(value)) {
+      return;
+    }
+
+    const record = value as Record<string, unknown>;
+
+    if (record.type === "object") {
+      assert.equal(record.additionalProperties, false);
+
+      const properties = record.properties as Record<string, unknown>;
+      const required = record.required as string[];
+
+      assert.ok(properties);
+      assert.ok(Array.isArray(required));
+      assert.deepEqual(
+        [...required].sort(),
+        Object.keys(properties).sort(),
+      );
+    }
+
+    for (const nested of Object.values(record)) {
+      if (Array.isArray(nested)) {
+        nested.forEach((item) => walk(item));
+      } else {
+        walk(nested);
+      }
+    }
+  }
+
+  walk(OPENAI_TECHNICAL_ARCHITECT_DRAFT_SCHEMA);
+});
+
+test("malformed OpenAI output text maps to MALFORMED_PROVIDER_OUTPUT", async () => {
+  const input = await readCaseInput("TA-003");
+  const transport = responseFetch(
+    completedResponse("not-json"),
+  );
+
+  const provider = new OpenAIProvider({
+    apiKey: "test-secret",
+    model: "gpt-5.6-terra",
+    fetchImpl: transport.fetchImpl,
+  });
+
+  const outcome = await executeTechnicalArchitect(input, provider);
+
+  assert.equal(outcome.ok, false);
+  assert.equal(transport.calls.length, 1);
+
+  if (outcome.ok) {
+    return;
+  }
+
+  assert.equal(outcome.code, "MALFORMED_PROVIDER_OUTPUT");
+  assert.equal(outcome.stage, "OUTPUT_PARSE");
 });

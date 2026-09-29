@@ -142,3 +142,37 @@ sha256:b977d0f785d96029d8d4c0790b6bf1c2a4c72e0f26319808e7ba2e9d966a1ac3
 The compose file intentionally pins the multi-platform **index digest**, not one architecture-specific manifest digest.
 
 This audit corrects an earlier unverified digest value. No execution PASS is inferred from the correction.
+
+
+## Git safe-directory handling
+
+The official `node:24.21.0-bookworm` Dockerfile does not switch away from the default root user.
+
+On Linux bind mounts, a host checkout commonly remains owned by the host UID rather than container root. Modern Git may then reject:
+
+```text
+git rev-parse HEAD
+git status --porcelain
+```
+
+with:
+
+```text
+fatal: detected dubious ownership in repository
+```
+
+The M1 verification runner requires both Git commands for revision binding and clean-tree checks.
+
+The compose service therefore supplies process-scoped Git configuration:
+
+```text
+GIT_CONFIG_COUNT=1
+GIT_CONFIG_KEY_0=safe.directory
+GIT_CONFIG_VALUE_0=/workspace
+```
+
+This does not modify repository config or the container's global Git config. It marks only the mounted verification checkout as safe for the verification process.
+
+A disposable ownership-mismatch probe reproduced the Git refusal without the override and returned exit code 0 with the scoped override.
+
+This is a verification-infrastructure correction only; no M1 product/runtime behavior changed.

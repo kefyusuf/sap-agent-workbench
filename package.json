@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node --test \"dist/test/m1/*.test.js\"",
-    "check": "npm run build && node --test \"dist/test/m1/*.test.js\""
+    "check": "npm run build && node --test \"dist/test/m1/*.test.js\"",
+    "test:openai-provider": "npm run build && node --test \"dist/test/provider/*.test.js\""
   },
   "devDependencies": {
     "@types/node": "24.13.6",

@@ -2,7 +2,13 @@
 
 ## Status
 
-CLOSED — one bounded provider adapter implementation is authorized.
+IMPLEMENTED / DETERMINISTICALLY VERIFIED / LIVE SMOKE PENDING
+
+The bounded implementation gate is closed.
+
+Deterministic implementation evidence:
+
+`docs/verification/m1-openai-provider-preflight.md`
 
 Selected provider boundary:
 
@@ -231,9 +237,9 @@ Credential availability is currently not established by repository evidence.
 Therefore:
 
 ```text
-deterministic implementation: AUTHORIZED
-live smoke:                    CREDENTIAL-GATED
-adapter VERIFIED:              NO
+deterministic implementation: VERIFIED
+live smoke:                    CREDENTIAL-GATED / PENDING
+adapter fully VERIFIED:        NO
 ```
 
 ## Explicit non-goals
